@@ -1,0 +1,28 @@
+{% extends 'layouts/admin.twig' %}
+
+{% block content %}
+    <h1>Список {{ this.modelHumanTitle[2] }}</h1>
+
+    {% if canAdd %}
+        {{ widget('bootstrap.widgets.TbButton', {
+        'buttonType' : 'link',
+        'type' : 'primary',
+        'icon' : 'plus white',
+        'label' : 'Добавить '~this.modelHumanTitle[0],
+        'url' : ['add'],
+        }) }}
+    {% endif %}
+
+    {% set menuTypes = static('Menu', 'getMenuTypes') %}
+    {% for type,name in menuTypes %}
+        <br><br>
+        <h4>{{name}}</h4>
+        {{ widget('bootstrap.widgets.TbGridView', {
+            'type' : 'bordered condensed striped',
+            'dataProvider' : model.search(type),
+            'columns' : columns,
+            'template': '{items}\n{pager}',
+        }) }}
+    {% endfor %}
+
+{% endblock %}

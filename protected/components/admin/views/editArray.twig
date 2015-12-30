@@ -1,0 +1,65 @@
+<div class='arrayWidget'>
+<div class="control-group ">
+    <label class="control-label">{{ model.getAttributeLabel(attributeName) }}</label>
+    <div class="controls">
+
+
+        {% if numeric %}
+            {% for id, value in array %}
+                <div class="arrayRow">
+                    <input type="text" value="{{value}}" name="{{modelClass}}[{{attributeName}}][]">
+                    {% if not fixed %}
+                        <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            {% for id, value in array %}
+                <div class="arrayRow">
+                    <input type="text" value="{{id}}" name="" class="value-id" newname="{{modelClass}}[{{attributeName}}]">
+                    <input type="text" value="{{value}}" name="{{modelClass}}[{{attributeName}}][{{id}}]">
+                    {% if not fixed %}<a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>{% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if not fixed %}
+            <div class="arrayRow"><a class="btn addRow" title='Добавить' href="#"><i class='icon-plus'></i></a></div>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('div.arrayWidget').delegate('a.removeArrayRow', 'click', function() {
+                        $(this).parent().remove();
+
+                        return false;
+                    });
+
+                    $('div.arrayWidget').delegate('input.value-id', 'change', function() {
+                        $(this).next().attr('name', $(this).attr('newname')+'['+$(this).val()+']');
+                    });
+
+                    $('div.arrayWidget a.addRow').bind('click', function() {
+                        var newRowHtml = $(this).parent().siblings('div.rowSample').html();
+                        $(this).before(newRowHtml);
+                        return false;
+                    });
+                });
+            </script>
+            {% if numeric %}
+            <div class="rowSample" style="display: none;">
+                <div class="arrayRow"><input type="text" value="" name="{{modelClass}}[{{attributeName}}][]"> <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a></div>
+            </div>
+            {% else %}
+            <div class="rowSample" style="display: none;">
+                <div class="arrayRow">
+                    <input type="text" value="" name="" class="value-id" newname="{{modelClass}}[{{attributeName}}]">
+                    <input type="text" value="" name="{{modelClass}}[{{attributeName}}][{{id}}]">
+                    <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+
+
+    </div>
+</div>
+</div>

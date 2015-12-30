@@ -1,0 +1,45 @@
+{% macro editForm(model, form, editFormElements) %}
+    {% import 'crud/form.twig' as formHelper %}
+    {% for attributeName, element in editFormElements %}
+        {% if element['class'] %}
+
+            {% set className = element['class'] %}
+            {% set element = element|unset('class') %}
+            {{ widget(className, element|default({})|merge({'model':model, 'attribute':attributeName, 'form':form}) ) }}
+
+        {% elseif element['type'] %}
+
+            {% set options = element['htmlOptions'] ? element['htmlOptions'] : [] %}
+
+            {% if element['type'] == 'hidden' %}
+                {{ attribute(form, element['type']~'Field', [ model, attributeName, options ])|raw }}
+            {% else %}
+                {# default options #}
+                {% if element['type'] == 'ckEditor' %}
+                   {% set options = options|merge({
+                        'editorOptions': {
+                            'customConfig' :                '/ckeditor/ckeditor_config.js',
+                            'filebrowserImageBrowseUrl':    '/kcfinder/browse.php?type=images',
+                            'filebrowserAudioBrowseUrl':    '/kcfinder/browse.php?type=audio',
+                            'extraAllowedContent':          'audio source[*]',
+                            'height':                       500
+                        }
+                    }) %}
+                {% endif %}
+
+                {% if element['data'] is defined %}
+                    {{ attribute(form, element['type']~'Row', [ model, attributeName, element['data'], options ])|raw }}
+                {% else %}
+                    {{ attribute(form, element['type']~'Row', [ model, attributeName, options ])|raw }}
+                {% endif %}
+            {% endif %}
+
+        {% elseif element['rows'] %}
+
+            {{ formHelper.editForm(attribute(model, attributeName), form, element['rows']) }}
+
+        {% else %}
+            {{ element|raw }}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

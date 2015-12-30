@@ -1,0 +1,20 @@
+@import (reference) '../../../views/less/custom';
+
+.language-widget {
+    a {
+        text-transform: uppercase;
+    }
+    ul {
+
+    }
+    li {
+        @padd: 25px;
+
+        padding-left: @padd;
+
+        background: url(../../img/sep-r.gif) (@padd - 9px)/2 15px no-repeat;
+        &:nth-child(1) {
+            background: transparent;
+        }
+    }
+}

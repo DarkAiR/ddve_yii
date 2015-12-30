@@ -1,0 +1,61 @@
+to /etc/hosts:
+
+    127.0.0.1 site.local
+
+
+
+to main nginx vhost config:
+
+    # site section
+    location ~ /site {
+        proxy_pass http://site.local;
+        proxy_set_header Host site;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_connect_timeout 8s;
+    }
+    # end site section
+
+
+
+create site nginx config:
+
+server {
+    listen 80;
+    server_name site.local;
+
+    access_log  /var/log/nginx/site.access.log;
+    error_log  /var/log/nginx/site.error.log;
+
+    set $root_path '/home/site/site/www';
+    root             $root_path;
+
+    # remove part of uri, otherwise links do not works
+    location ~ /site(?:/.*) {
+        rewrite /site(/.*) $1 last;
+    }
+
+    location / {
+        try_files $uri $uri/ @fallback;
+        index index.php;
+    }
+
+    location @fallback
+    {
+        rewrite ^(.*?/[^.]*?[^/.])$ $1/ permanent;
+        rewrite ^(.*)$ /index.php last;
+    }
+
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass     unix:/var/run/php5-fpm-site.sock;
+        fastcgi_index    index.php;
+        fastcgi_param    SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param    PATH_INFO $fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny  all;
+    }
+}

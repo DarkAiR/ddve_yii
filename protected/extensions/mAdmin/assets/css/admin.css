@@ -1,0 +1,57 @@
+body {
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+
+@media (max-width: 980px) {
+	body {
+		padding-top: 0;
+	}
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 0.6em;
+}
+
+.uneditable-input {
+	height: auto;
+	min-height: 18px;
+}
+
+#ajaxLoader {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: 50px;
+	background: url('../images/ajaxLoader.gif');
+	display: none;
+}
+
+/* Rewrite bootstrap styles */
+.form-horizontal .control-label {
+	width: 170px !important;
+}
+
+.language-row {
+	background:#f8f8f8;
+	border-right: 1px solid #ddd;
+	border-bottom:1px solid #ddd;
+	border-left: 1px solid #eee;
+	border-top:1px solid #eee;
+	margin-bottom: 22px;
+	padding: 22px 0px;
+}
+
+fieldset {
+	background:#f8f8f8;
+	border-right: 1px solid #eee;
+	border-bottom:1px solid #eee;
+}
+fieldset > .control-group {
+	float: left;
+	width: auto;
+}
+
+textarea {
+	width: 500px;
+}

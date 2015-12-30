@@ -1,0 +1,37 @@
+@import (reference) '../../../views/less/custom';
+
+.social-buttons-widget {
+    @h: 44px;
+    @w: 45px;
+
+    .row {
+        clear: both;
+        padding-bottom: 14px;
+        &:nth-child(1) {
+            padding-top: 1px;
+        }
+        &:nth-last-child(1) {
+            padding-bottom: 0px;
+        }
+
+        a {
+            height: @h;
+            line-height: @h;
+            padding-left: @w;
+            display: inline-block;
+        }
+
+        .facebook {
+            background: url(../../img/social/facebook.png) left top no-repeat;
+        }
+        .vkontakte {
+            background: url(../../img/social/vk.png) left top no-repeat;
+        }
+        .instagram {
+            background: url(../../img/social/instagram.png) left top no-repeat;
+        }
+        .pinterest {
+            background: url(../../img/social/pinterest.png) left top no-repeat;
+        }
+    }
+}

@@ -1,0 +1,41 @@
+@import (reference) 'custom';
+
+.icons() {
+    @w: 52px;
+    @h: 56px;
+
+    width: @w;
+    height: @h;
+    margin: (@bigPadding*3 - @h)/2   (@bigPadding*3 - @w)/2;
+    &.pdf {
+        background: url(../../img/fileicons/pdf.png) left top no-repeat;
+    }
+    &.doc {
+        background: url(../../img/fileicons/word.png) left top no-repeat;
+    }
+    &.docx {
+        background: url(../../img/fileicons/word.png) left top no-repeat;
+    }
+}
+.iconRow() {
+    @h: @bigPadding * 3;
+
+    height: @h;
+
+    .icon {
+        .icons();
+        float: left;
+    }
+    .name {
+        .font-size(16, @h);
+        float: left;
+        padding-left: @bigPadding;
+        padding-right: 8px;
+    }
+    .size {
+        .font(PF, regular);
+        .font-size(16, @h);
+        float: left;
+        color: @colorTextLight;
+    }
+}

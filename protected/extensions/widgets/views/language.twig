@@ -1,0 +1,9 @@
+{{ import('css','language.css','ext.widgets.css') }}
+
+<div class='language-widget  hmenu'>
+    <ul>
+    {% for lang,name in languages %}
+        <li><a href="{{ link({'0':'/site/index', 'language':lang}) }}">{{ lang }}</a></li>
+    {% endfor %}
+    </ul>
+</div>

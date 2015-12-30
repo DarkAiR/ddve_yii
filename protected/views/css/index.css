@@ -1,0 +1,12 @@
+.index-page {
+  padding-bottom: 22px;
+}
+.index-page .user-data-form {
+  padding-top: 22px;
+}
+.index-page > .row > .col1 {
+  background-color: rgba(255, 0, 0, 0.2) !important;
+}
+.index-page > .row > .col2 {
+  background-color: rgba(0, 255, 0, 0.2) !important;
+}

@@ -1,0 +1,65 @@
+<div class='arrayWidget'>
+
+{% set errorClass = model.hasErrors(innerField) ? 'error' : '' %}
+
+<div class="control-group {{errorClass}}">
+    <label class="control-label">{{ model.getAttributeLabel(innerField) }}</label>
+    <div class="controls">
+
+    <table>
+        {% for id, value in array %}
+{#
+            {% if not fixed %}
+                <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>
+            {% endif %}
+#}
+            <tr class="arrayRow">
+                <td>
+                    {{ value['name']|raw }}
+                </td>
+                <td>
+                    {{ attribute(form, 'fileField', [model, innerField ~ '[' ~ loop.index0 ~ ']'] )|raw }}
+                </td>
+                <td>
+                    <label class="checkbox">{{ attribute(form, 'checkBox', [model, attributeRemoveName ~ '[' ~ loop.index0 ~ ']'])|raw }} Удалить</label>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {{ attribute(form, 'error', [model, innerField])|raw }}
+
+{#
+        {% if not fixed %}
+            <div class="arrayRow"><a class="btn addRow" title='Добавить' href="#"><i class='icon-plus'></i></a></div>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('div.arrayWidget').delegate('a.removeArrayRow', 'click', function() {
+                        $(this).parent().remove();
+
+                        return false;
+                    });
+
+                    $('div.arrayWidget').delegate('input.value-id', 'change', function() {
+                        $(this).next().attr('name', $(this).attr('newname')+'['+$(this).val()+']');
+                    });
+
+                    $('div.arrayWidget a.addRow').bind('click', function() {
+                        var newRowHtml = $(this).parent().siblings('div.rowSample').html();
+                        $(this).before(newRowHtml);
+                        return false;
+                    });
+                });
+            </script>
+            <div class="rowSample" style="display: none;">
+                <div class="arrayRow">
+                    <input type="text" value="" name="" class="value-id" newname="{{modelClass}}[{{attributeName}}]">
+                    <input type="text" value="" name="{{modelClass}}[{{attributeName}}][{{id}}]">
+                    <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>
+                </div>
+            </div>
+        {% endif %}
+#}
+
+    </div>
+</div>
+</div>

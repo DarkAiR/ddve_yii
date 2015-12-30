@@ -1,0 +1,68 @@
+/*
+ http://www.fontsquirrel.com/tools/webfont-generator
+
+ Character type: lowercase, uppercase, numbers, punctuation, currency, math symbols;
+ Language: Cyrillic, English;
+ Unicode Tables: Basic latin, Currency symbols, punctuation;
+*/
+/* Главная разметка */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'open_sansregular', sans-serif;
+}
+body,
+table {
+  font-size: 14px;
+  line-height: 19px;
+  color: #3f3f3f;
+  background-color: #ffffff;
+}
+a.brown {
+  -webkit-transition-duration: 0.08s;
+  transition-duration: 0.08s;
+}
+a.brown,
+a.brown:visited,
+a.brown:link {
+  color: #623b2a;
+  background: transparent;
+}
+a.brown:hover {
+  color: #ded6d2;
+  background: #623b2a;
+}
+a.brown.active {
+  color: #ded6d2;
+  background: #623b2a;
+}
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+*:focus {
+  outline: none;
+}
+.separator {
+  background: #cacaca;
+  height: 1px;
+  min-height: 1px;
+  max-height: 1px;
+  width: 100%;
+}
+.hidden-print-block {
+  display: initial;
+}
+.visible-print-block {
+  display: none;
+}

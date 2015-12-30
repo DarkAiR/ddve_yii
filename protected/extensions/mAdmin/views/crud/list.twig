@@ -1,0 +1,23 @@
+{% extends 'layouts/admin.twig' %}
+
+{% block content %}
+    <h1>Список {{ this.modelHumanTitle[2] }}</h1>
+
+    {% if canAdd %}
+        {{ widget('bootstrap.widgets.TbButton', {
+        'buttonType' : 'link',
+        'type' : 'primary',
+        'icon' : 'plus white',
+        'label' : 'Добавить '~this.modelHumanTitle[0],
+        'url' : ['add'],
+        }) }}
+    {% endif %}
+
+    {{ widget('bootstrap.widgets.TbGridView', {
+        'type' : 'condensed striped',
+        'dataProvider' : model.search(),
+        'filter' : model,
+        'columns' : columns,
+    }) }}
+
+{% endblock %}

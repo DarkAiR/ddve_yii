@@ -1,0 +1,246 @@
+@import '../less_include/variables.less';           // Fonts
+
+
+// Колонки
+@mainCol1:              862px;
+//@mainCol2:              382px;
+//@mainCol3:              359px;
+//@mainCol:               @mainCol1 + @mainCol2 + @mainCol3;  // 966
+
+// Основные отступы
+@smallPadding:          11px;
+@middlePadding:         18px;
+@bigPadding:            22px;
+
+//@paragraphPadding:      19px;       // По размеру основного 12 или 13 шрифта 
+
+
+// Шапка, футер
+@headerH:               44px;
+@footerH:               100px;
+//@footerPaddingTop:      92px;
+//@footerSeparatorColor:  #a6adb4;
+
+// Заголовок
+//@mainTitleH:            120px;
+//@pageTitleH:            49px;
+//@pageTitleFontSize:     32;
+
+// Цвета
+@devRedBg:              rgba(255,0,0,0.2);
+@devGreenBg:            rgba(0,255,0,0.2);
+@devBlueBg:             rgba(0,0,255,0.2);
+@devMagentaBg:          rgba(255,0,255,0.2);
+@devGreyBg:             rgba(0,0,0,0.05);
+
+@mainBg:                @white;
+
+@colorText:             #3f3f3f;
+@colorTextLight:        #6f6f6f;
+@colorRed:              @red;
+@colorGrey:             @grey;
+@colorLight:            @silver;
+@colorLightBrown:       @cream;         // Для цвета текста на коричневом фоне
+@colorDarkBrown:        @brown;         // Для фона в списках, для темного выделения в списках на белом фоне
+
+//@colorTitle:            #719e3d;
+//@colorTitleGrey:        #2b2b2b;        // #767676
+//@colorTitleLightGrey:   #929da0;
+
+// Цвета ссылок
+@colorLink:             @colorText;
+@colorLinkHover:        @colorTextLight;
+@colorLinkRed:          @colorRed;
+@colorLinkHoverRed:     #ff515b;
+@colorLinkBrown:        @colorDarkBrown;
+@colorLinkHoverBrown:   @colorLightBrown;
+
+@colorSeparatorLine:    #e7d8c9;
+
+// -------------------------------
+
+@import '../less_include/fonts.less';           // Fonts
+@import '../less_include/links.less';           // Links
+
+// ------------------------------------------------------
+
+/* Главная разметка */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    .font(OpenSans);
+}
+body, table {
+    .font-size(14);
+    color: @colorText;
+    background-color: @mainBg;
+}
+// iPad
+@media screen
+and (min-width : 768px) 
+and (max-width : 980px) {
+}
+// Desktop
+@media screen
+and (max-width: 768px) {
+}
+// iPhone, другие мобилки
+@media screen
+and (max-width : 667px) {
+    body, table {
+        //.font-size(19);
+    }
+}
+
+a.brown {
+    .transition-duration(0.08s);
+
+    &, &:visited, &:link {
+        color: @colorLinkBrown;
+        background: transparent;
+    }
+    &:hover {
+        color: @colorLinkHoverBrown;
+        background: @colorLinkBrown;
+    }
+    &.active {
+        color: @colorLinkHoverBrown;
+        background: @colorLinkBrown;
+    }
+}
+
+
+.clearfix {
+    *zoom: 1;
+    &:before,
+    &:after {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+*:focus {
+    outline: none;
+}
+
+.transition-duration(@duration) {
+    -webkit-transition-duration: @duration; 
+    -o-transition-duration: @duration; 
+    -moz-transition-duration: @duration; 
+    transition-duration: @duration;
+}
+
+// Колонка
+.col() {
+    //outline: 1px dotted #808080;
+    
+    width: auto;
+    min-width: 0;
+    float: left;
+    height: inherit;
+    min-height: 1px;
+}
+.col(@w) {
+    //outline: 1px dotted #808080;
+    
+    width: @w;
+    min-width: @w;
+    float: left;
+    height: inherit;
+    min-height: 1px;
+}
+
+.outline() {
+    outline: 1px dotted #808080;
+}
+.outline(red) {
+    outline: 1px dotted rgba(255,0,0,0.8);
+}
+.bg(red) {
+    background-color: @devRedBg !important;
+}
+.bg(blue) {
+    background-color: @devBlueBg !important;
+}
+.bg(green) {
+    background-color: @devGreenBg !important;
+}
+.bg(grey) {
+    background-color: @devGreyBg !important;
+}
+.bg(magenta) {
+    background-color: @devMagentaBg !important;
+}
+
+// Градиенты
+.gradient(vertical, @colorUp, @colorDown) {
+    background: -webkit-linear-gradient(@colorUp, @colorDown);  /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(@colorUp, @colorDown);       /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(@colorUp, @colorDown);     /* For Firefox 3.6 to 15 */
+    background: linear-gradient(@colorUp, @colorDown);          /* Standard syntax */
+}
+
+// Бордюры
+.border-radius(@r) {
+    -moz-border-radius:     @r;
+    -webkit-border-radius:  @r;
+    border-radius:          @r;
+}
+.border-radius(@topleft, @topright, @bottomright, @bottomleft) {
+    -moz-border-radius-topleft:         @topleft;
+    -moz-border-radius-topright:        @topright;
+    -moz-border-radius-bottomright:     @bottomright;
+    -moz-border-radius-bottomleft:      @bottomleft;
+
+    -webkit-border-top-left-radius:     @topleft;
+    -webkit-border-top-right-radius:    @topright;
+    -webkit-border-bottom-right-radius: @bottomright;
+    -webkit-border-bottom-left-radius:  @bottomleft;
+
+    border-top-left-radius:             @topleft;
+    border-top-right-radius:            @topright;
+    border-bottom-right-radius:         @bottomright;
+    border-bottom-left-radius:          @bottomleft;
+}
+
+// Тень
+.shadow(@offsX, @offsY, @blur, @alpha:0.3) {
+    box-shadow:         @offsX @offsY @blur rgba(0,0,0,@alpha);
+   -moz-box-shadow:     @offsX @offsY @blur rgba(0,0,0,@alpha);
+   -webkit-box-shadow:  @offsX @offsY @blur rgba(0,0,0,@alpha);
+}
+.shadow-inner(@offsX, @offsY, @blur, @alpha0:.3) {
+    box-shadow:         inset @offsX @offsY @blur rgba(0,0,0,@alpha);
+   -moz-box-shadow:     inset @offsX @offsY @blur rgba(0,0,0,@alpha);
+   -webkit-box-shadow:  inset @offsX @offsY @blur rgba(0,0,0,@alpha);
+}
+
+// Разделитель
+.separate-line() {
+    background: #cacaca;
+    height: 1px;
+    min-height: 1px;
+    max-height: 1px;
+}
+.separator {
+    .separate-line();
+    width: 100%;
+}
+
+
+// Классы для печати
+.hidden-print-block {
+    display: initial;
+    //visibility: visible;
+}
+.visible-print-block {
+    display: none;
+    //visibility: hidden;
+}
+

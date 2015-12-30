@@ -1,0 +1,13 @@
+/protected/config/params.php
+gfx/
+gfx/*
+data/
+data/*
+/www/store/*
+/protected/runtime/*
+.htaccess
+.htpasswd
+*.txt
+composer.lock
+
+koala-config.json

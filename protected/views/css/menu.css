@@ -1,0 +1,41 @@
+.hmenu {
+  display: inline-block;
+}
+.hmenu ul {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+.hmenu li {
+  float: left;
+  list-style-type: none;
+}
+.hmenu li:nth-child(1) {
+  padding-left: 0px;
+}
+.hmenu li:nth-last-child(1) {
+  padding-right: 0px;
+}
+.hmenu li .disable {
+  color: #e4e4e4;
+}
+.vmenu {
+  display: inline-block;
+}
+.vmenu ul {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+.vmenu li {
+  list-style-type: none;
+}
+.vmenu li:nth-child(1) {
+  padding-top: 0px;
+}
+.vmenu li:nth-last-child(1) {
+  padding-bottom: 0px;
+}
+.vmenu li .disable {
+  color: #e4e4e4;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en" class='layout'>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--meta viewport="width=device-width"-->
+
+    <link rel="shortcut icon" href="/img/icons/favicon.ico" />
+    <link rel="icon" type="image/png" href="/img/icons/favicon.png" />
+    <!--link rel="apple-touch-icon-precomposed" sizes="152x152" href="/img/icons/icon152.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/icons/icon144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/img/icons/icon120.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/icons/icon114.png" />   {# Иконка для iPhone #}
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"   href="/img/icons/icon72.png"/ >    {# Иконка для iPad #}
+    <link rel="apple-touch-icon-precomposed" href="/img/icons/icon57.png" /-->                    {# Обычная иконка 57x57 #}
+
+    <meta http-equiv="cleartype" content="on">                  {# Принудительное сглаживание шрифтов для Mobile IE #}
+    <meta name="format-detection" content="telephone=no">       {# Отключаем распознавание телефона #}
+    <meta name="format-detection" content="address=no">         {# Отключаем распознавание адреса #}
+
+    <link rel="canonical" href="{{ this.canonicalUrl }}">
+
+    <title>{% block title %}{{ this.pageTitle }}{% endblock %}</title>
+
+    {% block js %}
+    {% endblock %}
+
+    {% block css %}
+        {{ import('css','custom.css') }}
+    {% endblock %}
+</head>
+<body class='layout--body' {% block bodyAttr %}{% endblock %}>
+    {% block bodyStart %}
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block bodyEnd %}
+    {% endblock %}
+</body>
+</html>

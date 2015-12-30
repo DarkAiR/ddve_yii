@@ -1,0 +1,8 @@
+{{ import('css','contentblock.css','ext.widgets.css') }}
+
+<div class='content-block-widget'>
+    {% if showTitle and contentBlock.title %}
+        <div class='content-block-title'>{{ contentBlock.title|raw }}</div>
+    {% endif %}
+    <div class='content-block-text'>{{ contentBlock.text|raw }}</div>
+</div>

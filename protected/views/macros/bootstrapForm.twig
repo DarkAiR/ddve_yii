@@ -1,0 +1,59 @@
+{% macro label(id, labelText) %}
+    {{ static('CHtml', 'label', [labelText, id, {'class':'col-sm-2  control-label'}])|raw }}
+{% endmacro %}
+
+
+{% macro textField(id, labelText='', placeholder='', value='') %}
+    <div class="form-group" id='js-field-{{id}}'>
+        {% if labelText %}
+            {{ _self.label(id, labelText) }}
+        {% endif %}
+        <div class="col-sm-10">
+            {{ static('CHtml', 'textField', [id, value, {'class':'form-control', 'placeholder':placeholder} ])|raw }}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro passwordField(id, labelText='', placeholder='') %}
+    <div class="form-group" id='js-field-{{id}}'>
+        {% if labelText %}
+            {{ _self.label(id, labelText) }}
+        {% endif %}
+        <div class="col-sm-10">
+            {{ static('CHtml', 'passwordField', [id, '', {'class':'form-control', 'placeholder':placeholder} ])|raw }}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro emailField(id, labelText='', placeholder='') %}
+    <div class="form-group" id='js-field-{{id}}'>
+        {% if labelText %}
+            {{ _self.label(id, labelText) }}
+        {% endif %}
+        <div class="col-sm-10">
+            {{ static('CHtml', 'emailField', [id, '', {'class':'form-control', 'placeholder':placeholder} ])|raw }}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro submit(label, useOffset=true) %}
+    <div class="form-group">
+        {% set classes = useOffset ? 'col-sm-offset-2 col-sm-10' : 'col-sm-12' %}
+        <div class="{{classes}}">
+            {{ static('CHtml', 'submitButton', [label, {'class':'btn btn-default'} ])|raw }}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro ajaxSubmit(label, url, ajaxOptions={}, useOffset=true) %}
+    <div class="form-group">
+        {% set classes = useOffset ? 'col-sm-offset-2 col-sm-10' : 'col-sm-12' %}
+        <div class="{{classes}}">
+            {{ static('CHtml', 'ajaxSubmitButton', [label, url, ajaxOptions, {'class':'btn btn-default'} ])|raw }}
+        </div>
+    </div>
+{% endmacro %}

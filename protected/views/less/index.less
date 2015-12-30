@@ -1,0 +1,21 @@
+@import (reference) 'custom';
+
+.index-page {
+    padding-bottom: @bigPadding;
+
+    .user-data-form {
+        padding-top: @bigPadding;
+    }
+
+    & > .row {
+        & > .col1 {
+            .bg(red);
+            //margin: auto auto;
+            //max-width: @mainCol1;
+        }
+        & > .col2 {
+            .bg(green);
+            //margin: auto auto;
+        }
+    }
+}
