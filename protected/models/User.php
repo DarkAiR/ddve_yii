@@ -32,7 +32,6 @@ class User extends CActiveRecord
     {
         return array(
             'authItems' => array(self::MANY_MANY, 'AuthItem', 'AuthAssignment(userid, itemname)'),
-            'userData' => array(self::HAS_ONE, 'UserData', 'userId'),
         );
     }
 
