@@ -126,6 +126,11 @@ $res = array(
             'connectionID'=>'db',
         ),
     ),
+    'controllerMap' => array(
+        'barcodegenerator' => array(
+            'class' => 'ext.barcodegenerator.BarcodeGeneratorController',
+        ),
+    ),
     'params' => array_merge(
         $params,
         array(

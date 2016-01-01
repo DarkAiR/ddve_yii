@@ -31,6 +31,13 @@ class Controller extends CController
             $_GET['language'] = Yii::app()->sourceLanguage;
         Yii::app()->language = $_GET['language'];
         
+        // Выставляем заголовок страницы
+        $pageTitle = Yii::app()->name;
+        if (!empty($this->breadcrumbs)) {
+            $pageTitle .= ' - '. implode(' / ', array_keys($this->breadcrumbs));
+        }
+        $this->setPageTitle($pageTitle);
+
         parent::init();
     }
 
