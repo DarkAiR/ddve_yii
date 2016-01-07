@@ -1,38 +1,89 @@
 <?php
 
-/**
- * Image column for AdminGridViewWidget
- *
- * @see AdminController::getTableColumns
- */
-class AdminImageColumnWidget extends AdminDataColumnWidget
+Yii::import('zii.widgets.grid.CGridColumn');
+
+class AdminImageColumnWidget extends CGridColumn
 {
-    public $type = 'raw';
-
-    public $htmlOptions = array('style' => 'width:120px');
+    /**
+     * @var array the HTML options of the image tag
+     */
+    public $imageOptions = array();
 
     /**
-     * @var string additional image css
+     * @var string $imagePathExpression is evaluated in every data cell and
+     * is used as the path of the image. The expression will have:
+     * <code>$row</code> the row number
+     * <code>$data</code> the data model of the row
+     * <code>$this</code> the column object
      */
-    public $imageStyle = 'max-width:120px';
+    public $imagePathExpression;
 
     /**
-     * @var null|string URL to thumbnail image. If empty, used fullsize image
+     * @var string $emptyText renders if  $imagePathExpression is null
      */
-    public $thumbnailUrl = null;
+    public $emptyText = '';
 
-    public function init()
+    /**
+     * @var bool $userPlaceHoldIt whether to use a bogus image from placehold.it or not. If true, will render an image
+     * from placehold.it according to the size set at $placeHoldItSize. Defaults to false, now placehold.it only grants
+     * access for certain amount of time. You need to ask for permission :(
+     */
+    public $usePlaceHoldIt = false;
+
+    /**
+     * @var bool $userPlaceKitten whether to use bogus image from placekitten.com or not. If true, will render an image
+     * from placekitten.com according to the size set at $placeKittenSize. Defaults to true (what can I say? I love kitten)
+     */
+    public $usePlaceKitten = true;
+
+    /**
+     * @var string $placeHoldItSize the size of the image to render if $imagePathExpression is null and $userPlaceHoldIt
+     * is set to true
+     */
+    public $placeHoldItSize = '48x48';
+
+    /**
+     * @var string $placeKittenSize the size of the image to render if $imagePathExpression is null and $usePlaceKitten
+     * is set to true
+     */
+    public $placeKittenSize = '48/48';
+
+    /**
+     * @var mixed the HTML code representing a filter input (eg a text field, a dropdown list)
+     * that is used for this data column. This property is effective only when
+     * {@link CGridView::filter} is set.
+     * If this property is not set, a text field will be generated as the filter input;
+     * If this property is an array, a dropdown list will be generated that uses this property value as
+     * the list options.
+     * If you don't want a filter for this data column, set this value to false.
+     * @since 1.1.1
+     */
+    public $filter;
+
+    /**
+     * Renders the data cell content
+     *
+     * @param int $row the row number (zero based)
+     * @param mixed $data teh data associated with the row
+     */
+    protected function renderDataCellContent($row, $data)
     {
-        if (empty($this->thumbnailUrl))
-            $this->thumbnailUrl = '$data->' . $this->name;
-
-        $this->value = '
-            CHtml::link(
-                CHtml::image(' . $this->thumbnailUrl . ',"", array("style"=>"' . addslashes($this->imageStyle) . '")),
-                $data->' . $this->name . ',
-                array("target" => "_blank")
-            );';
-
-        parent::init();
+        $content = $this->emptyText;
+        if ($this->imagePathExpression && $imagePath = $this->evaluateExpression(
+            $this->imagePathExpression,
+            array('row' => $row, 'data' => $data)
+        )
+        ) {
+            $this->imageOptions['src'] = $imagePath;
+            $content = CHtml::tag('img', $this->imageOptions);
+        } elseif ($this->usePlaceHoldIt && !empty($this->placeHoldItSize)) {
+            $content = CHtml::tag(
+                'img',
+                array('src' => 'http://placehold.it/' . $this->placeHoldItSize)
+            );
+        } elseif ($this->usePlaceKitten && !empty($this->placeKittenSize)) {
+            $content = CHtml::tag('img', array('src' => 'http://placekitten.com/' . $this->placeKittenSize));
+        }
+        echo $content;
     }
 }
