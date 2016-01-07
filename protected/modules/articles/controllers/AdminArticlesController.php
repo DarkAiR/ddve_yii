@@ -37,9 +37,7 @@ class AdminArticlesController extends MAdminController
     public function getTableColumns()
     {
         $buttons = $this->getButtonsColumn();
-        $buttons['deleteButtonOptions'] = array(
-            'visible' => '!$data->visible;'
-        );
+        $buttons['deleteButtonOptions']['visible'] = '!$data->visible;';
         $attributes = array(
             'id',
             'title',

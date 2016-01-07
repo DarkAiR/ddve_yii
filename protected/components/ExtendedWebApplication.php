@@ -61,4 +61,9 @@ class ExtendedWebApplication extends CWebApplication
         debug_print_backtrace();
     }
 */
+
+    public function getAdminComponent()
+    {
+        return $this->getComponent('adminComponent');
+    }
 }

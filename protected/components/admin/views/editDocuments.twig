@@ -2,9 +2,9 @@
 
 {% set errorClass = model.hasErrors(innerField) ? 'error' : '' %}
 
-<div class="control-group {{errorClass}}">
-    <label class="control-label">{{ model.getAttributeLabel(innerField) }}</label>
-    <div class="controls">
+<div class="form-group {{errorClass}}">
+    <label class="control-label col-sm-3">{{ model.getAttributeLabel(innerField) }}</label>
+    <div class="controls col-sm-9">
 
     <table>
         {% for id, value in array %}

@@ -7,7 +7,6 @@ class Articles extends CActiveRecord
 {
     const TYPE_UNDER_CONSTRUCTION = 0;              // Произольная статья
 
-
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -50,7 +49,7 @@ class Articles extends CActiveRecord
             array('visible', 'boolean'),
             array('type', 'numerical', 'integerOnly'=>true),
 
-            array('title, text, type', 'safe', 'on'=>'search'),
+            array('type, visible', 'safe', 'on'=>'search'),
         );
     }
 
@@ -83,9 +82,8 @@ class Articles extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $alias = $this->getTableAlias();
-        $criteria->compare($alias.'.title', $this->title, true);
-        $criteria->compare($alias.'.text', $this->text, true);
         $criteria->compare($alias.'.type', $this->type);
+        $criteria->compare($alias.'.visible', $this->visible);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $this->languageBehavior->modifySearchCriteria($criteria),
