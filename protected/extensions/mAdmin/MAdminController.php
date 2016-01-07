@@ -385,7 +385,7 @@ class MAdminController extends CExtController
     public function getImageColumn($name, $pathExprMethod)
     {
         return array(
-            'class' => 'bootstrap.widgets.TbImageColumn',
+            'class' => 'ext.mAdmin.widgets.AdminImageColumnWidget',
             'header' => '<div style="width:100%; text-align:center"><i class="fa fa-image"></i></div>',
             'imagePathExpression' => '$data->'.$pathExprMethod,
             'usePlaceKitten' => false,
