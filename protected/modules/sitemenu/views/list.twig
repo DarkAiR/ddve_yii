@@ -7,20 +7,20 @@
 
     {% if canAdd %}
         {{ widget('ext.mAdmin.widgets.AdminButtonWidget', {
-        'buttonType' : 'link',
-        'type' : 'primary',
-        'icon' : 'plus white',
-        'label' : 'Добавить '~this.modelHumanTitle[0],
-        'url' : ['add'],
+            'buttonType' : 'link',
+            'type' : 'primary',
+            'icon' : 'plus white',
+            'label' : 'Добавить '~this.modelHumanTitle[0],
+            'url' : ['add'],
         }) }}
     {% endif %}
 
     {% set menuTypes = static('Menu', 'getMenuTypes') %}
     {% for type,name in menuTypes %}
-        <br><br>
+        <div class="space"></div>
         <h4>{{name}}</h4>
         {{ widget('ext.mAdmin.widgets.AdminGridViewWidget', {
-            'type' : 'bordered condensed striped',
+            'type' : 'condensed bordered hover',
             'dataProvider' : model.search(type),
             'columns' : columns,
             'template': '{items}\n{pager}',

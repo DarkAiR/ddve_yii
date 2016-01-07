@@ -86,8 +86,6 @@ class MenuItem extends CActiveRecord
                 array('menuId, name, link', 'required'),
                 array('active, visible', 'boolean'),
                 array('parentItemId', 'numerical', 'integerOnly'=>true),
-                
-                array('menuId, name', 'safe', 'on'=>'search'),
             )
         );
     }
@@ -113,12 +111,13 @@ class MenuItem extends CActiveRecord
         return $this->languageBehavior->localizedCriteria();
     }
 
-    public function search()
+    public function search($menuId)
     {
         $criteria = new CDbCriteria;
 
         $alias = $this->getTableAlias();
-        $criteria->compare($alias.'.name', $this->name, true);
+        $criteria->condition = $alias.'.menuId=:menuId';
+        $criteria->params = array(':menuId'=>$menuId);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $this->languageBehavior->modifySearchCriteria($criteria),
