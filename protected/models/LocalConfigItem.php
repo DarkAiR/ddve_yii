@@ -41,15 +41,14 @@ class LocalConfigItem extends CActiveRecord
 //            '_file_delete'  => 'Удалить и использовать пример',
             'example'       => 'Пример',
             'description'   => 'Описание',
+            'module'        => 'Модуль'
         );
     }
 
     public function rules()
     {
         return array(
-//            array('_file_delete', 'safe'),
             array('value', 'localConfigValueValidator'),
-//            array('_file', 'localConfigFileValidator'),
 
         );
     }
@@ -57,9 +56,6 @@ class LocalConfigItem extends CActiveRecord
     public function scopes()
     {
         return array(
-//            'filesOnly' => array(
-//                'condition' => 't.type = '.self::TYPE_FILE
-//            )
         );
     }
 

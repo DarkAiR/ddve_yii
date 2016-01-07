@@ -1,10 +1,10 @@
-{% extends 'layouts/admin.twig' %}
+{% extends 'layouts/index.twig' %}
 
 {% block content %}
-
-<h1>Зона администрирования</h1>
-
-{{ void(App.user.setFlash('success', '<strong>Выберите раздел в меню выше</strong>')) }}
-{{ widget('bootstrap.widgets.TbAlert') }}
-
+    <div class='page-header'>
+        <h1>Зона администрирования</h1>
+    </div>
+    <div class="alert alert-info alert-dismissible fade in" role="alert">
+        <strong>Выберите раздел в меню</strong>
+    </div>
 {% endblock %}

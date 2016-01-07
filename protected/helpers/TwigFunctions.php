@@ -71,6 +71,36 @@ class TwigFunctions
     }
 
     /**
+     * Добавить LINK
+     */
+    public static function importLink($filename, $alias=false, $params=array())
+    {
+        if ($alias === false)
+            $alias = 'application.views.css';
+        
+        $relation = 'stylesheet';
+        if (!empty($params['relation'])) {
+            $relation = $params['relation'];
+            unset($params['relation']);
+        }
+
+        $type = 'text/css';
+        if (!empty($params['type'])) {
+            $type = $params['type'];
+            unset($params['type']);
+        }
+
+        $media = null;
+        if (!empty($params['media'])) {
+            $media = $params['media'];
+            unset($params['media']);
+        }
+
+        $assetsPath = Yii::app()->assetManager->publish(Yii::getPathOfAlias($alias)."/".$filename);
+        Yii::app()->getClientScript()->registerLinkTag($relation, $type, $assetsPath, $media, $params);
+    }
+
+    /**
      * Создать абсолютую ссылку
      */
     public static function absLink($link)

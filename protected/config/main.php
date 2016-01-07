@@ -18,7 +18,7 @@ $res = array(
         'ext.mAdmin.*',
     ),
     'modules' => array(
-        'system2',
+        'admin',
         'sitemenu',
         'contentBlocks',
         'articles',
@@ -77,6 +77,7 @@ $res = array(
                 'static'                    => 'TwigFunctions::staticCall',
                 'call'                      => 'TwigFunctions::call',
                 'import'                    => 'TwigFunctions::importResource',
+                'importLink'                => 'TwigFunctions::importLink',
                 'absLink'                   => 'TwigFunctions::absLink',
                 'plural'                    => 'TwigFunctions::plural',
                 'dump'                      => 'TwigFunctions::dump',
@@ -93,10 +94,8 @@ $res = array(
                 'date'                      => 'TwigFunctions::filterDate',                     // date from timestamp
             ),
         ),
-        'bootstrap' => array(
-            'class' => 'lib.booster.components.Bootstrap',
-            'responsiveCss' => true,
-            'jqueryCss' => false,
+        'adminComponent' => array(
+            'class' => 'ext.mAdmin.components.AdminComponent'
         ),
         'errorHandler' => array(
             'errorAction' => 'site/error',
@@ -156,7 +155,7 @@ $res['components']['urlManager']['rules'] = array(
     '/'                                     => 'site/index',
 
     // Admin
-    'admin/'                                    => 'system2',
+    'admin/'                                    => 'admin',
     'admin/<module:\w+>/'                       => '<module>',
     'admin/<module:\w+>/<controller:\w+>/'      => '<module>/admin<controller>',
     'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',

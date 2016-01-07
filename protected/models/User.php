@@ -41,6 +41,7 @@ class User extends CActiveRecord
             'email' => 'E-mail',
             'password' => 'Пароль',
             'authItems' => 'Права',
+            'authItemsStr' => 'Права',
         );
     }
 
@@ -60,6 +61,14 @@ class User extends CActiveRecord
     {
         if (empty($this->hashedPassword))
             $this->addError($attribute, 'Необходимо ввести пароль');
+    }
+
+    public function getAuthItemsStr()
+    {
+        $arr = array();
+        foreach ($this->authItems as $a)
+            $arr[] = $a->name;
+        return implode(', ', $arr);
     }
 
     public function getPassword()

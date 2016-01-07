@@ -144,7 +144,7 @@ class MultiImageFileRowWidget extends CInputWidget
         $fileUploadTemplate = json_encode($fileUploadTemplate);
         echo '<div class="controls js-button">';
         $this->widget(
-            'bootstrap.widgets.TbButton',
+            'ext.mAdmin.widgets.AdminButtonWidget',
             array(
                 'label' => 'Добавить изображение',
                 'icon' => 'plus',

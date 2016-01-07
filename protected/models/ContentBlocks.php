@@ -52,7 +52,7 @@ class ContentBlocks extends CActiveRecord
             array('visible', 'boolean'),
             array('position', 'numerical', 'integerOnly'=>true),
 
-            array('title, text', 'safe', 'on'=>'search'),
+            array('visible', 'safe', 'on'=>'search'),
         );
     }
 
@@ -85,8 +85,7 @@ class ContentBlocks extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $alias = $this->getTableAlias();
-        $criteria->compare($alias.'.title', $this->title, true);
-        $criteria->compare($alias.'.text', $this->text, true);
+        $criteria->compare($alias.'.visible', $this->visible);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $this->languageBehavior->modifySearchCriteria($criteria),

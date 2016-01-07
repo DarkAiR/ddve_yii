@@ -1,7 +1,5 @@
 <?php
 
-Yii::app()->getComponent('bootstrap');
-
 class MAdminController extends CExtController
 {
     public $layout = false;
@@ -43,13 +41,16 @@ class MAdminController extends CExtController
     {
         parent::init();
 
-        /** @var $app CWebApplication */
-        $app = Yii::app();
-        $this->assetsUrl = $app->assetManager->publish(__DIR__ . '/assets');
+        // init admin component
+        Yii::app()->getAdminComponent();
+
+        $this->assetsUrl = Yii::app()->assetManager->publish(__DIR__ . '/assets');
 
         $this->viewPath = __DIR__ . '/views';
+        
         /** @var $yiiTwigRenderer ETwigViewRenderer */
         $yiiTwigRenderer = Yii::app()->getComponent('viewRenderer');
+        
         /** @var $twig_LoaderInterface Twig_Loader_Filesystem */
         $twig_LoaderInterface = $yiiTwigRenderer->getTwig()->getLoader();
         $twig_LoaderInterface->addPath($this->viewPath);
@@ -215,19 +216,46 @@ class MAdminController extends CExtController
 
     public function actionList()
     {
-        /** @var $model CActiveRecord */
-        $model = new $this->modelName('search');
+        // Создаем через ::model(), чтобы не выставлялись значения из метаданных, которые влияют на поиск и портят его
+        //$model = new $this->modelName('search');
+        $modelName = $this->modelName;
+        $model = $modelName::model();
+        $model->setScenario('search');
 
         $this->beforeList($model, $_GET[$this->modelName]);
         if (isset($_GET[$this->modelName])) {
             $model->attributes = $_GET[$this->modelName];
         }
 
+        // Оставляем только search атрибуты
+        $validators = $model->getValidators();
+        $attributes = array();
+        foreach ($validators as $v) {
+            if (in_array('search', $v->on))
+                $attributes = array_merge($attributes, $v->attributes);
+        }
+        $columnsArr = $this->getTableColumns();
+        $columns = array();
+        foreach ($columnsArr as $c) {
+            if (!is_array($c)  &&  !in_array($c, $attributes)) {
+                $columns[] = array('name'=>$c, 'filter'=>false);
+            } elseif (isset($c['value']) && $c['value'] instanceof Closure) {
+                $c['filter'] = false;
+                $columns[] = $c;
+            } else {
+                if (isset($c['class'])) {
+                    if (!isset($c['name'])  ||  (isset($c['name'])  &&  !in_array($c['name'], $attributes)))
+                        $c['filter'] = false;
+                }
+                $columns[] = $c;
+            }
+        }
+
         $this->render(
             $this->templateList,
             array(
                 'model' => $model,
-                'columns' => $this->getTableColumns(),
+                'columns' => $columns,
                 'canAdd' => in_array('add', explode(',', $this->allowedActions)),
             )
         );
@@ -242,15 +270,14 @@ class MAdminController extends CExtController
         $this->loadModel()->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax'])) {
+        if (!isset($_GET['ajax']))
             $this->redirect(array($this->getId()));
-        }
     }
 
     public function actionUpdate()
     {
-        Yii::import('bootstrap.components.TbEditableSaver');
-        $es = new TbEditableSaver($this->modelName);
+        Yii::import('ext.mAdmin.components.AdminEditableSaver');
+        $es = new AdminEditableSaver($this->modelName);
         $es->update();
     }
 
@@ -261,9 +288,8 @@ class MAdminController extends CExtController
      */
     public function loadModel()
     {
-        $model = (isset($_GET['id']))
-            ? CActiveRecord::model($this->modelName)->findbyPk($_GET['id'])
-            : null;
+        $id = Yii::app()->request->getQuery('id');
+        $model = $id ? CActiveRecord::model($this->modelName)->findbyPk($id) : null;
         if ($model === null)
             throw new CHttpException(404);
         return $model;
@@ -346,8 +372,11 @@ class MAdminController extends CExtController
         }
 
         return array(
-            'class' => 'ext.mAdmin.widgets.ExtTbButtonColumn',
+            'class' => 'ext.mAdmin.widgets.AdminButtonColumnWidget',
             'template' => $template,
+            'viewButtonOptions' => array('class'=>'view blue'),
+            'updateButtonOptions' => array('class'=>'update green'),
+            'deleteButtonOptions' => array('class'=>'delete red'),
             'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",array("id"=>( isset($data->primaryKey) ? $data->primaryKey : (is_array($data)&&isset($data["id"])?$data["id"]:"") )))',
             'deleteButtonUrl' => 'Yii::app()->controller->createUrl("delete",array("id"=>( isset($data->primaryKey) ? $data->primaryKey : (is_array($data)&&isset($data["id"])?$data["id"]:"") )))'
         );
@@ -357,7 +386,7 @@ class MAdminController extends CExtController
     {
         return array(
             'class' => 'bootstrap.widgets.TbImageColumn',
-            'header' => '<div style="width:100%; text-align:center"><i class="icon-picture"></i></div>',
+            'header' => '<div style="width:100%; text-align:center"><i class="fa fa-image"></i></div>',
             'imagePathExpression' => '$data->'.$pathExprMethod,
             'usePlaceKitten' => false,
             'imageOptions' => array(
@@ -368,7 +397,7 @@ class MAdminController extends CExtController
 
     public function getVisibleColumn()
     {
-        return $this->getBooleanColumn('visible', 'icon-eye-open');
+        return $this->getBooleanColumn('visible', 'fa fa-eye');
     }
 
     public function getBooleanColumn($name, $icon=null)
@@ -379,7 +408,7 @@ class MAdminController extends CExtController
             : '<a href="javascript:void(0)" title="'.$label.'"><div style="width:100%; text-align:center"><i class="'.$icon.'"></i></div></a>';
 
         return array(
-            'class' => 'bootstrap.widgets.TbEditableColumn',
+            'class' => 'ext.mAdmin.widgets.AdminEditableColumnWidget',
             'name' => $name,
             'header' => $header,
             'htmlOptions' => array(
@@ -398,7 +427,7 @@ class MAdminController extends CExtController
     {
         $label = CActiveRecord::model($this->modelName)->getAttributeLabel($name);
         return array(
-            'class' => 'bootstrap.widgets.TbEditableColumn',
+            'class' => 'ext.mAdmin.widgets.AdminEditableColumnWidget',
             'name' => $name,
             'header' => $label,
             'editable' => array(
@@ -414,9 +443,9 @@ class MAdminController extends CExtController
     {
         $label = CActiveRecord::model($this->modelName)->getAttributeLabel($name);
         return array(
-            'class' => 'bootstrap.widgets.TbEditableColumn',
+            'class' => 'ext.mAdmin.widgets.AdminEditableColumnWidget',
             'name' => $name,
-            'header' => '<div style="width:100%; text-align:center"><i class="icon-arrow-up"></i><i class="icon-arrow-down" style="margin-left:-4px"></i></div>',
+            'header' => '<div style="width:100%; text-align:center"><i class="fa fa-arrow-up"></i><i class="fa fa-arrow-down" style="margin-left:-4px"></i></div>',
             'htmlOptions' => array(
                 'width' => '32',
             ),
@@ -432,7 +461,7 @@ class MAdminController extends CExtController
      * <code>
      * return array(
      *      'attributeName1' => array(
-     *          'type' => 'textField', // One of methods in TbActiveForm::*Row
+     *          'type' => 'textField', // One of methods in AdminActiveFormWidget::*Row
      *      ),
      *      array(
      *          'class' => 'yii.class.alias', // i.e. application.extensions.DependedInputWidget
@@ -444,7 +473,7 @@ class MAdminController extends CExtController
      *          'class' => 'yii.class.alias2',
      *      ),
      *      'attributeName3' => array(
-     *          'type' => 'dropDownList', // Will be called TbActiveForm::DropDownListRow
+     *          'type' => 'dropDownList', // Will be called AdminActiveFormWidget::DropDownListRow
      *          'data' => CHtml::listData(Client::model()->findAll(), 'id', 'name'),
      *          'htmlOptions' => array(
      *              'empty' => 'Empty',
