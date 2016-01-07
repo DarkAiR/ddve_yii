@@ -66,29 +66,6 @@
                                 'visible':App.user.checkAccess('admin')
                             },
                             {
-                                'label': 'Сервисы',
-                                'action': false,
-                                'visible': App.user.checkAccess('admin') or App.user.checkAccess('moderator'),
-                                'items': [
-                                    {
-                                        'label': 'Дамаск',
-                                        'action': false,
-                                        'items': [
-                                            {
-                                                'label': 'Группы операций',
-                                                'url': ['/damask/adminOperationGroups'],
-                                                'active': this.uniqueId == '/damask/adminOperationGroups',
-                                            },
-                                            {
-                                                'label': 'Операции',
-                                                'url': ['/damask/adminOperations'],
-                                                'active': this.uniqueId == '/damask/adminOperations',
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
                                 'label':'Разделы сайта',
                                 'action' : false,
                                 'items': [
