@@ -1,0 +1,6 @@
+git format-patch branchName --stdout > patchName.patch
+
+git apply --stat patchName.patch
+git apply --check patchName.patch
+
+git am --signoff < patchName.patch
