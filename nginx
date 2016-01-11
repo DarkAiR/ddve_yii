@@ -31,7 +31,7 @@ server {
     root             $root_path;
 
     # remove part of uri, otherwise links do not works
-    location ~ /site(?:/.*) {
+    location ~ /site(?:\/.*?\..*?)$ {
         rewrite /site(/.*) $1 last;
     }
 
