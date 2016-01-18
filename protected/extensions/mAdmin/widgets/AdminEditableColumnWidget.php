@@ -56,7 +56,8 @@ class AdminEditableColumnWidget extends AdminDataColumnWidget
         $widget->buildJsOptions();
         $widget->registerAssets();
         
-        $selector = $widget->getSelector(false);
+        $selector = $widget->getSelector(true);
+
         if (!$this->isScriptRendered($selector)) {
             $script = $widget->registerClientScript(false);
             //use parent() as grid is totally replaced by new content
@@ -118,7 +119,7 @@ class AdminEditableColumnWidget extends AdminDataColumnWidget
         $widget->renderLink();
         
         // manually render client script (one for all cells in column)
-        $selector = $widget->getSelector(false);
+        $selector = $widget->getSelector(true);
 
         if (!$this->isScriptRendered($selector)) {
             $script = $widget->registerClientScript(false);

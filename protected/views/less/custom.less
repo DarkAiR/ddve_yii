@@ -1,4 +1,5 @@
 @import '../less_include/variables.less';           // Fonts
+@import '../../extensions/mAdmin/assets/css/less/bootstrap/variables';
 
 
 // Колонки
@@ -54,6 +55,8 @@
 @colorLinkHoverRed:     #ff515b;
 @colorLinkBrown:        @colorDarkBrown;
 @colorLinkHoverBrown:   @colorLightBrown;
+@colorLinkActive:       @colorGrey;
+@colorLinkDisable:      @colorLight;
 
 @colorSeparatorLine:    #e7d8c9;
 
@@ -72,6 +75,8 @@ body {
     padding: 0;
     .font(OpenSans);
 }
+
+// iPhone, другие мобилки
 body, table {
     .font-size(14);
     color: @colorText;
@@ -79,25 +84,41 @@ body, table {
 }
 // iPad
 @media screen
-and (min-width : 768px) 
-and (max-width : 980px) {
+and (min-width : @screen-sm-min) 
+and (max-width : @screen-sm-max) {
 }
 // Desktop
 @media screen
-and (max-width: 768px) {
+and (max-width: @screen-xs-max) {
 }
-// iPhone, другие мобилки
-@media screen
-and (max-width : 667px) {
-    body, table {
-        //.font-size(19);
+
+.navbar-default  .navbar-nav > li > a,
+a {
+    &, &:visited, &:link, a:focus {
+        text-decoration: none;
+        color: @colorLink;
+    }
+    &:hover {
+        text-decoration: none;
+        color: @colorLinkHover;
+    }
+    &.active, &:active {
+        text-decoration: none;
+        color: @colorLinkActive;
+    }
+
+    &.disable {
+        &, &:visited, &:link, a:focus, a:hover, a:active {
+            color: @colorLinkDisable;
+            cursor: default;
+        }
     }
 }
 
 a.brown {
     .transition-duration(0.08s);
 
-    &, &:visited, &:link {
+    &, &:visited, &:link, a:focus {
         color: @colorLinkBrown;
         background: transparent;
     }
@@ -111,6 +132,57 @@ a.brown {
     }
 }
 
+
+p {
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: @middlePadding;
+}
+p:nth-last-child(1) {
+    padding-bottom: 0;
+}
+
+h1, h2 {
+    .font(OpenSans);
+    .font-size(18, 1);
+    padding: 0px;
+    margin: 0px;
+    padding-bottom: @middlePadding;
+    text-transform: uppercase;
+}
+
+table {
+    background-color: transparent;
+    border: none;
+    td {
+        vertical-align: top;
+        text-align: left;
+    }
+}
+
+
+ul {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+li {
+    list-style-type: none;
+    
+    a {
+    }
+
+    &:nth-child(1) {
+        padding-top: 0px;
+    }
+    &:nth-last-child(1) {
+        padding-bottom: 0px;
+    }
+
+    .disable {
+        color: #e4e4e4;
+    }
+}
 
 .clearfix {
     *zoom: 1;
@@ -129,12 +201,7 @@ a.brown {
     outline: none;
 }
 
-.transition-duration(@duration) {
-    -webkit-transition-duration: @duration; 
-    -o-transition-duration: @duration; 
-    -moz-transition-duration: @duration; 
-    transition-duration: @duration;
-}
+@import 'animation';
 
 // Колонка
 .col() {
@@ -223,7 +290,7 @@ a.brown {
 
 // Разделитель
 .separate-line() {
-    background: #cacaca;
+    background: @colorGrey;
     height: 1px;
     min-height: 1px;
     max-height: 1px;

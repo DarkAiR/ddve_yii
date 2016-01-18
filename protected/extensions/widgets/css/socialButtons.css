@@ -11,8 +11,9 @@
 .social-buttons-widget .row a {
   height: 44px;
   line-height: 44px;
-  padding-left: 45px;
+  padding-left: 67px;
   display: inline-block;
+  text-transform: uppercase;
 }
 .social-buttons-widget .row .facebook {
   background: url(../../img/social/facebook.png) left top no-repeat;
