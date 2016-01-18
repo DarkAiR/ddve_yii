@@ -5,10 +5,12 @@ data/
 data/*
 /www/store/*
 /protected/runtime/*
+/protected/messages/*
+/protected/views/less_include/*.css
 .htaccess
 .htpasswd
 *.txt
 composer.lock
-contributors.txt
+
 
 koala-config.json

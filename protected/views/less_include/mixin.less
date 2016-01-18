@@ -1,0 +1,88 @@
+// Колонка
+.col() {
+    width: auto;
+    min-width: 0;
+    float: left;
+    height: inherit;
+    min-height: 1px;
+}
+.col(@w) {
+    width: @w;
+    min-width: @w;
+    float: left;
+    height: inherit;
+    min-height: 1px;
+}
+
+.outline() {
+    outline: 1px dotted #808080;
+}
+.outline(red) {
+    outline: 1px dotted rgba(255,0,0,0.8);
+}
+.bg(red) {
+    background-color: @devRedBg !important;
+}
+.bg(blue) {
+    background-color: @devBlueBg !important;
+}
+.bg(green) {
+    background-color: @devGreenBg !important;
+}
+.bg(grey) {
+    background-color: @devGreyBg !important;
+}
+.bg(magenta) {
+    background-color: @devMagentaBg !important;
+}
+
+// Градиенты
+.gradient(vertical, @colorUp, @colorDown) {
+    background: -webkit-linear-gradient(@colorUp, @colorDown);  /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(@colorUp, @colorDown);       /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(@colorUp, @colorDown);     /* For Firefox 3.6 to 15 */
+    background: linear-gradient(@colorUp, @colorDown);          /* Standard syntax */
+}
+
+// Бордюры
+.border-radius(@r) {
+    -moz-border-radius:     @r;
+    -webkit-border-radius:  @r;
+    border-radius:          @r;
+}
+.border-radius(@topleft, @topright, @bottomright, @bottomleft) {
+    -moz-border-radius-topleft:         @topleft;
+    -moz-border-radius-topright:        @topright;
+    -moz-border-radius-bottomright:     @bottomright;
+    -moz-border-radius-bottomleft:      @bottomleft;
+
+    -webkit-border-top-left-radius:     @topleft;
+    -webkit-border-top-right-radius:    @topright;
+    -webkit-border-bottom-right-radius: @bottomright;
+    -webkit-border-bottom-left-radius:  @bottomleft;
+
+    border-top-left-radius:             @topleft;
+    border-top-right-radius:            @topright;
+    border-bottom-right-radius:         @bottomright;
+    border-bottom-left-radius:          @bottomleft;
+}
+
+// Тень
+.shadow(@offsX, @offsY, @blur, @alpha:0.3) {
+    box-shadow:         @offsX @offsY @blur rgba(0,0,0,@alpha);
+   -moz-box-shadow:     @offsX @offsY @blur rgba(0,0,0,@alpha);
+   -webkit-box-shadow:  @offsX @offsY @blur rgba(0,0,0,@alpha);
+}
+.shadow-inner(@offsX, @offsY, @blur, @alpha0:.3) {
+    box-shadow:         inset @offsX @offsY @blur rgba(0,0,0,@alpha);
+   -moz-box-shadow:     inset @offsX @offsY @blur rgba(0,0,0,@alpha);
+   -webkit-box-shadow:  inset @offsX @offsY @blur rgba(0,0,0,@alpha);
+}
+
+// Разделитель
+.separate-line() {
+    background: @colorGrey;
+    height: 1px;
+    min-height: 1px;
+    max-height: 1px;
+}
