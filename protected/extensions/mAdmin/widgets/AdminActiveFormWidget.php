@@ -179,6 +179,42 @@ class AdminActiveFormWidget extends CActiveForm
     }
 
     /**
+     * Generates an static text field
+     */
+    public function staticTextRow($model, $attribute, $htmlOptions = array(), $rowOptions = array())
+    {
+        $this->initRowOptions($rowOptions);
+        $rowOptions['label'] = '<strong>'.$model->getAttributeLabel($attribute).'</strong>';
+        $fieldData = array(array($this, 'staticText'), array($model, $attribute, $htmlOptions));
+        return $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
+    }
+    public function staticText($model,$attribute,$htmlOptions=array())
+    {
+        $this->addCssClass($htmlOptions, 'control-label');
+        return CHtml::tag('label', $htmlOptions, $model->$attribute);
+    }
+
+    /**
+     * Generates an static list value
+     */
+    public function staticListValueRow($model, $attribute, $data, $htmlOptions = array(), $rowOptions = array())
+    {
+        $this->initRowOptions($rowOptions);
+        $rowOptions['label'] = '<strong>'.$model->getAttributeLabel($attribute).'</strong>';
+        $fieldData = array(array($this, 'staticListValue'), array($model, $attribute, $data, $htmlOptions));
+        return $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
+    }
+    public function staticListValue($model, $attribute, $data, $htmlOptions=array())
+    {
+        if (!is_array($data) || !isset($data[$model->$attribute]))
+            return '';
+
+        $this->addCssClass($htmlOptions, 'control-label');
+        return CHtml::tag('label', $htmlOptions, $data[$model->$attribute]);
+    }
+
+
+    /**
      * Generates a url field row for a model attribute.
      *
      * This method is a wrapper for {@link CActiveForm::urlField} and {@link customFieldRow}.
@@ -339,12 +375,15 @@ class AdminActiveFormWidget extends CActiveForm
      */
     public function telFieldRow($model, $attribute, $htmlOptions = array(), $rowOptions = array())
     {
-        $this->initRowOptions($rowOptions);
-
-        $fieldData = array(array($this, 'telField'), array($model, $attribute, $htmlOptions));
-
-        return $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
+        if (!isset($htmlOptions['placeholder']))
+            $htmlOptions['placeholder'] = $model->getAttributeLabel($attribute);
+        $options = array(
+            'mask' => '+7 (999) 999-99-99',
+            'htmlOptions' => $htmlOptions
+        );
+        return $this->maskedTextFieldRow($model, $attribute, $options, $rowOptions);
     }
+
 
     /**
      * Generates a text field row for a model attribute.
@@ -464,9 +503,7 @@ class AdminActiveFormWidget extends CActiveForm
     public function fileFieldRow($model, $attribute, $htmlOptions = array(), $rowOptions = array())
     {
         $this->initRowOptions($rowOptions);
-
         $fieldData = array(array($this, 'fileField'), array($model, $attribute, $htmlOptions));
-
         $res = $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
 
         // Заполняем ID и NAME
@@ -486,8 +523,6 @@ class AdminActiveFormWidget extends CActiveForm
         Yii::app()->clientScript->registerScript($elName, $script);
         return $res;
     }
-
-
     public function fileField($model,$attribute,$htmlOptions=array())
     {
         return '<div class="col-sm-8">'.CHtml::activeFileField($model,$attribute,$htmlOptions).'</div>';

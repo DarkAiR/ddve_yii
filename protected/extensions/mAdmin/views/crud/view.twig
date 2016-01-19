@@ -10,13 +10,26 @@
     }) %}
         {% for attributeName, element in editFormElements %}
             {% if element['class'] %}
-                {{ widget(element['class'], element['options']|default({})|merge({'model':model, 'attribute':element['name'], 'form':form}) ) }}
+
+                {# Так как непонятно как отображать классы, пока будем выводить только их содержимое #}
+                {{ attribute(form, 'staticTextRow', [ model, attributeName, options ])|raw }}
+
             {% elseif element['type'] %}
-                {% if element['data'] %}
-                    {{ attribute(form, element['type']~'Row', [ model, attributeName, element['data'], element['htmlOptions'] ? element['htmlOptions'] : [] ])|raw }}
-                {% else %}
-                    {{ attribute(form, element['type']~'Row', [ model, attributeName, element['htmlOptions'] ? element['htmlOptions'] : [] ])|raw }}
+
+                {% set options = element['htmlOptions'] ? element['htmlOptions'] : [] %}
+
+                {% if element['type'] != 'hidden' %}
+                    {% if element['data'] is defined %}
+                        {{ attribute(form, 'staticListValueRow', [ model, attributeName, element['data'], options ])|raw }}
+                    {% else %}
+                        {{ attribute(form, 'staticTextRow', [ model, attributeName, options ])|raw }}
+                    {% endif %}
                 {% endif %}
+
+            {% elseif element['rows'] %}
+
+                {{ formHelper.editForm(attribute(model, attributeName), form, element['rows']) }}
+
             {% else %}
                 {{ element|raw }}
             {% endif %}
