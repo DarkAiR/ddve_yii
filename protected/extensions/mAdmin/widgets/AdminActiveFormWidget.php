@@ -467,8 +467,32 @@ class AdminActiveFormWidget extends CActiveForm
 
         $fieldData = array(array($this, 'fileField'), array($model, $attribute, $htmlOptions));
 
-        return $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
+        $res = $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
+
+        // Заполняем ID и NAME
+        CHtml::resolveNameID($model,$attribute,$htmlOptions);
+        // Переключаемся на красивую форму ввода
+        $elName = 'input#'.$htmlOptions['id'];
+        $script = "
+            $('{$elName}').ace_file_input({
+                style: 'well',
+                thumbnail: 'large',
+                no_file: 'Файл не выбран ...',
+                btn_choose: 'Выбрать',
+                btn_change: 'Изменить',
+                droppable: true
+            });
+        ";
+        Yii::app()->clientScript->registerScript($elName, $script);
+        return $res;
     }
+
+
+    public function fileField($model,$attribute,$htmlOptions=array())
+    {
+        return '<div class="col-sm-8">'.CHtml::activeFileField($model,$attribute,$htmlOptions).'</div>';
+    }
+
 
     /**
      * Generates a radio button row for a model attribute.

@@ -108,7 +108,6 @@ class ImageFileRowWidget extends CInputWidget
         echo                '<label class="col-sm-3"></label>';
         echo                '<div class="controls col-sm-9">';
         echo                    '<p>'.(isset($htmlOptions['hint']) ? $htmlOptions['hint'] : '').'</p>';
-        //<input id="ytCarousel__image" type="hidden" value="" name="Carousel[_image]"><input hint="<br /><br /><a target=&quot;_blank&quot; href=&quot;/store/carousel/84c1729ef022694525c0ca05b1bdb31a.JPG&quot;><img style=&quot;max-width:120px; max-height:120px&quot; src=&quot;/store/carousel/84c1729ef022694525c0ca05b1bdb31a.JPG&quot; alt=&quot;&quot; /></a>" placeholder="Изображение 980x486" name="Carousel[_image]" id="Carousel__image" type="file"><div class="help-inline error" id="Carousel__image_em_" style="display:none"></div>
         echo                '</div>';
         echo            '</div>';
         echo $form->fileFieldRow($model, $this->uploadedFileFieldName, $htmlOptions);
