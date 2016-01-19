@@ -104,16 +104,16 @@ class ImageFileRowWidget extends CInputWidget
         echo '<div class="widget-box">';
         echo    '<div class="widget-body">';
         echo        '<div class="widget-main">';
+        echo $form->fileFieldRow($model, $this->uploadedFileFieldName, $htmlOptions);
         echo            '<div class="form-group">';
         echo                '<label class="col-sm-3"></label>';
         echo                '<div class="controls col-sm-9">';
         echo                    '<p>'.(isset($htmlOptions['hint']) ? $htmlOptions['hint'] : '').'</p>';
         echo                '</div>';
-        echo            '</div>';
-        echo $form->fileFieldRow($model, $this->uploadedFileFieldName, $htmlOptions);
         if (!empty($model->$attributeName)) {
             echo $form->checkboxRow($model, $this->removeImageFieldName);
         }
+        echo            '</div>';
         echo        '</div>';
         echo    '</div>';
         echo '</div>';
