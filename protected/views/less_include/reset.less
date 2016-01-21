@@ -1,3 +1,6 @@
+@import (reference) '../less_include/variables';
+@import (reference) '../less_include/fonts';
+
 /* Главная разметка */
 html,
 body {
@@ -46,13 +49,25 @@ p:nth-last-child(1) {
     padding-bottom: 0;
 }
 
-h1, h2 {
+h1, h2, h3, h4, h5, h6 {
     .font(@mainFont);
-    .font-size(@mainFontHeaderSize, 1);
     padding: 0px;
     margin: 0px;
-    padding-bottom: @middlePadding;
-    text-transform: uppercase;
+}
+h1, h2 {
+    .font-size(@mainFontHeaderSize);
+}
+h3 {
+    .font-size(@mainFontHeaderSize*0.9);
+}
+h4 {
+    .font-size(@mainFontHeaderSize*0.8);
+}
+h5 {
+    .font-size(@mainFontHeaderSize*0.7);
+}
+h6 {
+    .font-size(@mainFontHeaderSize*0.1);
 }
 
 table {
