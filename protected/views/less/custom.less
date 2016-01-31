@@ -4,9 +4,24 @@
 //@import '../less_include/links';
 @import '../less_include/animation';
 @import '../less_include/mixin';
-@import '../less_include/reset';
+//@import '../less_include/reset';
 
 // ------------------------------------------------------
+
+/* Главная разметка */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    .font(@mainFont);
+}
+
+body, table {
+    .font-size(@mainFontSize);
+    color: @colorText;
+    background-color: @mainBg;
+}
 
 // iPhone, другие мобилки
 body, table {
@@ -21,8 +36,12 @@ and (max-width : @screen-sm-max) {
 and (max-width: @screen-xs-max) {
 }
 
-.separator {
-    .separate-line();
-    width: 100%;
+// Классы для печати
+.hidden-print-block {
+    display: initial;
+    //visibility: visible;
 }
-
+.visible-print-block {
+    display: none;
+    //visibility: hidden;
+}

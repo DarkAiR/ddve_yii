@@ -1,0 +1,163 @@
+@base: '../../extensions/mAdmin/assets/css/less/';
+
+@import '../less_include/variables.less';
+
+@import "@{base}bootstrap/variables.less";
+@import "@{base}bootstrap/utilities.less";
+@import "@{base}bootstrap/mixins.less";
+
+.ace {
+    // Reset and dependencies
+    //@import "@{base}bootstrap/normalize.less";
+    b {
+        font-weight: bold;
+    }
+
+    // Core CSS
+    @import "@{base}bootstrap/type.less";
+    @import "@{base}bootstrap/grid.less";
+    @import "@{base}bootstrap/tables.less";
+    @import "@{base}bootstrap/forms.less";
+
+    // Components
+    @import "@{base}bootstrap/component-animations.less";
+    //@import "@{base}bootstrap/input-groups.less";
+    @import "@{base}bootstrap/navs.less";
+    @import "@{base}bootstrap/panels.less";
+    @import "@{base}bootstrap/wells.less";
+
+    // Fonts
+    @import (less) "../../extensions/mAdmin/assets/css/font-awesome.css";
+
+    @import "../less_include/ace/ace-features.less";
+    @import "../less_include/ace/variables.less";//there are also some variables on top of some other less files
+    @import "@{base}mixins.less";
+
+    //@import "@{base}ace-extra.less";
+
+
+//    @import "@{base}general.less";//includes general basic styling of page
+    @import "@{base}basic.less";//includes styling of some elements such as pagination, etc
+    @import "@{base}utility.less";//includes some utility classes such as headers, colors, font sizing, etc
+//    @import "@{base}ace-nav.less";//ace top navigation
+
+//    @import "@{base}sidebar.less";
+    //@import "@{base}sidebar/ff_fix.less";//some firefox navbar and sidebar flicker fix
+
+//    @import "@{base}scroll.less";
+//    @import "@{base}modal.less";
+
+
+//    @import "@{base}breadcrumbs.less";
+//    @import "@{base}searchbox.less";
+
+//    @import "@{base}footer.less";
+
+
+    @import "@{base}buttons.less";
+    @import "@{base}label-badge.less";
+    @import "@{base}dropdown.less";
+    @import "@{base}form.less";
+
+    @import "../less_include/ace/tab-accordion.less";
+
+    @import "../less_include/ace/tables.less";
+    @import "@{base}widget.less";
+//    @import "@{base}tooltip-popover.less";
+//    @import "@{base}progressbar.less";
+
+    @import "@{base}infobox.less";
+
+
+//    @import "@{base}page.pricing.less";
+//    @import "@{base}page.login.less";
+
+//    @import "@{base}page.invoice.less";
+
+
+
+//    @import "@{base}page.error.less";
+//    @import "@{base}gallery.less";
+//    @import "@{base}items.less";
+//    @import "@{base}page.profile.less";
+//    @import "@{base}page.inbox.less";
+//    @import "@{base}page.timeline.less";
+//    @import "@{base}page.search.less";
+
+//    @import "@{base}thirdparty-dataTables.less";
+//    @import "@{base}thirdparty-calendar.less";
+//    @import "@{base}thirdparty-chosen.less";
+    @import "../less_include/ace/thirdparty-select2.less";
+//    @import "@{base}thirdparty-colorbox.less";
+//    @import "@{base}thirdparty-fuelux.less";//fuelux spinner, tree & wizard
+//    @import "@{base}thirdparty-gritter.less";
+//    @import "@{base}thirdparty-wysiwyg.less";
+//    @import "@{base}thirdparty-editable.less";
+
+//    @import "@{base}thirdparty-date.less";//date & time
+//    @import "@{base}thirdparty-slider.less";//jquery ui slider
+//    @import "@{base}thirdparty-jquery-ui.less";//other jquery ui widgets & elements
+//    @import "@{base}thirdparty-jqgrid.less";//jqGrid plugin
+//    @import "@{base}thirdparty-nestable.less";//nestable list
+//    @import "@{base}thirdparty-dropzone.less";//dropzone.js
+//    @import "@{base}thirdparty-typeahead.less";//typeahead
+//    @import "@{base}thirdparty-duallist-multiselect.less";//duallistbox
+//    @import "@{base}thirdparty-raty.less";//raty
+
+//    @import "@{base}icon-animated.less";
+
+
+
+//    @import "@{base}other.less";//setting box, etc
+
+//    @import "@{base}ext/bootstrap-tag.less";//less files provided by the thirdparty plugin, sometimes modified
+
+
+//    @import "@{base}bs3-reset.less";//resetting box-sizing to default content-box for some third party elements
+
+//    @import "@{base}ace-responsive.less";
+
+
+
+    //navbar/sidebar color skin
+    //you can import a different skin
+    @selected-skin-1: "skins/empty.less";
+    @import "@{base}@{selected-skin-1}";
+
+//    @selected-skin-2: "skins/no-skin.less";
+//    @import "@{base}@{selected-skin-2}";
+
+
+//    @import "@{base}onpage-help.less";//print friendly
+//    @import "@{base}print.less";//print friendly
+
+    // Reset the box-sizing
+    * {
+      .box-sizing(border-box);
+    }
+    *:before,
+    *:after {
+      .box-sizing(border-box);
+    }
+
+    form .errorMessage {
+        .text-emphasis-variant(@state-danger-text);
+        font-size: @font-size-text-input;
+        margin: 5px 0 5px;
+    }
+
+    // Own checkbox
+    input[type=checkbox].ace , input[type=radio].ace {
+        @{lbl} {
+            &::before {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    // Own panel
+    .panel-brown {
+        //.panel-variant(@panel-default-border; @panel-default-text; @panel-default-heading-bg; @panel-default-border);
+        .panel-variant(red; black; green; blue);
+    }
+}

@@ -1,0 +1,48 @@
+@import (reference) 'custom';
+
+
+// Окно ошибки
+// Usage:
+//    <div class="alert">
+//        <div class="close"></div>
+//        <span>TEXT</span>
+//    </div>
+
+.alert {
+    position: relative;
+    width: 80%;
+    border: 1px solid @biege;
+    padding: @bigPadding;
+    margin-left: 10%;
+    margin-bottom: @bigPadding;
+    
+    .close {
+        @w: 30px;
+        @h: 30px;
+
+        position: absolute;
+        top: @smallPadding;
+        right: @smallPadding;
+        width: @w;
+        height: @h;
+        cursor: pointer;
+
+        &:hover,
+        &:active {
+            opacity: .8;
+        }
+
+        &:after {
+            font-size: 32px;
+            line-height: 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: @w;
+            height: @h;
+            content: '✕';
+            text-align: center;
+            color: @colorGrey;
+        }
+    }
+}

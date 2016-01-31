@@ -61,9 +61,10 @@ class BarcodeGeneratorController extends CExtController
      */
     public function actionGenerateBarcode() 
     {
-		$inputCode = Yii::app()->request->getParam("code", "");
+        $inputCode = Yii::app()->request->getParam("code", "");
+		$height = Yii::app()->request->getParam("h", 80);
 		$bc = new BarcodeGenerator;
-		$bc->init('png');
+		$bc->init('png', $height);
 		$bc->build($inputCode);
     }
 }

@@ -1,0 +1,11 @@
+@import '../../../extensions/mAdmin/assets/css/less/tables.less';
+@import '../../less_include/variables.less';
+
+@table-labels-grad-color1:@silver;
+@table-labels-grad-color2:@cream;
+
+.table {
+  > thead > tr {
+     #gradient > .vertical(@table-labels-grad-color1 , @table-labels-grad-color2);
+  }
+}

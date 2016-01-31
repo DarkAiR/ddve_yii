@@ -12,4 +12,6 @@ return array(
     'imageDriver'       => '', //Image_GD_Driver,Image_ImageMagick_Driver
 
     'baseUrl'           => '',                // '/cabinet'
+
+    'adminEmail' => '',                     // noreply@mfc.yekaterinburg.ru, Адрес, от которого отправлять письма
 );

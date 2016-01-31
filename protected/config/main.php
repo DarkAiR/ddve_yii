@@ -16,6 +16,7 @@ $res = array(
         'lib.CurlHelper.*',
         'lib.ImageHelper.*',
         'ext.mAdmin.*',
+        'ext.YiiMailer.YiiMailer',
     ),
     'modules' => array(
         'admin',
