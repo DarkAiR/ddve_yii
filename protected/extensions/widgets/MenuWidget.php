@@ -16,12 +16,7 @@ abstract class MenuWidget extends ExtendedWidget
             return;
 
         $url = trim( Yii::app()->request->url, '/' );
-        $items = MenuItem::model()
-            ->onSite()
-            ->byParent(0)
-            ->byMenuId($this->menuId)
-            ->orderDefault()
-            ->findAll();
+        $items = $this->getMenuItems();
 
         $itemsArr = array();
         foreach ($items as $item)
@@ -32,30 +27,30 @@ abstract class MenuWidget extends ExtendedWidget
                 array_shift($domains);
                 $url = implode('/', $domains);
             }
-            $select = (strpos($url, trim($item->link, '/')) === 0)
+            $select = (strpos($url, trim($item['link'], '/')) === 0)
                 ? true
                 : false;
 
             $blank = 0;
-            if (strpos($item->link, 'http://') === 0 || strpos($item->link, 'https://') === 0) {
-                $link = $item->link;
+            if (strpos($item['link'], 'http://') === 0 || strpos($item['link'], 'https://') === 0) {
+                $link = $item['link'];
                 $blank = 1;
             } else {
-                $link = isset(Yii::app()->params['routes'][$item->link])
-                    ? array('/'.Yii::app()->params['routes'][$item->link])  // Роуты с языком
-                    : '/'.$item->link;                                      // Ссылка без языка, будет вести на дефолтную страницу
+                $link = isset(Yii::app()->params['routes'][$item['link']])
+                    ? array('/'.Yii::app()->params['routes'][$item['link']])    // Роуты с языком
+                    : '/'.$item['link'];                                        // Ссылка без языка, будет вести на дефолтную страницу
                 $link = CHtml::normalizeUrl($link);
             }
 
-            $iconUrl = $item->getIconUrl();
+            $iconUrl = $item['iconUrl'];
 
             $itemsArr[] = array(
-                'name'      => $item->name,
+                'name'      => $item['name'],
                 'link'      => $link,
                 'select'    => $select,
                 'iconUrl'   => $iconUrl,
                 'blank'     => $blank,
-                'enabled'   => $item->active
+                'enabled'   => $item['active']
             );
         }
 
@@ -65,5 +60,25 @@ abstract class MenuWidget extends ExtendedWidget
 
     protected function beforeRender(&$itemsArr)
     {
+    }
+
+    protected function getMenuItems()
+    {
+        $items = MenuItem::model()
+            ->onSite()
+            ->byParent(0)
+            ->byMenuId($this->menuId)
+            ->orderDefault()
+            ->findAll();
+        $res = array();
+        foreach ($items as $item) {
+            $res[] = array(
+                'name'      => $item->name,
+                'link'      => $item->link,
+                'iconUrl'   => $item->getIconUrl(),
+                'active'    => $item->active,
+            );
+        }
+        return $res;
     }
 }
