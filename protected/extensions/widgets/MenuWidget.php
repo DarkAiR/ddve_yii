@@ -39,7 +39,7 @@ abstract class MenuWidget extends ExtendedWidget
                 $link = isset(Yii::app()->params['routes'][$item['link']])
                     ? array('/'.Yii::app()->params['routes'][$item['link']])    // Роуты с языком
                     : '/'.$item['link'];                                        // Ссылка без языка, будет вести на дефолтную страницу
-                $link = CHtml::normalizeUrl($link);
+                $link = Yii::app()->params['baseUrl'].CHtml::normalizeUrl($link);
             }
 
             $iconUrl = $item['iconUrl'];
