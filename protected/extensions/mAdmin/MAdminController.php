@@ -414,6 +414,9 @@ class MAdminController extends CExtController
             'htmlOptions' => array(
                 'width' => '32',
             ),
+            'headerHtmlOptions' => array(
+                'width' => '32',
+            ),
             'editable' => array(
                 'title' => $label,
                 'type' => 'select',
@@ -447,6 +450,9 @@ class MAdminController extends CExtController
             'name' => $name,
             'header' => '<div style="width:100%; text-align:center"><i class="fa fa-arrow-up"></i><i class="fa fa-arrow-down" style="margin-left:-4px"></i></div>',
             'htmlOptions' => array(
+                'width' => '32',
+            ),
+            'headerHtmlOptions' => array(
                 'width' => '32',
             ),
             'editable' => array(
