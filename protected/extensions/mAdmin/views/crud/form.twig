@@ -18,11 +18,12 @@
                 {% if element['type'] == 'ckEditor' %}
                    {% set options = options|merge({
                         'editorOptions': {
-                            'customConfig' :                '/ckeditor/ckeditor_config.js',
-                            'filebrowserImageBrowseUrl':    '/kcfinder/browse.php?type=images',
-                            'filebrowserAudioBrowseUrl':    '/kcfinder/browse.php?type=audio',
+                            'customConfig' :                App.baseUrl~'/ckeditor/ckeditor_config.js',
+                            'filebrowserImageBrowseUrl':    App.baseUrl~'/kcfinder/browse.php?type=images',
+                            'filebrowserAudioBrowseUrl':    App.baseUrl~'/kcfinder/browse.php?type=audio',
                             'extraAllowedContent':          'audio source[*]',
-                            'height':                       500
+                            'height':                       500,
+                            'contentsCss':                  App.baseUrl~'/ckeditor/css/ckeditor.css'
                         }
                     }) %}
                 {% endif %}

@@ -3,7 +3,6 @@ CKEDITOR.editorConfig = function( config )
     config.extraPlugins = 'audio';
     config.language = 'ru';
     //config.skin = 'moono';
-    config.contentsCss = '/ckeditor/css/ckeditor.css';
 
     // Add the button to toolbar
 /*
