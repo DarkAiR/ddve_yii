@@ -36,6 +36,13 @@
     background-color: @devMagentaBg !important;
 }
 
+.background-size(@percent) {
+    -webkit-background-size: @percent;
+    -moz-background-size: @percent;
+    -o-background-size: @percent;
+    background-size: @percent;
+}
+
 // Градиенты
 .gradient(vertical, @colorUp, @colorDown) {
     background: -webkit-linear-gradient(@colorUp, @colorDown);  /* For Safari 5.1 to 6.0 */
