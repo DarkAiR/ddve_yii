@@ -51,7 +51,7 @@ return array(
     'x-editable' => array(
         'baseUrl' => $this->getAssetsUrl(),
         'js' => array('js/x-editable/bootstrap-editable.js', 'js/x-editable/ace-editable.js'),
-        'depends' => array('jquery', 'bootstrap'/*, 'datepicker'*/, 'x-editable-css')
+        'depends' => array('jquery', 'bootstrap', 'datepicker', 'x-editable-css')
     ),
     'x-editable-css' => array(
         'baseUrl' => $this->getAssetsFontsUrl(),
@@ -64,13 +64,13 @@ return array(
     //     'js' => array($this->minify ? 'js/jquery.layout.min.js' : 'js/jquery.layout.js'),
     //     'depends' => array('jquery', 'jquery.ui'),
     // ),
-    // 'datepicker' => array(
-    //     'depends' => array('jquery'),
-    //     'baseUrl' => $this->enableCdn ? '//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/' : $this->getAssetsUrl() . '/bootstrap-datepicker/',
-    //     'css' => array($this->minify ? 'css/datepicker.min.css' : 'css/datepicker.css'),
-    //     'js' => array($this->minify ? 'js/bootstrap-datepicker.min.js' : 'js/bootstrap-datepicker.js', 'js/bootstrap-datepicker-noconflict.js') 
-    //     // ... the noconflict code is in its own file so we do not want to touch the original js files to ease upgrading lib
-    // ),
+    'datepicker' => array(
+        'depends' => array('jquery'),
+        'baseUrl' => $this->getAssetsUrl() . '/bootstrap-datepicker/',
+        'css' => array($this->minify ? 'css/datepicker.min.css' : 'css/datepicker.css'),
+        'js' => array($this->minify ? 'js/bootstrap-datepicker.min.js' : 'js/bootstrap-datepicker.js', 'js/bootstrap-datepicker-noconflict.js') 
+        // ... the noconflict code is in its own file so we do not want to touch the original js files to ease upgrading lib
+    ),
     // 'datetimepicker' => array(
     //     'depends' => array('jquery'),
     //     'baseUrl' => $this->getAssetsUrl() . '/bootstrap-datetimepicker/', // Not in CDN yet
@@ -126,12 +126,12 @@ return array(
     //     'css' => array($this->minify ? 'css/passfield.min.css' : 'css/passfield.min.css'),
     //     'js' => array($this->minify ? 'js/passfield.min.js' : 'js/passfield.min.js')
     // ),
-    // 'timepicker' => array(
-    //     'baseUrl' => $this->getAssetsUrl() . '/bootstrap-timepicker',
-    //     'js' => array($this->minify ? 'js/bootstrap-timepicker.min.js' : 'js/bootstrap-timepicker.js'),
-    //     'css' => array($this->minify ? 'css/bootstrap-timepicker.min.css' : 'css/bootstrap-timepicker.css'),
-    //     'depends' => array('bootstrap.js')
-    // ),
+    'timepicker' => array(
+        'baseUrl' => $this->getAssetsUrl() . '/bootstrap-timepicker',
+        'js' => array($this->minify ? 'js/bootstrap-timepicker.min.js' : 'js/bootstrap-timepicker.js'),
+        'css' => array($this->minify ? 'css/bootstrap-timepicker.min.css' : 'css/bootstrap-timepicker.css'),
+        'depends' => array('bootstrap')
+    ),
 
     // 'highcharts' => array(
     //     'baseUrl' => $this->enableCdn ? '//code.highcharts.com' : $this->getAssetsUrl() . '/highcharts',

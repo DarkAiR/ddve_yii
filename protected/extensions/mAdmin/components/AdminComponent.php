@@ -7,6 +7,8 @@ class AdminComponent extends CApplicationComponent
      */
     public $packages = array();
 
+    public $minify = false;
+
     /**
      * @var CClientScript Something which can register assets for later inclusion on page.
      */

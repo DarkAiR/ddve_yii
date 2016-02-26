@@ -799,8 +799,7 @@ class AdminActiveFormWidget extends CActiveForm
      */
     public function datePickerRow($model, $attribute, $widgetOptions = array(), $rowOptions = array())
     {
-        return 'DatePicker is not supported yet';
-        //return $this->widgetRowInternal('ext.mAdmin.widgets.AdminDatePickerWidget', $model, $attribute, $widgetOptions, $rowOptions);
+        return $this->widgetRowInternal('ext.mAdmin.widgets.AdminDatePickerWidget', $model, $attribute, $widgetOptions, $rowOptions);
     }
 
     /**
@@ -841,8 +840,7 @@ class AdminActiveFormWidget extends CActiveForm
      */
     public function timePickerRow($model, $attribute, $widgetOptions = array(), $rowOptions = array())
     {
-        return 'TimePicker is not supported yet';
-        //return $this->widgetRowInternal('ext.mAdmin.widgets.AdminTimePickerWidget', $model, $attribute, $widgetOptions, $rowOptions);
+        return $this->widgetRowInternal('ext.mAdmin.widgets.AdminTimePickerWidget', $model, $attribute, $widgetOptions, $rowOptions);
     }
 
     /**
