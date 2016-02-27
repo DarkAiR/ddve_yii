@@ -29,3 +29,13 @@ ul.nav li.dropdown:hover > ul.dropdown-menu {
     position: absolute;
     top: 10px;
 }
+
+.language-row {
+    background:#f8f8f8;
+    border-right: 1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    border-left: 1px solid #eee;
+    border-top:1px solid #eee;
+    margin-bottom: 22px;
+    padding: 22px 0px 0px 0px;
+}

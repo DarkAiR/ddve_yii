@@ -300,14 +300,34 @@ class MAdminController extends CExtController
      */
     protected function getLangField($name, $options)
     {
+        // Если язык один, то делаем все как обычно без языка
+        if (count(Yii::app()->params['languages'])<=1)
+            return array($name => $options);
+
+        // Если языков несколько, то выводим табы
         $res = array();
         $res[] = '<div class="language-row">';
+
+        $tabsHtml = '';
         foreach (Yii::app()->params['languages'] as $lang => $langName) {
-            $suffix = ($lang == Yii::app()->sourceLanguage)
-                ? ''
-                : '_'.$lang;
-            $res[$name.$suffix] = $options;
+            $tabId = ($lang == Yii::app()->sourceLanguage) ? $name : $name.'_'.$lang;
+            $active = ($lang == Yii::app()->sourceLanguage) ? 'active' : '';
+            $tabsHtml .= '<li role="presentation" class="'.$active.'"><a href="#'.$tabId.'" aria-controls="'.$tabId.'" role="tab" data-toggle="tab">'.$langName.'</a></li>';
         }
+        $res[] = '<ul class="nav nav-tabs" role="tablist">'.
+                    $tabsHtml.
+                 '</ul>'.
+                 '<div class="tab-content">';
+
+        foreach (Yii::app()->params['languages'] as $lang => $langName) {
+            $tabId = ($lang == Yii::app()->sourceLanguage) ? $name : $name.'_'.$lang;
+            $active = ($lang == Yii::app()->sourceLanguage) ? 'active' : '';
+            $res[] = '<div role="tabpanel" class="tab-pane '.$active.'" id="'.$tabId.'">';
+            $res[$tabId] = $options;
+            $res[] = '</div>';
+        }
+
+        $res[] = '</div>';
         $res[] = '</div>';
         return $res;
     }
