@@ -440,7 +440,13 @@ class MAdminController extends CExtController
             'editable' => array(
                 'title' => $label,
                 'type' => 'select',
-                'source' => array(0, 1),
+                'source' => array(0=>'Нет', 1=>'Да'),
+                'display' => 'js: function(value, sourceData) {
+                    var el = $("<div>");
+                    var color = (value==0) ? "#c00" : "#080";
+                    el.css("color", color).text(sourceData[value]["text"]);
+                    $(this).html(el.get(0));
+                }',
                 'url' => $this->createUrl('update'),
             )
         );
