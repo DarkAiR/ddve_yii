@@ -2,7 +2,9 @@
 
 Yii::setPathOfAlias('lib', realpath(__DIR__ . '/../../lib'));
 
-$params = require 'params.php';
+$params = @include 'params.php';
+if (!$params)
+    $params = require 'params-global.php';
 
 $res = array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
@@ -152,8 +154,8 @@ $res['sourceLanguage'] = 'ru';
 $res['language'] = $langArr[0];
 
 $res['components']['urlManager']['rules'] = array(
-    $langPrefix.'/'                         => 'site/index',
-    '/'                                     => 'site/index',
+    $langPrefix.'/'                             => 'site/index',
+    '/'                                         => 'site/index',
 
     // Admin
     'admin/'                                    => 'admin',

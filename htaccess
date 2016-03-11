@@ -1,5 +1,12 @@
 RewriteEngine on
 RewriteBase /
+
+# For admin resources stay here
+# RewriteRule ^(.*assets/.*)$ $1 [L]
+
+# Redirect other resources to original site
+# RewriteRule /((media|images|css|js)/.*)$ http://original.site/$1 [L]
+
 # if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
