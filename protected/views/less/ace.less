@@ -1,23 +1,36 @@
 @base: '../../extensions/mAdmin/assets/css/less/';
 
-@import '../less_include/variables.less';
+//@import (once) '../less_include/custom_variables.less';       // Нет необходимости подключать
+
+
+//----------------------------------------------
+// Global section
 
 @import "@{base}bootstrap/variables.less";
 @import "@{base}bootstrap/utilities.less";
 @import "@{base}bootstrap/mixins.less";
 
+// Components
+@import "@{base}bootstrap/close.less";
+
+// Components w/ JavaScript
+@import "@{base}bootstrap/modals.less";
+
+// Utility classes
+@import "@{base}bootstrap/responsive-utilities.less";
+//----------------------------------------------
+
+
 .ace {
     // Reset and dependencies
     //@import "@{base}bootstrap/normalize.less";
-    b {
-        font-weight: bold;
-    }
 
     // Core CSS
     @import "@{base}bootstrap/type.less";
     @import "@{base}bootstrap/grid.less";
     @import "@{base}bootstrap/tables.less";
     @import "@{base}bootstrap/forms.less";
+    //@import "@{base}bootstrap/buttons.less";
 
     // Components
     @import "@{base}bootstrap/component-animations.less";
@@ -25,6 +38,10 @@
     @import "@{base}bootstrap/navs.less";
     @import "@{base}bootstrap/panels.less";
     @import "@{base}bootstrap/wells.less";
+
+    // Components w/ JavaScript
+    @import "@{base}bootstrap/tooltip.less";
+    @import "@{base}bootstrap/popovers.less";
 
     // Fonts
     @import (less) "../../extensions/mAdmin/assets/css/font-awesome.css";
@@ -63,7 +80,7 @@
 
     @import "../less_include/ace/tables.less";
     @import "@{base}widget.less";
-//    @import "@{base}tooltip-popover.less";
+    @import "@{base}tooltip-popover.less";
 //    @import "@{base}progressbar.less";
 
     @import "@{base}infobox.less";
@@ -131,33 +148,5 @@
 //    @import "@{base}onpage-help.less";//print friendly
 //    @import "@{base}print.less";//print friendly
 
-    // Reset the box-sizing
-    * {
-      .box-sizing(border-box);
-    }
-    *:before,
-    *:after {
-      .box-sizing(border-box);
-    }
-
-    form .errorMessage {
-        .text-emphasis-variant(@state-danger-text);
-        font-size: @font-size-text-input;
-        margin: 5px 0 5px;
-    }
-
-    // Own checkbox
-    input[type=checkbox].ace , input[type=radio].ace {
-        @{lbl} {
-            &::before {
-                margin-right: 8px;
-            }
-        }
-    }
-
-    // Own panel
-    .panel-brown {
-        //.panel-variant(@panel-default-border; @panel-default-text; @panel-default-heading-bg; @panel-default-border);
-        .panel-variant(red; black; green; blue);
-    }
+    @import "../less_include/ace/main-reset.less";
 }

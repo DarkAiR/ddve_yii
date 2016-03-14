@@ -1,0 +1,31 @@
+b {
+    font-weight: bold;
+}
+
+.top {
+    height: initial;
+}
+
+// Reset the box-sizing
+* {
+  .box-sizing(border-box);
+}
+*:before,
+*:after {
+  .box-sizing(border-box);
+}
+
+form .errorMessage {
+    .text-emphasis-variant(@state-danger-text);
+    font-size: @font-size-text-input;
+    margin: 5px 0 5px;
+}
+
+// Own checkbox
+input[type=checkbox].ace , input[type=radio].ace {
+    @{lbl} {
+        &::before {
+            margin-right: 8px;
+        }
+    }
+}
