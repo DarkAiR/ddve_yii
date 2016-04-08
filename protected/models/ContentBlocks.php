@@ -15,13 +15,18 @@ class ContentBlocks extends CActiveRecord
         return parent::model($className);
     }
 
+    public function tableName()
+    {
+        return 'contentblocks';
+    }
+
     public function behaviors()
     {
         return array(
             'languageBehavior' => array(
                 'class'                 => 'application.behaviors.MultilingualBehavior',
                 'langClassName'         => 'ContentBlocksLang',
-                'langTableName'         => 'ContentBlocks_lang',
+                'langTableName'         => 'contentblocks_lang',
                 'langForeignKey'        => 'cbId',
                 'localizedAttributes'   => array('title', 'text'),
                 'languages'             => Yii::app()->params['languages'],

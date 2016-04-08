@@ -63,7 +63,7 @@
                                 'label':'Меню',
                                 'url':['/sitemenu/adminSitemenu'],
                                 'active':this.uniqueId == 'sitemenu/adminSitemenu',
-                                'visible':App.user.checkAccess('admin')
+                                'visible':App.user.checkAccess('moderator')
                             },
                             {
                                 'label':'Разделы сайта',
@@ -72,15 +72,15 @@
                                     {
                                         'label':'Контентные блоки', 
                                         'url':['/contentBlocks/adminContentBlocks'],
-                                        'active':this.uniqueId == '/contentBlocks/adminContentBlocks',
+                                        'active':this.uniqueId == 'contentBlocks/adminContentBlocks',
                                         'visible':App.user.checkAccess('admin')
                                     },
                                     {
                                         'label':'Текстовые страницы',
                                         'url':['/articles/adminArticles'],
-                                        'active':this.uniqueId == '/articles/adminArticles',
+                                        'active':this.uniqueId == 'articles/adminArticles',
                                         'visible':App.user.checkAccess('admin')
-                                    }
+                                    },
                                 ]
                             },
                             {
@@ -93,7 +93,7 @@
                                 'label':'Настройки',
                                 'url':['/admin/adminLocalConfig'],
                                 'active':this.uniqueId == 'admin/adminLocalConfig',
-                                'visible':App.user.checkAccess('admin') or App.user.checkAccess('moderator')
+                                'visible':App.user.checkAccess('manager')
                             },
                         ]
                     }) }}

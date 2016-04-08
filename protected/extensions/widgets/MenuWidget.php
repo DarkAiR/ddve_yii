@@ -15,7 +15,7 @@ abstract class MenuWidget extends ExtendedWidget
         if (empty($this->template))
             return;
 
-        $url = trim( Yii::app()->request->url, '/' );
+        $url = Yii::app()->request->getPathInfo();
         $items = $this->getMenuItems();
 
         $itemsArr = array();

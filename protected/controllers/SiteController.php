@@ -1,4 +1,5 @@
 <?php
+
 class SiteController extends Controller
 {
     /**
@@ -16,12 +17,18 @@ class SiteController extends Controller
      */
     public function actionError()
     {
-        $error = Yii::app()->errorHandler->error;
-        if ($error) {
-            if (Yii::app()->request->isAjaxRequest) {
-                echo $error['message'];
-            } else {
-                $this->render('error', $error);
+        // Для админской страницы редиректим на другую обработку ошибок
+        $pathParts = explode('/', Yii::app()->request->getPathInfo());
+        if ($pathParts[0] == 'admin') {
+            Yii::app()->runController('admin/admin/error');
+        } else {
+            $error = Yii::app()->errorHandler->error;
+            if ($error) {
+                if (Yii::app()->request->isAjaxRequest) {
+                    echo $error['message'];
+                } else {
+                    $this->render('error', $error);
+                }
             }
         }
     }

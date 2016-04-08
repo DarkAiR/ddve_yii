@@ -1,19 +1,21 @@
 @import '../../extensions/mAdmin/assets/css/less/bootstrap/variables';
 
-@biege:     #c39367;
-@black:     #2c2a29;
-@brown:     #623b2a;
-@cream:     #ded6d2;
-@grey:      #989798;
-@red:       #e04e39;
-@rusty:     #ab3000;
-@silver:    #efefef;
-@white:     #fff;
+@black:         #2c2a29;
+@brown:         #623b2a;
+@cream:         #ded6d2;
+@grey:          #989798;
+@lightGrey:     #eeeae1;
+@biege:         #c39367;
+@red:           #e04e39;
+@rusty:         #ab3000;
+@silver:        #efefef;
+@white:         #fff;
 
-@siteW:                 @screen-lg-min - @grid-gutter-width;    // Ширина сайта
 @mainFont:              FiraSans;
 @mainFontSize:          18;         // См. @base-font-size
-@mainFontHeaderSize:    18;
+
+@headerFont:            FiraSans;
+@headerFontSize:        18;
 
 // Основные отступы
 @smallPadding:          11px;
@@ -27,16 +29,13 @@
 @devMagentaBg:          rgba(255,0,255,0.2);
 @devGreyBg:             rgba(0,0,0,0.05);
 
-@mainBg:                #fff;
-
-@colorText:             #0f080f;
-@colorGrey:             #ccc5b5;
-@colorLight:            #eeeae1;
+// Основные цвета
+@mainBg:                @white;
+@colorText:             @black;
+@colorSeparatorLine:    @grey;
 
 // Цвета ссылок
 @colorLink:             @colorText;
-@colorLinkHover:        @colorGrey;
-@colorLinkActive:       @colorGrey;
-@colorLinkDisable:      @colorLight;
-
-@colorSeparatorLine:    @colorGrey;
+@colorLinkHover:        @grey;
+@colorLinkActive:       @grey;
+@colorLinkDisable:      @lightGrey;

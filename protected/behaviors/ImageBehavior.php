@@ -57,6 +57,13 @@ class ImageBehavior extends CActiveRecordBehavior
         return CHtml::normalizeUrl('/store/'.$this->storagePath.'/'.$this->owner->{$this->imageField});
     }
 
+    public function getOriginalImageUrl()
+    {
+        if (empty($this->owner->{$this->imageField}))
+            return '';
+        return CHtml::normalizeUrl('/store/'.$this->storagePath.'/original/'.$this->owner->{$this->imageField});
+    }
+
     public function imageAfterDelete()
     {
         if ($this->owner->{$this->imageField}) {

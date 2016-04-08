@@ -13,8 +13,12 @@ class MenuItem extends CActiveRecord
     {
         return parent::model($className);
     }
-
     
+    public function tableName()
+    {
+        return 'menuitem';
+    }
+
     public function behaviors()
     {
         return array(
@@ -35,7 +39,7 @@ class MenuItem extends CActiveRecord
             'languageBehavior' => array(
                 'class'                 => 'application.behaviors.MultilingualBehavior',
                 'langClassName'         => 'MenuItemLang',
-                'langTableName'         => 'MenuItem_lang',
+                'langTableName'         => 'menuitem_lang',
                 'langForeignKey'        => 'menuItemId',
                 //'langField'           => 'lang_id',
                 'localizedAttributes'   => array('name'),
@@ -55,7 +59,7 @@ class MenuItem extends CActiveRecord
     public function relations()
     {
         return array(
-            'children' => array(self::HAS_MANY, 'MenuItem', 'parentItemId', 'order'=>'children.orderNum ASC'),
+            'children' => array(self::HAS_MANY, 'menuitem', 'parentItemId', 'order'=>'children.orderNum ASC'),
         );
     }
 

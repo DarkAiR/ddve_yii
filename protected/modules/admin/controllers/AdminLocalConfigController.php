@@ -5,7 +5,7 @@ class AdminLocalConfigController extends MAdminController
     public $modelName = 'LocalConfigItem';
     public $modelHumanTitle = array('настройку', 'настройки', 'настроек');
     public $allowedActions = 'edit,update';
-    public $allowedRoles = 'admin';
+    public $allowedRoles = 'admin, manager';
 
     /**
      * @param  User  $model

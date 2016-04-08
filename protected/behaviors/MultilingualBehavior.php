@@ -555,6 +555,10 @@ class MultilingualBehavior extends CActiveRecordBehavior
                 if ($value !== null) {
                     $langfield = $this->localizedPrefix . $field;
                     $owner->$langfield = $value;
+                } else {
+                    // FIX: DarkAiR - save if empty
+                    $langfield = $this->localizedPrefix . $field;
+                    $owner->$langfield = '';
                 }
             }
             $owner->save(false);

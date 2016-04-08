@@ -6,7 +6,7 @@ class m130826_130922_contentBlocks extends ExtendedDbMigration
     public function safeUp()
     {
         $this->execute("
-            CREATE TABLE IF NOT EXISTS `ContentBlocks` (
+            CREATE TABLE IF NOT EXISTS `contentblocks` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `title` text NOT NULL COMMENT 'Заголовок',
                 `text` text NOT NULL COMMENT 'Текст',
@@ -18,7 +18,7 @@ class m130826_130922_contentBlocks extends ExtendedDbMigration
         ");
 
         $this->execute("
-            CREATE TABLE IF NOT EXISTS `ContentBlocks_lang` (
+            CREATE TABLE IF NOT EXISTS `contentblocks_lang` (
                 `l_id` int(11) NOT NULL AUTO_INCREMENT,
                 `cbId` int(11) NOT NULL,
                 `lang_id` varchar(6) NOT NULL,
@@ -27,14 +27,14 @@ class m130826_130922_contentBlocks extends ExtendedDbMigration
                 PRIMARY KEY (`l_id`),
                 KEY `cbId` (`cbId`),
                 KEY `lang_id` (`lang_id`),
-                CONSTRAINT `fk_cb_lang` FOREIGN KEY (`cbId`) REFERENCES `ContentBlocks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                CONSTRAINT `fk_cb_lang` FOREIGN KEY (`cbId`) REFERENCES `contentblocks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
         ");
     }
 
     public function safeDown()
     {
-        $this->dropTable('ContentBlocks_lang');
-        $this->dropTable('ContentBlocks');
+        $this->dropTable('contentblocks_lang');
+        $this->dropTable('contentblocks');
     }
 }

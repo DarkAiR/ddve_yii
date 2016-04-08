@@ -7,6 +7,11 @@ class Menu extends CActiveRecord
     const NONE = 0;
     
 
+    public function tableName()
+    {
+        return 'menu';
+    }
+
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -21,7 +26,7 @@ class Menu extends CActiveRecord
             'languageBehavior' => array(
                 'class'                 => 'application.behaviors.MultilingualBehavior',
                 'langClassName'         => 'MenuLang',
-                'langTableName'         => 'Menu_lang',
+                'langTableName'         => 'menu_lang',
                 'langForeignKey'        => 'menuId',
                 'localizedAttributes'   => array('name'),
                 'languages'             => Yii::app()->params['languages'],
@@ -34,7 +39,7 @@ class Menu extends CActiveRecord
     public function relations()
     {
         return array(
-            'items' => array(self::HAS_MANY, 'MenuItem', 'menuId', 'order'=>'items.orderNum ASC'),
+            'items' => array(self::HAS_MANY, 'menuitem', 'menuId', 'order'=>'items.orderNum ASC'),
         );
     }
 

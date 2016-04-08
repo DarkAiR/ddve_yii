@@ -327,8 +327,48 @@ class MAdminController extends CExtController
             $res[] = '</div>';
         }
 
+        // Добавляем кнопку перевода
+        $res[] = $this->addTranslateButton($name);
+
         $res[] = '</div>';
         $res[] = '</div>';
+
+        return $res;
+    }
+
+    private function addTranslateButton($fieldName)
+    {
+        $res = '';
+
+        // Добавляем кнопку перевода
+        $translateBtnId = 'translateBtn'.rand();
+        $res .= '<button class="btn" id="'.$translateBtnId.'">Перевести</button>';
+        $options = CJavaScript::encode(array(
+            'modelName' => $this->modelName,
+            'modelId' => Yii::app()->request->getQuery('id'),
+            'fieldName' => $fieldName,
+            'url' => CHtml::normalizeUrl(array('/admin/translate'))
+        ));
+        AdminComponent::getInstance()->assetsRegistry->registerPackage('translate');
+        $js = "$('#{$translateBtnId}').translate({$options});";
+        Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$translateBtnId, $js);
+
+
+        // Проверяем, на какие языки не перевели
+        $model = $this->loadModel();
+        $arr = array();
+        foreach (Yii::app()->params['languages'] as $lang => $langName) {
+            if ($lang == Yii::app()->sourceLanguage)
+                continue;
+            $fieldNameTmp = $fieldName.'_'.$lang;
+            $fieldValue = trim($model->$fieldNameTmp);
+            if (empty($fieldValue))
+                $arr[] = $lang;
+        }
+        if (!empty($arr)) {
+            $res .= '&nbsp;&nbsp;&nbsp;<span class="text-danger"><i class="ace-icon fa fa-exclamation-triangle"></i> Не переведено на ['.implode('], [', $arr).']</span>';
+        }
+
         return $res;
     }
 

@@ -34,7 +34,8 @@ $res = array(
         ),
         'request' => array(
             'class' => 'application.components.HttpRequest',
-            'baseUrl' => $params['baseUrl']
+            'baseUrl' => $params['baseUrl'],
+            'enableCsrfValidation' => true,     // Включаем CSRF защиту для форм
         ),
         'urlManager' => array(
             'class' => 'application.components.UrlManager',
@@ -42,6 +43,7 @@ $res = array(
             'urlSuffix' => '/',
             'showScriptName' => false,
             'rules' => array(),
+            'useStrictParsing' => true,         // Запрещаем обращаться к контроллерам напрямую, только через route
         ),
         'db' => array(
             'connectionString' => 'mysql:host=' . $params['dbHost'] . ';dbname=' . $params['dbName'],
@@ -62,7 +64,7 @@ $res = array(
             'class' => 'CDbHttpSession',
             'autoCreateSessionTable' => true,
             'connectionID' => 'db',
-            'timeout' => 300,       // 5 minutes
+            'timeout' => 3600,       // 60 minutes
             'gcProbability' => 100,
         ),
         'viewRenderer' => array(
@@ -114,10 +116,12 @@ $res = array(
                     'class' => 'CFileLogRoute',
                     'levels' => 'error, warning',
                 ),
-                // uncomment the following to show log messages on web pages
-                /*array(
-                    'class'=>'CWebLogRoute',
-                ),*/
+                array(
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning',
+                    'categories' => 'admin.*',
+                    'logFile' => 'admin.log'
+                ),
             ),
         ),
         'localConfig' => array(
@@ -158,6 +162,7 @@ $res['components']['urlManager']['rules'] = array(
     '/'                                         => 'site/index',
 
     // Admin
+    'admin/<action:\w+>/'                       => 'admin/admin/<action>',
     'admin/'                                    => 'admin',
     'admin/<module:\w+>/'                       => '<module>',
     'admin/<module:\w+>/<controller:\w+>/'      => '<module>/admin<controller>',

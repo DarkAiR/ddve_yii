@@ -12,13 +12,18 @@ class Articles extends CActiveRecord
         return parent::model($className);
     }
 
+    public function tableName()
+    {
+        return 'articles';
+    }
+
     public function behaviors()
     {
         return array(
             'languageBehavior' => array(
                 'class'                 => 'application.behaviors.MultilingualBehavior',
                 'langClassName'         => 'ArticlesLang',
-                'langTableName'         => 'Articles_lang',
+                'langTableName'         => 'articles_lang',
                 'langForeignKey'        => 'articleId',
                 'localizedAttributes'   => array('title', 'text'),
                 'languages'             => Yii::app()->params['languages'],

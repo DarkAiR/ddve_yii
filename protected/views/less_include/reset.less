@@ -50,24 +50,24 @@ p:nth-last-child(1) {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    .font(@mainFont);
-    padding: 0px;
-    margin: 0px;
+    .font(@headerFont) !important;
+    padding: 0px !important;
+    margin: 0px !important;
 }
 h1, h2 {
-    .font-size(@mainFontHeaderSize);
+    .font-size(@headerFontSize) !important;
 }
 h3 {
-    .font-size(@mainFontHeaderSize*0.9);
+    .font-size(@headerFontSize*0.9) !important;
 }
 h4 {
-    .font-size(@mainFontHeaderSize*0.8);
+    .font-size(@headerFontSize*0.8) !important;
 }
 h5 {
-    .font-size(@mainFontHeaderSize*0.7);
+    .font-size(@headerFontSize*0.7) !important;
 }
 h6 {
-    .font-size(@mainFontHeaderSize*0.1);
+    .font-size(@headerFontSize*0.1) !important;
 }
 
 table {

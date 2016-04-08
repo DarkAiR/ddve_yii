@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--meta viewport="width=device-width"-->
 
-    <link rel="shortcut icon" href="/img/icons/favicon.ico" />
-    <link rel="icon" type="image/png" href="/img/icons/favicon.png" />
-    <!--link rel="apple-touch-icon-precomposed" sizes="152x152" href="/img/icons/icon152.png">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/icons/icon144.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/img/icons/icon120.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/icons/icon114.png" />   {# Иконка для iPhone #}
-    <link rel="apple-touch-icon-precomposed" sizes="72x72"   href="/img/icons/icon72.png"/ >    {# Иконка для iPad #}
-    <link rel="apple-touch-icon-precomposed" href="/img/icons/icon57.png" /-->                    {# Обычная иконка 57x57 #}
+    <link rel="shortcut icon" href="{{ App.baseUrl }}/img/icons/favicon.ico" />
+    <link rel="icon" type="image/png" href="{{ App.baseUrl }}/img/icons/favicon.png" />
+    <!--link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ App.baseUrl }}/img/icons/icon152.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ App.baseUrl }}/img/icons/icon144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{{ App.baseUrl }}/img/icons/icon120.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ App.baseUrl }}/img/icons/icon114.png" />   {# Иконка для iPhone #}
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"   href="{{ App.baseUrl }}/img/icons/icon72.png"/ >    {# Иконка для iPad #}
+    <link rel="apple-touch-icon-precomposed" href="{{ App.baseUrl }}/img/icons/icon57.png" /-->                    {# Обычная иконка 57x57 #}
 
     <meta http-equiv="cleartype" content="on">                  {# Принудительное сглаживание шрифтов для Mobile IE #}
     <meta name="format-detection" content="telephone=no">       {# Отключаем распознавание телефона #}
@@ -36,8 +36,15 @@
     {% block bodyStart %}
     {% endblock %}
 
-    {% block content %}
-    {% endblock %}
+    <div class='hidden-print'>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class='visible-print'>
+        {% block print %}
+        {% endblock %}
+    </div>
 
     {% block bodyEnd %}
     {% endblock %}

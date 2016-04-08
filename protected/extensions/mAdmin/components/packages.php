@@ -137,4 +137,10 @@ return array(
     //     'baseUrl' => $this->enableCdn ? '//code.highcharts.com' : $this->getAssetsUrl() . '/highcharts',
     //     'js' => array($this->minify ? 'highcharts.js' : 'highcharts.src.js')
     // ),
+
+    'translate' => array(
+        'baseUrl' => $this->getAssetsUrl(),
+        'js' => array('js/translate.js'),
+        'depends' => array('jquery', 'bootstrap')
+    ),
 );

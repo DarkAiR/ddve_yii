@@ -10,6 +10,7 @@ class CurlHelper
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_CONNECTTIMEOUT => 5,
             CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
         );
     }
 
