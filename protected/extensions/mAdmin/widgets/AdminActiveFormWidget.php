@@ -213,6 +213,48 @@ class AdminActiveFormWidget extends CActiveForm
         return CHtml::tag('label', $htmlOptions, $data[$model->$attribute]);
     }
 
+    /**
+     * Generates an static array field
+     */
+    public function staticArrayRow($model, $attribute, $htmlOptions = array(), $rowOptions = array())
+    {
+        $this->initRowOptions($rowOptions);
+        $rowOptions['label'] = '<strong>'.$model->getAttributeLabel($attribute).'</strong>';
+        $fieldData = array(array($this, 'staticArray'), array($model, $attribute, $htmlOptions));
+        return $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
+    }
+    public function staticArray($model,$attribute,$htmlOptions=array())
+    {
+        $this->addCssClass($htmlOptions, 'control-label');
+        $res = '';
+        foreach ($model->$attribute as $value) {
+            $res .= CHtml::tag('label', $htmlOptions, $value) . CHtml::tag('br');
+        }
+        return $res;
+    }
+
+    /**
+     * Generates an files list field
+     */
+    public function filesListRow($model, $attribute, $htmlOptions = array(), $rowOptions = array())
+    {
+        $this->initRowOptions($rowOptions);
+        $rowOptions['label'] = '<strong>'.$model->getAttributeLabel($attribute).'</strong>';
+        $fieldData = array(array($this, 'filesList'), array($model, $attribute, $htmlOptions));
+        return $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
+    }
+    public function filesList($model,$attribute,$htmlOptions=array())
+    {
+        $this->addCssClass($htmlOptions, 'control-label');
+        $res = '';
+        foreach ($model->$attribute as $value) {
+            $path = method_exists($model, 'getStoreWebPath') ? $model->getStoreWebPath() : '';
+            $htmlOptions = array_merge($htmlOptions, array('target' => '_blank'));
+            $res .= CHtml::link($value, $path.$value, $htmlOptions) . CHtml::tag('br');
+        }
+        return $res;
+    }
+
 
     /**
      * Generates a url field row for a model attribute.

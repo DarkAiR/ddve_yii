@@ -19,8 +19,12 @@
                 {% set options = element['htmlOptions'] ? element['htmlOptions'] : [] %}
 
                 {% if element['type'] != 'hidden' %}
-                    {% if element['data'] is defined %}
+                    {% if element['type'] == 'filesListField' %}
+                        {{ attribute(form, 'filesListRow', [ model, attributeName, options ])|raw }}
+                    {% elseif element['data'] is defined %}
                         {{ attribute(form, 'staticListValueRow', [ model, attributeName, element['data'], options ])|raw }}
+                    {% elseif model[attributeName] is iterable %}
+                        {{ attribute(form, 'staticArrayRow', [ model, attributeName, options ])|raw }}
                     {% else %}
                         {{ attribute(form, 'staticTextRow', [ model, attributeName, options ])|raw }}
                     {% endif %}

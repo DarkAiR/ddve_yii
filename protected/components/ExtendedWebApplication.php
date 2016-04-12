@@ -33,6 +33,8 @@ class ExtendedWebApplication extends CWebApplication
                 print_r($error);
                 debug_print_backtrace();
             }
+            if (Yii::app()->request->isAjaxRequest)
+                http_response_code($errno);
         }
     }
 
