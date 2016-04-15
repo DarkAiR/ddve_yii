@@ -66,11 +66,14 @@ class Controller extends CController
     /**
      * Заполняем breadcrumbs
      */
-    public function setBreadcrumbs($links)
+    public function setBreadcrumbs($links, $useHomeLink = true)
     {
-        $this->breadcrumbs = array_merge(array(Yii::t('app','Главная') => Yii::app()->homeUrl), $links);
-        //$this->breadcrumbs = count($links)
-        //    ? array_merge(array(''), $links)
-        //    : $links;
+        if ($useHomeLink) {
+            $this->breadcrumbs = array_merge(array(
+                Yii::t('app', 'Главная') => Yii::app()->homeUrl
+            ), $links);
+        } else {
+            $this->breadcrumbs = $links;
+        }
     }
 }

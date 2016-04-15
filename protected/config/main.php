@@ -3,8 +3,9 @@
 Yii::setPathOfAlias('lib', realpath(__DIR__ . '/../../lib'));
 
 $params = @include 'params.php';
-if (!$params)
-    $params = require 'params-global.php';
+if (empty($params)) {
+    $params = include 'params-global.php';
+}
 
 $res = array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
@@ -115,6 +116,7 @@ $res = array(
                 array(
                     'class' => 'CFileLogRoute',
                     'levels' => 'error, warning',
+                    'categories' => 'application'
                 ),
                 array(
                     'class' => 'CFileLogRoute',
@@ -157,14 +159,15 @@ $langPrefix = '<language:('. implode('|', $langArr) .')>';
 $res['sourceLanguage'] = 'ru';
 $res['language'] = $langArr[0];
 
+// NOTE: в правилах сперва должен идти роут без action, чтобы преобразования <module>/<contoller>/index давали простые урлы
+
 $res['components']['urlManager']['rules'] = array(
     $langPrefix.'/'                             => 'site/index',
     '/'                                         => 'site/index',
 
     // Admin
-    'admin/<action:\w+>/'                       => 'admin/admin/<action>',
+    'admin/<action:\w+>/'                       => 'admin/admin/<action>',      // Обработка ошибок
     'admin/'                                    => 'admin',
-    'admin/<module:\w+>/'                       => '<module>',
     'admin/<module:\w+>/<controller:\w+>/'      => '<module>/admin<controller>',
     'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',
 );

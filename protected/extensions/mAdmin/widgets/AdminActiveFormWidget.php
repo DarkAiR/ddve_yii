@@ -243,7 +243,7 @@ class AdminActiveFormWidget extends CActiveForm
         $fieldData = array(array($this, 'filesList'), array($model, $attribute, $htmlOptions));
         return $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
     }
-    public function filesList($model,$attribute,$htmlOptions=array())
+    public function filesList($model, $attribute, $htmlOptions=array())
     {
         $this->addCssClass($htmlOptions, 'control-label');
         $res = '';
