@@ -1,7 +1,5 @@
 @base: '../../extensions/mAdmin/assets/css/less/';
 
-//@import (once) '../less_include/custom_variables.less';       // Нет необходимости подключать
-
 
 //----------------------------------------------
 // Global section
@@ -47,7 +45,8 @@
     @import (less) "../../extensions/mAdmin/assets/css/font-awesome.css";
 
     @import "../less_include/ace/ace-features.less";
-    @import "../less_include/ace/variables.less";//there are also some variables on top of some other less files
+    @import "../less_include/ace/variables.less";
+    @import '../less_include/custom_variables.less';       // Обязательно подключать, иначе съедут переменные
     @import "@{base}mixins.less";
 
     //@import "@{base}ace-extra.less";
@@ -56,7 +55,7 @@
 //    @import "@{base}general.less";//includes general basic styling of page
     @import "@{base}basic.less";//includes styling of some elements such as pagination, etc
     @import "@{base}utility.less";//includes some utility classes such as headers, colors, font sizing, etc
-//    @import "@{base}ace-nav.less";//ace top navigation
+    @import "@{base}ace-nav.less";//ace top navigation
 
 //    @import "@{base}sidebar.less";
     //@import "@{base}sidebar/ff_fix.less";//some firefox navbar and sidebar flicker fix

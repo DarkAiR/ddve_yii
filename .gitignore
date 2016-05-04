@@ -11,6 +11,3 @@ data/*
 .htpasswd
 *.txt
 composer.lock
-
-
-koala-config.json

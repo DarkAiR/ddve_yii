@@ -127,6 +127,8 @@ class MAdminController extends CExtController
         $model = $createNew
             ? new $this->modelName()
             : $this->loadModel();
+        if (!$model)
+            throw new CHttpException(404);
 
         if (isset($_POST[$this->modelName])) {
             foreach ($_POST[$this->modelName] as &$postValue) {
@@ -205,6 +207,8 @@ class MAdminController extends CExtController
     public function actionView()
     {
         $model = $this->loadModel();
+        if (!$model)
+            throw new CHttpException(404);
         $this->render(
             'crud/view',
             array(
@@ -267,7 +271,10 @@ class MAdminController extends CExtController
             throw new CHttpException(400);
 
         // we only allow deletion via POST request
-        $this->loadModel()->delete();
+        $model = $this->loadModel();
+        if (!$model)
+            throw new CHttpException(404);
+        $model->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
@@ -291,7 +298,7 @@ class MAdminController extends CExtController
         $id = Yii::app()->request->getQuery('id');
         $model = $id ? CActiveRecord::model($this->modelName)->findbyPk($id) : null;
         if ($model === null)
-            throw new CHttpException(404);
+            return false;
         return $model;
     }
 
@@ -338,6 +345,10 @@ class MAdminController extends CExtController
 
     private function addTranslateButton($fieldName)
     {
+        $model = $this->loadModel();
+        if (!$model)
+            return;
+
         $res = '';
 
         // Добавляем кнопку перевода
@@ -353,9 +364,7 @@ class MAdminController extends CExtController
         $js = "$('#{$translateBtnId}').translate({$options});";
         Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$translateBtnId, $js);
 
-
         // Проверяем, на какие языки не перевели
-        $model = $this->loadModel();
         $arr = array();
         foreach (Yii::app()->params['languages'] as $lang => $langName) {
             if ($lang == Yii::app()->sourceLanguage)
@@ -368,7 +377,6 @@ class MAdminController extends CExtController
         if (!empty($arr)) {
             $res .= '&nbsp;&nbsp;&nbsp;<span class="text-danger"><i class="ace-icon fa fa-exclamation-triangle"></i> Не переведено на ['.implode('], [', $arr).']</span>';
         }
-
         return $res;
     }
 

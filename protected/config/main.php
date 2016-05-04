@@ -165,6 +165,11 @@ $res['components']['urlManager']['rules'] = array(
     $langPrefix.'/'                             => 'site/index',
     '/'                                         => 'site/index',
 
+    $langPrefix.'/login/'                       => 'site/login',
+    'login/'                                    => 'site/login',
+    $langPrefix.'/logout/'                      => 'site/logout',
+    'logout/'                                   => 'site/logout',
+
     // Admin
     'admin/<action:\w+>/'                       => 'admin/admin/<action>',      // Обработка ошибок
     'admin/'                                    => 'admin',

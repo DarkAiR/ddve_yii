@@ -1,24 +1,6 @@
-@import '../../extensions/mAdmin/assets/css/less/bootstrap/variables';
-@import '../less_include/custom_variables';
-@import '../less_include/fonts';
-//@import '../less_include/links';
-@import '../less_include/animation';
-@import '../less_include/mixin';
-//@import '../less_include/reset';
-
-// ------------------------------------------------------
-
-/* Главная разметка */
-html,
-body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    .font(@mainFont);
-}
-
-body, table {
-    .font-size(@mainFontSize);
-    color: @colorText;
-    background-color: @mainBg;
-}
+@import '../../extensions/mAdmin/assets/css/less/bootstrap/variables.less';
+@import '../less_include/custom_variables.less';
+@import '../less_include/fonts.less';
+@import '../less_include/animation.less';
+@import '../less_include/mixin.less';
+@import '../less_include/reset.less';

@@ -1,20 +1,46 @@
 @import (reference) '../../../views/less/custom';
 
 .language-widget {
+    @headerMainMenuSmallLineHeight: 20px;
+    @headerMainMenuSmallHeight:     30px;
+
+    height: @headerMainMenuSmallHeight;
+    line-height: @headerMainMenuSmallHeight;
+    margin-left: @smallPadding;
+
+    @media (max-width: 767px) {
+        margin-top: @smallPadding;
+    }
+
     a {
         text-transform: uppercase;
     }
-    ul {
 
+    .current {
+        border-left: 1px solid @grey;
+        padding-left: @middlePadding;
+        padding-right: @middlePadding;
+        cursor: pointer;
+        white-space: nowrap;
+
+        color: @colorLink;
+        &:hover {
+            color: @colorLinkHover;
+        }
+
+        .value {
+        }
+        .caret {
+            margin-top: -4px;
+        }
     }
-    li {
-        @padd: 25px;
-
-        padding-left: @padd;
-
-        background: url(../../img/sep-r.gif) (@padd - 9px)/2 15px no-repeat;
-        &:nth-child(1) {
-            background: transparent;
+    .dropdown {
+        display: none;
+        border: 1px solid @grey;
+        text-align: center;
+        margin: 0 @smallPadding;
+        a {
+            display: block;
         }
     }
 }

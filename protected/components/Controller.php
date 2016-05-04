@@ -26,6 +26,9 @@ class Controller extends CController
 
     public function init()
     {    
+        // Регистрируем все необходимые скрипты
+        Yii::app()->getClientScript()->registerCoreScript('jquery');
+
         // Принудительно ставим язык в GET параметры и для всего сайта
         if (empty($_GET['language']))
             $_GET['language'] = Yii::app()->sourceLanguage;

@@ -13,6 +13,12 @@
         'htmlOptions' : {'enctype' : 'multipart/form-data'},
     }) %}
         {% import 'crud/form.twig' as formHelper %}
+
+        <div class='hr hr-16'></div>
+        <div class='text-warning'>
+            {{ form.errorSummary(model, null, null, {'class':'errorMessage'})|raw }}
+        </div>
+
         {{ formHelper.editForm(model, form, editFormElements) }}
 
         <div class="form-actions">

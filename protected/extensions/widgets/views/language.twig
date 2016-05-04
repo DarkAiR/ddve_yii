@@ -1,9 +1,25 @@
 {{ import('css','language.css','ext.widgets.css') }}
 
-<div class='language-widget  hmenu'>
-    <ul>
-    {% for lang,name in languages %}
-        <li><a href="{{ link({'0':'/site/index', 'language':lang}) }}">{{ lang }}</a></li>
-    {% endfor %}
-    </ul>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var $currentVal = $('.language-widget.{{_uniqId}} #js-current-val');
+        var $dropdown = $('.language-widget.{{_uniqId}} #js-dropdown');
+
+        $currentVal.click(function() {
+            $dropdown.toggle();
+            return true;
+        });
+    });
+</script>
+
+<div class='language-widget {{_uniqId}}'>
+    <div class='current' id='js-current-val'>
+        <span class='value'>{{ currentLang|upper }}</span>&nbsp;<i class='caret'></i>
+    </div>
+
+    <div class='dropdown' id='js-dropdown'>
+        {% for lang,url in languages %}
+            <a href="{{url|raw}}">{{ lang|upper }}</a>
+        {% endfor %}
+    </div>
 </div>
