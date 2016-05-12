@@ -8,14 +8,8 @@ class LocalConfigHelper
     public static function parseText($text)
     {
         $search = array(
-            '%PHONE%',
-            '%FAX%',
-            '%EMAIL%',
         );
         $replace = array(
-            Yii::app()->localConfig->getConfig('contact-info.phone', true),
-            Yii::app()->localConfig->getConfig('contact-info.fax', true),
-            Yii::app()->localConfig->getConfig('contact-info.email'),
         );
         return str_replace($search, $replace, $text);
     }

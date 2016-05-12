@@ -10,7 +10,7 @@
         {% for id, value in array %}
 {#
             {% if not fixed %}
-                <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>
+                <a class="btn btn-sm no-border removeArrayRow" title='Удалить' href="#"><i class='fa fa-minus'></i></a>
             {% endif %}
 #}
             <tr class="arrayRow">
@@ -30,7 +30,7 @@
 
 {#
         {% if not fixed %}
-            <div class="arrayRow"><a class="btn addRow" title='Добавить' href="#"><i class='icon-plus'></i></a></div>
+            <div class="arrayRow"><a class="btn btn-sm no-border addRow" title='Добавить' href="#"><i class='fa fa-plus'></i></a></div>
             <script type="text/javascript">
                 $(document).ready(function() {
                     $('div.arrayWidget').delegate('a.removeArrayRow', 'click', function() {
@@ -54,7 +54,7 @@
                 <div class="arrayRow">
                     <input type="text" value="" name="" class="value-id" newname="{{modelClass}}[{{attributeName}}]">
                     <input type="text" value="" name="{{modelClass}}[{{attributeName}}][{{id}}]">
-                    <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>
+                    <a class="btn btn-sm no-border removeArrayRow" title='Удалить' href="#"><i class='fa fa-minus'></i></a>
                 </div>
             </div>
         {% endif %}

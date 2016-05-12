@@ -1,5 +1,7 @@
 <?php
 
+Yii::import('ext.localConfig.*');
+
 class AdminLocalConfigController extends MAdminController
 {
     public $modelName = 'LocalConfigItem';
@@ -94,8 +96,8 @@ class AdminLocalConfigController extends MAdminController
     public function getTableColumns()
     {
         $attributes = array(
-            'name',
             'module',
+            'name',
             array(
                 'name' => 'value',
                 'value' => function($data, $row) {

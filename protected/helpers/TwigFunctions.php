@@ -154,7 +154,17 @@ class TwigFunctions
             return '';
         return date($format, $ts);
     }
-    
+
+    public static function filterFormatDateTime($string)
+    {
+        return DateHelper::formatDateTime($string);
+    }
+
+    public static function filterFormatMonthYear($string)
+    {
+        return DateHelper::formatMonthYear($string);
+    }
+
     public static function filterTranslit($st)
     {
         // Сначала заменяем "односимвольные" фонемы.

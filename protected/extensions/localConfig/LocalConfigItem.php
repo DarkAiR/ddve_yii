@@ -88,7 +88,17 @@ class LocalConfigItem extends CActiveRecord
                 ':module' => $name,
             )
         ));
+        return $this;
+    }
 
+    public function byName($name='')
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'name = :name',
+            'params' => array(
+                ':name' => $name,
+            )
+        ));
         return $this;
     }
 

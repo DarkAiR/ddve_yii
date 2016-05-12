@@ -21,6 +21,7 @@ $res = array(
         'lib.ImageHelper.*',
         'ext.mAdmin.*',
         'ext.YiiMailer.YiiMailer',
+        'ext.localConfig.*',
     ),
     'modules' => array(
         'admin',
@@ -98,6 +99,8 @@ $res = array(
                 'fixSkype'                  => 'TwigFunctions::filterFixSkype',
 
                 'date'                      => 'TwigFunctions::filterDate',                     // date from timestamp
+                'formatDateTime'            => 'TwigFunctions::filterFormatDateTime',
+                'formatMonthYear'           => 'TwigFunctions::filterFormatMonthYear',
             ),
         ),
         'adminComponent' => array(

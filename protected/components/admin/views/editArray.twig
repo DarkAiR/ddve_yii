@@ -9,7 +9,7 @@
                 <div class="arrayRow">
                     <input type="text" value="{{value}}" name="{{modelClass}}[{{attributeName}}][]">
                     {% if not fixed %}
-                        <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>
+                        <a class="btn btn-sm no-border removeArrayRow" title='Удалить' href="#"><i class='fa fa-minus'></i></a>
                     {% endif %}
                 </div>
             {% endfor %}
@@ -18,13 +18,13 @@
                 <div class="arrayRow">
                     <input type="text" value="{{id}}" name="" class="value-id" newname="{{modelClass}}[{{attributeName}}]">
                     <input type="text" value="{{value}}" name="{{modelClass}}[{{attributeName}}][{{id}}]">
-                    {% if not fixed %}<a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>{% endif %}
+                    {% if not fixed %}<a class="btn btn-sm no-border removeArrayRow" title='Удалить' href="#"><i class='fa fa-minus'></i></a>{% endif %}
                 </div>
             {% endfor %}
         {% endif %}
 
         {% if not fixed %}
-            <div class="arrayRow"><a class="btn addRow" title='Добавить' href="#"><i class='icon-plus'></i></a></div>
+            <div class="arrayRow"><a class="btn btn-sm no-border addRow" title='Добавить' href="#"><i class='fa fa-plus'></i></a></div>
             <script type="text/javascript">
                 $(document).ready(function() {
                     $('div.arrayWidget').delegate('a.removeArrayRow', 'click', function() {
@@ -46,14 +46,14 @@
             </script>
             {% if numeric %}
             <div class="rowSample" style="display: none;">
-                <div class="arrayRow"><input type="text" value="" name="{{modelClass}}[{{attributeName}}][]"> <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a></div>
+                <div class="arrayRow"><input type="text" value="" name="{{modelClass}}[{{attributeName}}][]"> <a class="btn btn-sm no-border removeArrayRow" title='Удалить' href="#"><i class='fa fa-minus'></i></a></div>
             </div>
             {% else %}
             <div class="rowSample" style="display: none;">
                 <div class="arrayRow">
                     <input type="text" value="" name="" class="value-id" newname="{{modelClass}}[{{attributeName}}]">
                     <input type="text" value="" name="{{modelClass}}[{{attributeName}}][{{id}}]">
-                    <a class="btn removeArrayRow" title='Удалить' href="#"><i class='icon-minus'></i></a>
+                    <a class="btn btn-sm no-border removeArrayRow" title='Удалить' href="#"><i class='fa fa-minus'></i></a>
                 </div>
             </div>
             {% endif %}
