@@ -10,3 +10,6 @@
 [submodule "lib/twig"]
 	path = lib/twig
 	url = git://github.com/fabpot/Twig.git
+[submodule "protected/extensions/consoleLog"]
+	path = protected/extensions/consoleLog
+	url = git@github.com:DarkAiR/ConsoleLog.git
