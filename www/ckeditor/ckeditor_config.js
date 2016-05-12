@@ -46,8 +46,12 @@ CKEDITOR.config.pasteFromWordRemoveStyles = true;
 CKEDITOR.config.pasteFromWordRemoveFontStyles = true;
 
 // Block all custom styles in CKEditor
-CKEDITOR.addStylesSet( 'default', [
+CKEDITOR.stylesSet.add( 'default', [
 ]);
+
+
+// Задается в crud/form.twig
+//CKEDITOR.config.contentsCss = '';
 
 // get path of directory ckeditor
 var basePath = CKEDITOR.basePath;

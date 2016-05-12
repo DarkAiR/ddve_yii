@@ -1,5 +1,5 @@
-@import (reference) '../less_include/custom_variables';
-@import (reference) '../less_include/fonts';
+@import (reference) '../less_include/custom_variables.less';
+@import (reference) '../less_include/fonts.less';
 
 /* Главная разметка */
 html,
@@ -11,7 +11,7 @@ body {
 }
 
 body, table {
-    .font-size(@mainFontSize);
+    .font-size-responsive(@mainFontSize, @mainFontSmallSize);
     color: @colorText;
     background-color: @mainBg;
 }
@@ -55,19 +55,19 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0px !important;
 }
 h1, h2 {
-    .font-size(@headerFontSize) !important;
+    .font-size-responsive(@headerFontSize, @headerFontSmallSize, '!important');
 }
 h3 {
-    .font-size(@headerFontSize*0.9) !important;
+    .font-size-responsive(@headerFontSize*0.9, @headerFontSmallSize*0.9, '!important');
 }
 h4 {
-    .font-size(@headerFontSize*0.8) !important;
+    .font-size-responsive(@headerFontSize*0.8, @headerFontSmallSize*0.8, '!important');
 }
 h5 {
-    .font-size(@headerFontSize*0.7) !important;
+    .font-size-responsive(@headerFontSize*0.7, @headerFontSmallSize*0.7, '!important');
 }
 h6 {
-    .font-size(@headerFontSize*0.1) !important;
+    .font-size-responsive(@headerFontSize*0.1, @headerFontSmallSize*0.1, '!important');
 }
 
 table {
@@ -119,4 +119,44 @@ li {
 
 *:focus {
     outline: none;
+}
+
+// Вертикальные отступы
+.space-small {
+    min-height: 1px;
+    max-height: 1px;
+    overflow: hidden;
+    margin: 0;
+    margin-top: @smallPadding - 1;
+}
+.space-middle {
+    min-height: 1px;
+    max-height: 1px;
+    overflow: hidden;
+    margin: 0;
+    margin-top: @middlePadding - 1;
+}
+.space-big {
+    min-height: 1px;
+    max-height: 1px;
+    overflow: hidden;
+    margin: 0;
+    margin-top: @bigPadding - 1;
+}
+
+// Горизонтальные отступы
+.hspace-small {
+    min-width: @smallPadding;
+    max-width: @smallPadding;
+    width: @smallPadding;
+}
+.hspace-middle {
+    min-width: @middlePadding;
+    max-width: @middlePadding;
+    width: @middlePadding;
+}
+.hspace-big {
+    min-width: @bigPadding;
+    max-width: @bigPadding;
+    width: @bigPadding;
 }

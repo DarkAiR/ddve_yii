@@ -38,7 +38,7 @@ $_CONFIG = array(
     'jpegQuality' => 90,
     'thumbsDir' => ".thumbs",
 
-    'maxImageWidth' => 966,         // Site common width
+    'maxImageWidth' => 0,         // 966 Site common width
     'maxImageHeight' => 0,
 
     'thumbWidth' => 100,

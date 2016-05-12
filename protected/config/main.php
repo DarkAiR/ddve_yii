@@ -2,9 +2,10 @@
 
 Yii::setPathOfAlias('lib', realpath(__DIR__ . '/../../lib'));
 
-$params = @include 'params.php';
-if (empty($params)) {
-    $params = include 'params-global.php';
+if (is_file('../protected/config/params.php')) {
+    $params = include '../protected/config/params.php';
+} else {
+    $params = include '../protected/config/params-global.php';
 }
 
 $res = array(
@@ -25,7 +26,6 @@ $res = array(
         'admin',
         'sitemenu',
         'contentBlocks',
-        'articles',
     ),
     'components' => array(
         'user' => array(

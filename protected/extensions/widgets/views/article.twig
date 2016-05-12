@@ -1,8 +1,0 @@
-{{ import('css','article.css','ext.widgets.css') }}
-
-<div class='article-widget'>
-    {% if article.title %}
-        <div class='article-title'>{{ article.title|raw }}</div>
-    {% endif %}
-    <div class='article-text'>{{ article.text|raw }}</div>
-</div>

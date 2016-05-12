@@ -2,7 +2,8 @@
 
 <div class='content-block-widget'>
     {% if showTitle and contentBlock.title %}
-        <div class='content-block-title'>{{ contentBlock.title|raw }}</div>
+        <h2>{{ contentBlock.title|raw }}</h2>
+        <div class='space-12'></div>
     {% endif %}
     <div class='content-block-text'>{{ contentBlock.text|raw }}</div>
 </div>

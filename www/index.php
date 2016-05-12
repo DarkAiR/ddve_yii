@@ -1,7 +1,9 @@
 <?php
-$params = @include dirname(__FILE__) . '/../protected/config/params.php';
-if (!$params)
-    $params = require dirname(__FILE__) . '/../protected/config/params-global.php';
+if (is_file(dirname(__FILE__) . '/../protected/config/params.php')) {
+    $params = include dirname(__FILE__) . '/../protected/config/params.php';
+} else {
+    $params = include dirname(__FILE__) . '/../protected/config/params-global.php';
+}
 
 defined('YII_DEBUG') or define('YII_DEBUG', $params['yiiDebug']);
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', 3);

@@ -108,7 +108,11 @@ class uploader {
             $this->file = &$_FILES[key($_FILES)];
 
         // LOAD DEFAULT CONFIGURATION
-        require "conf/config.php";
+        if (is_readable('conf/config-local.php')) {
+            require "conf/config-local.php";
+        } else {
+            require "conf/config.php";
+        }
 
         // SETTING UP SESSION
         if (!session_id()) {

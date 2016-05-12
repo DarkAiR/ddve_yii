@@ -36,21 +36,71 @@
 }
 
 
+// Responsive sizes
+.font-size-responsive(@mainSize, @smallSize, @important:'') {
+    @smallSz: ceil(@smallSize);
+    @mainSz: ceil(@mainSize);
+    @lineHeightCoeff: @smallSz / @mainSz;
+
+    font-size: ~"@{smallSz}px" ~"@{important}";
+    @media (min-width: @screen-xs-min) {
+        font-size: ~"@{mainSz}px" ~"@{important}";
+    }    
+    line-height: 1 ~"@{important}";
+
+    .iter(length(@fonts));
+    .iter(@i) when (@i > 0) {
+        .iter(@i - 1);
+        @pair:  extract(@fonts, @i); 
+        @key:   extract(@pair, 1);
+        @value: extract(@pair, 2); 
+
+        & when (@key = @mainSz) {
+            line-height: ceil(@value * @lineHeightCoeff) ~"@{important}";
+            @media (min-width: @screen-xs-min) {
+                line-height: @value ~"@{important}";
+            }
+        };
+    }
+}
+
+
 // FiraSans
 .font(FiraSans) {
-    font-family: 'fira_sansregular', Helvetica, Arial, sans-serif;
-}
-.font(FiraSans, '') {
-    font-family: 'fira_sansregular', Helvetica, Arial, sans-serif;
+    font-family: 'Fira Sans', sans-serif;
 }
 .font(FiraSans, light) {
-    font-family: 'fira_sans_lightregular', Helvetica, Arial, sans-serif;
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: 300;
 }
+
+
+// OpenSans
+.font(OpenSans) {
+    font-family: 'Open Sans', sans-serif;
+}
+.font(OpenSans, light) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+.font(OpenSans, semibold) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+}
+.font(OpenSans, bold) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+}
+
+
+
+
 
 // FTY Varoge
 .font(FTY_Varoge) {
     font-family: 'FTYVarogeSaroNoestNCV', Helvetica, Arial, sans-serif;
 }
+
 
 // Helvetica
 .font(Helvetica) {
@@ -68,18 +118,14 @@
     font-family: 'gotham_pro_narrowmedium', Helvetica, Arial, sans-serif;
 }
 
-// OpenSans
-.font(OpenSans) {
-    font-family: 'open_sansregular', sans-serif;
-}
-.font(OpenSans, italic) {
-    font-family: 'open_sansitalic', sans-serif;
-}
-.font(OpenSans, semibold) {
-    font-family: 'open_sanssemibold', sans-serif;
-}
 
 // PtSans
 .font(PtSans) {
-    font-family: 'PT Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    font-family: 'PTSansRegular', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+.font(PtSans, italic) {
+    font-family: 'PTSansItalic', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+.font(PtSans, bold) {
+    font-family: 'PTSansBold', Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }

@@ -1,4 +1,6 @@
 /protected/config/params.php
+log/
+log/*
 gfx/
 gfx/*
 data/
@@ -11,3 +13,6 @@ data/*
 .htpasswd
 *.txt
 composer.lock
+
+
+koala-config.json

@@ -241,8 +241,11 @@ class MAdminController extends CExtController
         $columnsArr = $this->getTableColumns();
         $columns = array();
         foreach ($columnsArr as $c) {
-            if (!is_array($c)  &&  !in_array($c, $attributes)) {
-                $columns[] = array('name'=>$c, 'filter'=>false);
+            if (!is_array($c)) {
+                if (!in_array($c, $attributes))
+                    $columns[] = array('name'=>$c, 'filter'=>false);
+                else
+                    $columns[] = array('name'=>$c);
             } elseif (isset($c['value']) && $c['value'] instanceof Closure) {
                 $c['filter'] = false;
                 $columns[] = $c;
