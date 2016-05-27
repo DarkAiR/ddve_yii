@@ -99,6 +99,8 @@ $res = array(
                 'fixSkype'                  => 'TwigFunctions::filterFixSkype',
 
                 'date'                      => 'TwigFunctions::filterDate',                     // date from timestamp
+                'formatDate'                => 'TwigFunctions::filterFormatDate',
+                'formatTime'                => 'TwigFunctions::filterFormatTime',
                 'formatDateTime'            => 'TwigFunctions::filterFormatDateTime',
                 'formatMonthYear'           => 'TwigFunctions::filterFormatMonthYear',
             ),

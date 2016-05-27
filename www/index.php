@@ -1,5 +1,5 @@
 <?php
-if (is_file(dirname(__FILE__) . '/../protected/config/params.php')) {
+if (is_readable(dirname(__FILE__) . '/../protected/config/params.php')) {
     $params = include dirname(__FILE__) . '/../protected/config/params.php';
 } else {
     $params = include dirname(__FILE__) . '/../protected/config/params-global.php';

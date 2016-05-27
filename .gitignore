@@ -12,6 +12,7 @@ data/*
 .htaccess
 .htpasswd
 *.txt
+/protected/vendor/*
 composer.lock
 
 

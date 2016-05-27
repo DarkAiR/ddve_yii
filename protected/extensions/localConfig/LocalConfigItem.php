@@ -107,65 +107,51 @@ class LocalConfigItem extends CActiveRecord
         return json_decode($this->example, true);
     }
 
+    public static function checkReturnValue($type, $value)
+    {
+        switch ($type) {
+//          case self::TYPE_FIXEDARRAY:
+            case self::TYPE_DYNAMICARRAY:
+//          case self::TYPE_TWOPOWARRAY:
+                $this->value = json_decode($this->value, true);
+                break;
+            case self::TYPE_BOOL:               $value = (bool)$value;      break;
+            case self::TYPE_INT:                $value = (int)$value;       break;
+            case self::TYPE_STRING:             $value = (string)$value;    break;
+            case self::TYPE_MULTILINESTRING:    $value = (string)$value;    break;
+//          case self::TYPE_FILE:               $value = (string)$value;    break;
+        }
+        return $value;
+    }
+
+    public static function convertToOriginalType($type, $value)
+    {
+        switch ($type) {
+//          case self::TYPE_FIXEDARRAY:
+            case self::TYPE_DYNAMICARRAY:
+//          case self::TYPE_TWOPOWARRAY:
+                $value = json_encode($value);
+                break;
+            case self::TYPE_BOOL:               $value = $value ? '1' : '0';    break;
+            case self::TYPE_INT:                $value = (string)$value;        break;
+            case self::TYPE_STRING:             $value = (string)$value;        break;
+            case self::TYPE_MULTILINESTRING:    $value = (string)$value;        break;
+//          case self::TYPE_FILE:               $value = (string)$value;        break;
+        }
+        return $value;
+    }
+
     protected function afterFind()
     {
         parent::afterFind();
 
-        if (in_array($this->type, array(self::TYPE_FIXEDARRAY, self::TYPE_DYNAMICARRAY, self::TYPE_TWOPOWARRAY))) {
-            $this->value = json_decode($this->value, true);
-            // Так нельзя, придется править вывод списка в админке
-            // $this->example = json_decode($this->example, true);
-        }
-
         // Возвращаем именно тот тип данных, в котором хранится конфиг
-        $this->checkReturnValue();
-
-    }
-
-    private function checkReturnValue()
-    {
-        switch ($this->type) {
-
-            case self::TYPE_BOOL:
-                $this->value = (bool) $this->value;
-                break;
-
-            case self::TYPE_INT:
-                $this->value = (int) $this->value;
-                break;
-
-//            case self::TYPE_FIXEDARRAY:
-//                $this->value = (array) $this->value;
-//                break;
-
-            case self::TYPE_DYNAMICARRAY:
-                $this->value = (array) $this->value;
-                break;
-
-            case self::TYPE_STRING:
-                $this->value = (string) $this->value;
-                break;
-
-            case self::TYPE_MULTILINESTRING:
-                $this->value = (string) $this->value;
-                break;
-
-//            case self::TYPE_FILE:
-//                $this->value = (string) $this->value;
-//                break;
-
-//            case self::TYPE_TWOPOWARRAY:
-//                $this->value = (array) $this->value;
-//                break;
-        }
+        $this->value = self::checkReturnValue($this->type, $this->value);
     }
 
     protected function beforeSave()
     {
-        if (in_array($this->type, array(self::TYPE_FIXEDARRAY, self::TYPE_DYNAMICARRAY))) {
-            $this->value = json_encode($this->value);
-//            $this->example = json_encode($this->example);
-        }
+        $this->value = self::convertToOriginalType($this->type, $this->value);
 
         // Расстановка степеней двойки в качестве ключей массива
 //        if ($this->type == self::TYPE_TWOPOWARRAY) {

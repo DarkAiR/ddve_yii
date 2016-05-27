@@ -165,6 +165,22 @@ class TwigFunctions
         return DateHelper::formatMonthYear($string);
     }
 
+    /**
+     * $date - дата в формате строки
+     */
+    public static function filterFormatDate($date)
+    {
+        return DateHelper::formatDate($date);
+    }
+
+    /**
+     * $time - seconds from day start
+     */
+    public static function filterFormatTime($time)
+    {
+        return DateHelper::formatTime($time);
+    }
+
     public static function filterTranslit($st)
     {
         // Сначала заменяем "односимвольные" фонемы.
