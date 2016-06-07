@@ -21,6 +21,9 @@
                 {% if element['type'] != 'hidden' %}
                     {% if element['type'] == 'filesListField' %}
                         {{ attribute(form, 'filesListRow', [ model, attributeName, options ])|raw }}
+                    {% elseif element['type'] == 'yandexMap' %}
+                        {% set options = options|merge({'readonly':true}) %}
+                        {{ attribute(form, 'yandexMapRow', [ model, attributeName, options ])|raw }}
                     {% elseif element['data'] is defined %}
                         {{ attribute(form, 'staticListValueRow', [ model, attributeName, element['data'], options ])|raw }}
                     {% elseif model[attributeName] is iterable %}

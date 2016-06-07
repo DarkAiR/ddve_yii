@@ -1,0 +1,20 @@
+{% extends 'views/layouts/main.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    {{ import('css', 'article.css', 'modules.articles.css') }}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class='article-page'>
+    <h1>{{ article.title|raw }}</h1>
+    <div class='text'>
+        {{ article.text|raw }}
+    </div>
+</div>
+{% endblock %}
+

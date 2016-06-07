@@ -26,24 +26,33 @@ class ExtendedDbMigration extends CDbMigration
         $menu->id = $menuArr['id'];
         $menu->save();
 
-
         $orderNum = 1;
+        $this->createItems($menuArr['id'], $items, $orderNum);
+    }
+
+    private function createItems($menuId, $items, &$orderNum, $parentId = 0)
+    {
         foreach ($items as $item) {
             $menuItem = new MenuItem;
             $menuItem->multilang();
             $attr = array(
-                'menuId'    => $menuArr['id'],
-                'name'      => $item['name'],
-                'link'      => $item['link'],
-                'orderNum'  => $orderNum++,
-                'active'    => 1,
-                'visible'   => 1,
+                'menuId'        => $menuId,
+                'name'          => $item['name'],
+                'link'          => $item['link'],
+                'orderNum'      => $orderNum++,
+                'active'        => 1,
+                'visible'       => 1,
+                'parentItemId'  => $parentId
             );
             foreach (Yii::app()->params['languages'] as $lang=>$langName) {
-                $attr['name_'.$lang] = $item['name_'.$lang];
+                $str = isset($item['name_'.$lang]) ? $item['name_'.$lang] : '';
+                $attr['name_'.$lang] = $str;
             }
             $menuItem->setAttributes($attr);
             $menuItem->save();
+
+            if (isset($item['children']) && is_array($item['children']))
+                $this->createItems($menuId, $item['children'], $orderNum, $menuItem->id);
         }
     }
 

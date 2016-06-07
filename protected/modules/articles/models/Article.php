@@ -1,15 +1,10 @@
 <?php
 
 /**
- * Контентный блок
+ * Статья
  */
-class ContentBlocks extends CActiveRecord
+class Article extends CActiveRecord
 {
-    const POS_NONE                  = 0;
-
-    private static $posNames = array(
-    );
-
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -17,7 +12,7 @@ class ContentBlocks extends CActiveRecord
 
     public function tableName()
     {
-        return 'contentblocks';
+        return 'articles';
     }
 
     public function behaviors()
@@ -25,9 +20,9 @@ class ContentBlocks extends CActiveRecord
         return array(
             'languageBehavior' => array(
                 'class'                 => 'application.behaviors.MultilingualBehavior',
-                'langClassName'         => 'ContentBlocksLang',
-                'langTableName'         => 'contentblocks_lang',
-                'langForeignKey'        => 'cbId',
+                'langClassName'         => 'ArticleLang',
+                'langTableName'         => 'articles_lang',
+                'langForeignKey'        => 'articleId',
                 'localizedAttributes'   => array('title', 'text'),
                 'languages'             => Yii::app()->params['languages'],
                 'defaultLanguage'       => Yii::app()->sourceLanguage,
@@ -44,7 +39,7 @@ class ContentBlocks extends CActiveRecord
                 'text'      => 'Текст'
             )),
             array(
-                'position'  => 'Место размещения',
+                'link'      => 'Url',
                 'visible'   => 'Показывать',
             )
         );
@@ -53,11 +48,10 @@ class ContentBlocks extends CActiveRecord
     public function rules()
     {
         return array(
-            array('title, text', 'safe'),
+            array('title, text, link', 'safe'),
             array('visible', 'boolean'),
-            array('position', 'numerical', 'integerOnly'=>true),
 
-            array('visible', 'safe', 'on'=>'search'),
+            array('title, link, visible', 'safe', 'on'=>'search'),
         );
     }
 
@@ -76,11 +70,13 @@ class ContentBlocks extends CActiveRecord
         return $this->languageBehavior->localizedCriteria();
     }
 
-    public function byPosition($pos)
+    public function byLink($link)
     {
+        $link = trim($link, '/');
+        
         $alias = $this->getTableAlias();
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => $alias.'.position = '.$pos,
+            'condition' => 'TRIM(BOTH "/" FROM '.$alias.'.link) = "'.$link.'"',
         ));
         return $this;
     }
@@ -91,12 +87,14 @@ class ContentBlocks extends CActiveRecord
 
         $alias = $this->getTableAlias();
         $criteria->compare($alias.'.visible', $this->visible);
+        $criteria->compare($alias.'.title', $this->title, true);
+        $criteria->compare($alias.'.link', $this->link, true);
 
         return new CActiveDataProvider($this, array(
-            'criteria' => $this->languageBehavior->modifySearchCriteria($criteria),
-            //'pagination'=>array(
-            //    'pageSize'=>20,
-            //),
+            'criteria' => $criteria,
+            'pagination'=>array(
+                'pageSize'=>20,
+            ),
             'sort' => array(
                 'defaultOrder' => array(
                     'id' => CSort::SORT_ASC,
@@ -110,10 +108,5 @@ class ContentBlocks extends CActiveRecord
         // Поддержка многих языков после загрузки модели
         $this->languageBehavior->multilang();
         return parent::beforeFind();
-    }
-
-    public static function getPosNames()
-    {
-        return self::$posNames;
     }
 }

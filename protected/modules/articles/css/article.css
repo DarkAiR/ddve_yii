@@ -1,0 +1,33 @@
+.article-page {
+  min-height: 1px;
+}
+.article-page .text.active {
+  display: block;
+}
+.article-page .text p {
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
+  padding: 0;
+}
+.article-page .text .text-center > .inner {
+  margin-top: 15px;
+  margin-bottom: 30px;
+  width: 100%;
+  border-left: 1px solid #f1f1f1;
+  border-right: 1px solid #f1f1f1;
+}
+@media (min-width: 768px) {
+  .article-page .text .text-center > .inner {
+    margin-top: 50px;
+    margin-bottom: 60px;
+  }
+}
+.article-page .text img {
+  max-width: 100%;
+  height: auto !important;
+  display: block;
+  margin: 0 auto;
+}
+.article-page .text iframe {
+  margin-bottom: 60px;
+}

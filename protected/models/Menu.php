@@ -6,7 +6,6 @@ class Menu extends CActiveRecord
 {
     const NONE = 0;
     
-
     public function tableName()
     {
         return 'menu';
@@ -88,7 +87,7 @@ class Menu extends CActiveRecord
         $criteria->compare($alias.'.name', $this->name, true);
 
         return new CActiveDataProvider($this, array(
-            'criteria' => $this->languageBehavior->modifySearchCriteria($criteria),
+            'criteria' => $criteria,
             //'pagination'=>array(
             //    'pageSize'=>20,
             //),

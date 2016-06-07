@@ -120,11 +120,11 @@ class MenuItem extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $alias = $this->getTableAlias();
-        $criteria->condition = $alias.'.menuId=:menuId';
+        $criteria->condition = $alias.'.menuId=:menuId and '.$alias.'.parentItemId=0';
         $criteria->params = array(':menuId'=>$menuId);
 
         return new CActiveDataProvider($this, array(
-            'criteria' => $this->languageBehavior->modifySearchCriteria($criteria),
+            'criteria' => $criteria,
             //'pagination'=>array(
             //    'pageSize'=>20,
             //),
@@ -136,7 +136,6 @@ class MenuItem extends CActiveRecord
             )
         ));
     }
-
 
     public function byParent($parent)
     {

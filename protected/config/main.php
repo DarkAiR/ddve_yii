@@ -1,6 +1,7 @@
 <?php
 
 Yii::setPathOfAlias('lib', realpath(__DIR__ . '/../../lib'));
+Yii::setPathOfAlias('modules', realpath(__DIR__ . '/../modules'));
 
 if (is_file('../protected/config/params.php')) {
     $params = include '../protected/config/params.php';
@@ -22,13 +23,21 @@ $res = array(
         'ext.mAdmin.*',
         'ext.YiiMailer.YiiMailer',
         'ext.localConfig.*',
+        'modules.contentBlocks.models.*',
     ),
     'modules' => array(
         'admin',
         'sitemenu',
         'contentBlocks',
+        'articles',
     ),
     'components' => array(
+        'theme' => array(
+            'class' => 'application.components.ThemeComponent',
+            'themes' => array(
+            ),
+            'name' => ''
+        ),
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
@@ -148,6 +157,9 @@ $res = array(
         $params,
         array(
             'md5Salt' => 'ThisIsMymd5Salt(*&^%$#',
+            'defaultLatitude' => '56.839228812748',
+            'defaultLongitude' => '60.608463496044',
+            'defaultZoom' => 12,
             'languages' => array(
                 'ru' => 'Russian',
                 'en' => 'English',
@@ -166,20 +178,31 @@ $res['language'] = $langArr[0];
 
 // NOTE: в правилах сперва должен идти роут без action, чтобы преобразования <module>/<contoller>/index давали простые урлы
 
-$res['components']['urlManager']['rules'] = array(
-    $langPrefix.'/'                             => 'site/index',
-    '/'                                         => 'site/index',
+// Статьи
+$articleRules = array(
+);
 
-    $langPrefix.'/login/'                       => 'site/login',
-    'login/'                                    => 'site/login',
-    $langPrefix.'/logout/'                      => 'site/logout',
-    'logout/'                                   => 'site/logout',
+$res['components']['urlManager']['rules'] = array_merge(
+    array(
+        $langPrefix.'/'                                 => 'site/index',
+        '/'                                             => 'site/index',
 
-    // Admin
-    'admin/<action:\w+>/'                       => 'admin/admin/<action>',      // Обработка ошибок
-    'admin/'                                    => 'admin',
-    'admin/<module:\w+>/<controller:\w+>/'      => '<module>/admin<controller>',
-    'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',
+        $langPrefix.'/login/'                           => 'site/login',
+        'login/'                                        => 'site/login',
+        $langPrefix.'/logout/'                          => 'site/logout',
+        'logout/'                                       => 'site/logout',
+    ),
+    $articleRules,
+    array(
+        // Admin
+        'admin/<action:\w+>/'                           => 'admin/admin/<action>',      // Обработка ошибок
+        'admin/'                                        => 'admin',
+        'admin/<module:\w+>/<controller:\w+>/'          => '<module>/admin<controller>',
+        'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',
+
+        $langPrefix.'/<action:\w+>/'                    => 'site/<action>',
+        '/<action:\w+>/'                                => 'site/<action>',
+    )
 );
 
 // Роуты для правильного преобразования ссылок в меню

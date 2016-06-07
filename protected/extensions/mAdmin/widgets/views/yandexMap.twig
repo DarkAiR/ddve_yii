@@ -1,0 +1,241 @@
+{% set form = this.form %}
+{% set zoom = defaultZoom %}
+
+{% set mode = isDebug() ? 'debug' : 'release' %}
+<script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU&ns=YMaps&mode={{mode}}" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var yandexMap = {
+        o: {
+            readonly: false
+        },
+        map: null,
+        placemarks: {},
+
+        popupMap: null,
+        popupPlacemarks: {},
+
+        init: function(options)
+        {
+            var self = this;
+            $.extend(self.o, options);
+
+            self.initMap();
+            YMaps.ready(function()
+            {
+                self.map = new YMaps.Map('small-map-{{_uniqId}}', {
+                    center:     [{{lat}}, {{lng}}],
+                    zoom:       {{zoom}},
+                    type:       "yandex#map",
+                    behaviors:  ["default"]
+                });
+                self.map.behaviors.disable('drag');
+
+                {% if lat and lng %}
+                    self.addPlacemark({{lat}}, {{lng}});
+                {% endif %}
+            });
+        },
+
+        initMap: function()
+        {
+            var self = this;
+            $('#show-{{_uniqId}}').click(function()
+            {
+                var coords      = self.getCoordinates();
+                var longitude   = coords[0];
+                var latitude    = coords[1];
+                var zoom        = isNaN(self.getZoom()) ? '{{defaultZoom}}' : self.getZoom();
+
+                var centerLongitude = (isNaN(coords[0])) ? '{{defaultLongitude}}'   : coords[0];
+                var centerLatitude  = (isNaN(coords[1])) ? '{{defaultLatitude}}'    : coords[1];
+
+                // Создаем контейнер в котором будет лежать карта
+                var content = '<div style="width:100%; height:500px"><div id="ymap-{{_uniqId}}" style="width: 100%; height: 100%; z-index: 99999 !important;"></div></div>';
+
+                var modalId = "#map-modal-{{_uniqId}}";
+                $(modalId + " .modal-body").html(content);
+                $(modalId).modal({
+                    "backdrop"  : "static",
+                    "keyboard"  : true,
+                    "show"      : true
+                });
+
+                YMaps.ready(function() {
+                    self.initPopupMap(centerLatitude, centerLongitude, zoom);
+                    if (!isNaN(latitude) && !isNaN(longitude))
+                        self.addPopupPlacemark(latitude, longitude);
+                });
+                return false;
+            });
+
+            $('#del-{{_uniqId}}').click(function()
+            {
+                bootbox.confirm("Удалить точку?", function(result) {
+                    if (result) {
+                        self.setCoordinates('', '');
+                        self.setZoom('');
+                        self.removePopupPlacemark();
+                        self.removePlacemark();
+                    }
+                }); 
+                return false;
+            });
+            self.toogleDeleteButton();
+        },
+
+        initPopupMap: function(centerLatitude, centerLongitude, zoom)
+        {
+            var self = this;
+            self.popupMap = new YMaps.Map("ymap-{{_uniqId}}", {
+                center:     [centerLatitude, centerLongitude],
+                zoom:       zoom,
+                type:       "yandex#map",
+                behaviors:  ["default", "scrollZoom"]
+            });
+
+            self.popupMap.controls
+                .add('zoomControl')     // Кнопка изменения масштаба
+                .add('typeSelector');   // Список типов карты
+
+            if (!self.o.readonly) {
+                // Обработка события, возникающего при щелчке левой кнопкой мыши в любой точке карты.
+                // При возникновении такого события поставим метку, если ее еще нет.
+                self.popupMap.events.add('click', function(e) {
+                    var coords = e.get('coordPosition');
+
+                    self.removePopupPlacemark();
+                    self.removePlacemark();
+
+                    self.addPopupPlacemark(coords[0], coords[1]);
+                    self.addPlacemark(coords[0], coords[1]);
+                });
+            }
+        },
+
+        createPlacemark: function(lat, lng)
+        {
+            return new YMaps.Placemark([lat, lng], {});
+        },
+
+        addPlacemark: function(lat, lng)
+        {
+            var self = this;
+            var myPlacemark = self.createPlacemark(lat, lng);
+
+            self.map.geoObjects.add(myPlacemark);
+            self.map.setCenter([lat, lng], {{zoom}});
+            self.placemarks['{{_uniqId}}'] = myPlacemark;
+        },
+
+        removePlacemark: function()
+        {
+            var self = this;
+            if (!self.placemarks['{{_uniqId}}'])
+                return;
+
+            self.map.geoObjects.remove(self.placemarks['{{_uniqId}}']);
+            delete self.placemarks['{{_uniqId}}'];
+        },
+
+
+        addPopupPlacemark: function(lat, lng)
+        {
+            var self = this;
+            var myPlacemark = self.createPlacemark(lat, lng);
+            
+            self.popupMap.geoObjects.add(myPlacemark);
+            self.popupPlacemarks['{{_uniqId}}'] = myPlacemark;
+
+            // Запоминаем координаты и масштаб
+            self.setCoordinates(lat, lng);
+            self.setZoom(self.popupMap.getZoom());
+        },
+
+        removePopupPlacemark: function()
+        {
+            var self = this;
+            if (!self.popupPlacemarks['{{_uniqId}}'] || !self.popupMap)
+                return;
+            self.popupMap.geoObjects.remove(self.popupPlacemarks['{{_uniqId}}']);
+            delete self.popupPlacemarks['{{_uniqId}}'];
+        },
+
+        getCoordinates: function()
+        {
+            var latitude = parseFloat($('#latitude-{{_uniqId}}').val());
+            var longitude = parseFloat($('#longitude-{{_uniqId}}').val());
+            return new Array(longitude, latitude);
+        },
+
+        setCoordinates: function(latitude, longitude)
+        {
+            $('#latitude-{{_uniqId}}').val(latitude);
+            $('#longitude-{{_uniqId}}').val(longitude);
+            this.toogleDeleteButton();
+        },
+
+        getZoom: function()
+        {
+            return  parseInt($('#zoom-{{_uniqId}}').val());
+        },
+
+        setZoom: function(val)
+        {
+            $('#zoom-{{_uniqId}}').val(val);
+            this.toogleDeleteButton();
+        },
+
+        toogleDeleteButton: function()
+        {
+            var self = this;
+            if (self.o.readonly) {
+                $('#del-{{_uniqId}}').hide();
+            } else {
+                var coords = this.getCoordinates();
+                if (isNaN(coords[0]))
+                    $('#del-{{_uniqId}}').hide();
+                else
+                    $('#del-{{_uniqId}}').show();
+            }
+        }
+    };
+    $(function() {
+        yandexMap.init({
+            'readonly':{{readonly}}
+        });
+    });
+</script>
+
+
+{{ form.textField(model, attribute, {
+    'id': 'textField-'~_uniqId,
+    'placeholder': model.getAttributeLabel(attribute),
+    'class': 'form-control',
+    'readonly': 'readonly'
+})|raw }}
+
+<div id="small-map-{{_uniqId}}" style="width: 300px; height: 150px; float:left; padding: 0px 5px 0px 0px;"></div>
+<div>
+    <div class="btn-toolbar">
+        <div class="btn-group btn-group-vertical">
+            <a id="show-{{ _uniqId }}" class="btn no-border" href="#" title="Указать точку"><i class="fa fa-map-marker"></i></a>
+            <a id="del-{{ _uniqId }}"  class="btn no-border" href="#" title="Удалить точку"><i class="fa fa-remove"></i></a>
+        </div>
+    </div>
+</div>
+<div id="map-modal-{{_uniqId}}" class="modal fade">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+<input type='hidden' name='yandexmap_latitude' id='latitude-{{_uniqId}}' value='{{lat}}'>
+<input type='hidden' name='yandexmap_longitude' id='longitude-{{_uniqId}}' value='{{lng}}'>
+<input type='hidden' name='yandexmap_zoom' id='zoom-{{_uniqId}}' value='{{zoom}}'>

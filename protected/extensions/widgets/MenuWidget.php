@@ -2,13 +2,10 @@
 
 Yii::import('application.models.Menu');
 
-abstract class MenuWidget extends ExtendedWidget
+class MenuWidget extends ExtendedWidget
 {
-    public $model;
-    public $attribute;
-
-    protected $menuId = Menu::NONE;
-    protected $template = '';
+    public $template = '';
+    public $menuId = Menu::NONE;
 
     public function run()
     {

@@ -1,0 +1,33 @@
+&.active {
+    display: block;
+}
+
+p {
+    margin-top: @smallPadding !important;
+    margin-bottom: @smallPadding !important;
+    padding: 0;
+}
+.text-center {
+    // Добавляем правую и левую границы, чтобы картинки не выглядели подвисшими
+    & > .inner {
+        margin-top: @smallPadding;
+        margin-bottom: 30px;
+        @media (min-width: @screen-sm-min) {
+            margin-top: @bigPadding;
+            margin-bottom: 60px;
+        }
+        width: 100%;
+        border-left: 1px solid @lightGrey;
+        border-right: 1px solid @lightGrey;
+    }
+}
+img {
+    //width: 100%;                      // Убираем, иначе все картинки меньше, чем ширина контента, станут по ширине
+    max-width: 100%;                    // Фиксируем размер картинки по размеру контейнера
+    height: auto !important;
+    display: block;
+    margin: 0 auto;                     // Центрируем картинку
+}
+iframe {
+    margin-bottom: 60px;
+}

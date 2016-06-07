@@ -1,0 +1,72 @@
+{{ import('css', 'yandexMap.css', 'ext.widgets.css') }}
+
+<script type="text/javascript">
+    var yandexMap = {
+        o: {
+            centerLat: 0,
+            centerLng: 0,
+            zoom: 1,
+            showPlacemark: false
+        },
+        map: null,
+        placemarks: {},
+
+        init: function(options)
+        {
+            var self = this;
+            $.extend(self.o, options);
+
+            YMaps.ready(function() {
+                self.map = new YMaps.Map('js-yandex-map-{{_uniqId}}', {
+                    center:     [self.o.centerLat, self.o.centerLng],
+                    zoom:       self.o.zoom,
+                    type:       "yandex#map",
+                    behaviors:  ['default']         // 'scrollZoom'
+                });
+                //self.map.behaviors.disable('drag');
+                self.map.controls.add('zoomControl');     // Кнопка изменения масштаба
+
+                if (self.o.showPlacemark)
+                    self.addPlacemark(self.o.centerLat, self.o.centerLng);
+            });
+        },
+
+        createPlacemark: function(lat, lng)
+        {
+            return new YMaps.Placemark([lat, lng], {});
+        },
+
+        addPlacemark: function(lat, lng)
+        {
+            var self = this;
+            var myPlacemark = self.createPlacemark(lat, lng);
+
+            self.map.geoObjects.add(myPlacemark);
+            self.map.setCenter([lat, lng], self.o.zoom);
+            self.placemarks['{{_uniqId}}'] = myPlacemark;
+        },
+
+        removePlacemark: function()
+        {
+            var self = this;
+            if (!self.placemarks['{{_uniqId}}'])
+                return;
+
+            self.map.geoObjects.remove(self.placemarks['{{_uniqId}}']);
+            delete self.placemarks['{{_uniqId}}'];
+        }
+    };
+    $(function() {
+        yandexMap.init({
+            'centerLng': {{centerLng}},
+            'centerLat': {{centerLat}},
+            'zoom': {{zoom}},
+            'showPlacemark': {{showPlacemark}}
+        });
+    });
+</script>
+
+
+<div class="yandex-map-widget {{_uniqId}}">
+    <div class='map-container' id='js-yandex-map-{{_uniqId}}'></div>
+</div>

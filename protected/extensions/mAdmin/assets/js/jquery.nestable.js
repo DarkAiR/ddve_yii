@@ -1,6 +1,8 @@
 /*!
  * Nestable jQuery Plugin - Copyright (c) 2012 David Bushell - http://dbushell.com/
  * Dual-licensed under the BSD or MIT licenses
+ *
+ * DarkAiR modification, 2016
  */
 ;(function($, window, document, undefined)
 {
@@ -90,7 +92,7 @@
 
             var onStartEvent = function(e)
             {
-				e = e.originalEvent;//ACE
+                e = e.originalEvent;//ACE
                 var handle = $(e.target);
                 if (!handle.hasClass(list.options.handleClass)) {
                     if (handle.closest('.' + list.options.noDragClass).length) {
@@ -98,7 +100,7 @@
                     }
                     handle = handle.closest('.' + list.options.handleClass);
                 }
-				//ACE
+                //ACE
                 if (!handle.length || list.dragEl || ('button' in e && e.button !== 0) || ('touches' in e && e.touches.length !== 1)) {
                     return;
                 }
@@ -109,7 +111,7 @@
             var onMoveEvent = function(e)
             {
                 if (list.dragEl) {
-					e = e.originalEvent;//ACE
+                    e = e.originalEvent;//ACE
                     e.preventDefault();
                     list.dragMove('touches' in e ? e.touches[0] : e);//ACE
                 }
@@ -117,21 +119,21 @@
 
             var onEndEvent = function(e)
             {
-				if (list.dragEl) {
-					e = e.originalEvent;//ACE
+                if (list.dragEl) {
+                    e = e.originalEvent;//ACE
                     e.preventDefault();
                     list.dragStop('touches' in e ? e.touches[0] : e);//ACE
                 }
             };
 
-			//ACE
+            //ACE
             /**if (hasTouch) {
                 list.el[0].addEventListener(eStart, onStartEvent, false);
                 window.addEventListener(eMove, onMoveEvent, false);
                 window.addEventListener(eEnd, onEndEvent, false);
                 //window.addEventListener(eCancel, onEndEvent, false);
             } else {
-			*/
+            */
                 list.el.on(eStart, onStartEvent);
                 list.w.on(eMove, onMoveEvent);
                 list.w.on(eEnd, onEndEvent);
@@ -255,6 +257,7 @@
                 target   = $(e.target),
                 dragItem = target.closest(this.options.itemNodeName);
 
+            this.el.trigger('dragStart', [dragItem]);
             this.placeEl.css('height', dragItem.height());
 
             mouse.offsetX = e.offsetX !== undefined ? e.offsetX : e.pageX - target.offset().left;
@@ -298,7 +301,7 @@
             this.placeEl.replaceWith(el);
 
             this.dragEl.remove();
-            this.el.trigger('change');
+            this.el.trigger('change', [el]);
             if (this.hasNewRoot) {
                 this.dragRootEl.trigger('change');
             }

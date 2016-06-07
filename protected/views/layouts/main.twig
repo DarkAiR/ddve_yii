@@ -25,18 +25,18 @@
 
     <title>{% block title %}{{ this.pageTitle }}{% endblock %}</title>
 
+    {{ import('js', 'bootstrap.js') }}
+    {{ import('js', 'ace.js', 'ext.mAdmin.assets.js') }}
     {% block js %}
-        {{ import('js', 'bootstrap.js') }}
-        {{ import('js', 'ace.js', 'ext.mAdmin.assets.js') }}
     {% endblock %}
 
+    {{ import('css', 'bootstrap.css') }}
+    {{ import('css', 'ace.css') }}
+    {{ import('css', 'custom.css') }}
     {% block css %}
-        {{ import('css', 'bootstrap.css') }}
-        {{ import('css', 'ace.css') }}
-        {{ import('css', 'custom.css') }}
     {% endblock %}
 </head>
-<body {% block bodyAttr %}{% endblock %}>
+<body class='{% block bodyClass %}{% endblock %}'>
     {% block bodyStart %}
     {% endblock %}
 
@@ -44,6 +44,7 @@
         {% block content %}
         {% endblock %}
     </div>
+
 
     <div class='visible-print'>
         {% block print %}

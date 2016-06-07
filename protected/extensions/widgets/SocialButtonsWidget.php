@@ -2,8 +2,6 @@
 
 class SocialButtonsWidget extends ExtendedWidget
 {
-    public $model;
-    public $attribute;
     public $isHeader = false;
     public $wideScreen = false;
 

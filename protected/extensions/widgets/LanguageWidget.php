@@ -2,9 +2,6 @@
 
 class LanguageWidget extends ExtendedWidget
 {
-    public $model;
-    public $attribute;
-
     public function run()
     {
         $currentLang = Yii::app()->language;

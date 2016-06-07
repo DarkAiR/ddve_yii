@@ -19,11 +19,11 @@
     {% for type,name in menuTypes %}
         <div class="space"></div>
         <h4>{{name}}</h4>
-        {{ widget('ext.mAdmin.widgets.AdminGridViewWidget', {
-            'type' : 'condensed bordered hover',
-            'dataProvider' : model.search(type),
-            'columns' : columns,
-            'template': '{items}\n{pager}',
+        {{ widget('ext.mAdmin.widgets.AdminNestableListsWidget', {
+            'dataProvider': model.search(type),
+            'activeField': 'active',
+            'visibleField': 'visible',
+            'orderNumField': 'orderNum'
         }) }}
     {% endfor %}
 

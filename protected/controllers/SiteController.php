@@ -2,10 +2,23 @@
 
 class SiteController extends Controller
 {
+    public function actions()
+    {
+        return array(
+            'captcha' => array(
+                'class' => 'CCaptchaAction',
+                'backColor' => 'transparent',
+                'foreColor' => 0x308000,
+                //'width' => 200,
+                //'height' => 60,
+//                'testLimit' => 1,
+            ),
+        );
+    }
+
     public function actionIndex()
     {
-        $this->render('index', array(
-        ));
+        $this->render('index', array());
     }
 
     /**

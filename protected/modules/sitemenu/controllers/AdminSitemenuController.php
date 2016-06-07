@@ -5,6 +5,7 @@ class AdminSitemenuController extends MAdminController
     public $modelName = 'MenuItem';
     public $modelHumanTitle = array('пункт', 'пункта', 'пунктов');
     public $allowedRoles = 'admin, moderator';
+    public $allowedActions = 'add,edit,delete,update,order';
 
     protected $templateList = '/list';
 
@@ -84,16 +85,7 @@ class AdminSitemenuController extends MAdminController
     public function getTableColumns()
     {
         $attributes = array(
-            $this->getOrderColumn(),
-            'parentItemId',
-            'menuId',
-            $this->getImageColumn('image', 'getIconUrl()'),
-            'name',
-            $this->getBooleanColumn('active'),
-            $this->getVisibleColumn(),
-            $this->getButtonsColumn(),
         );
-
         return $attributes;
     }
 
@@ -101,5 +93,24 @@ class AdminSitemenuController extends MAdminController
     {
         $this->imageBehavior->imageBeforeSave($model, $model->imageBehavior->getStorePath());
         parent::beforeSave($model);
+    }
+
+    public function actionOrder()
+    {
+        if (!Yii::app()->request->isPostRequest || !Yii::app()->request->isAjaxRequest)
+            throw new CHttpException(400);
+
+        $orderNum = Yii::app()->request->getPost('order');
+        $parentId = Yii::app()->request->getPost('parent');
+        $model = $this->loadModel();
+        if (!$model || $orderNum === null || $parentId === null)
+            throw new CHttpException(404);
+
+        $model->parentItemId = $parentId;
+        $model->orderNum = $orderNum;
+        if (!$model->save())
+            throw new CHttpException(500);
+
+        Yii::app()->end();
     }
 }

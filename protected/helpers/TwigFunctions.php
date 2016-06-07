@@ -144,7 +144,6 @@ class TwigFunctions
     public static function filterUnset($array, $elementName)
     {
         unset($array[$elementName]);
-
         return $array;
     }
 

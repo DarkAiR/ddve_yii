@@ -1,10 +1,12 @@
 <?php
 
+Yii::import('modules.contentBlocks.models.*');
+
 class AdminContentBlocksController extends MAdminController
 {
     public $modelName = 'ContentBlocks';
     public $modelHumanTitle = array('контентный блок', 'контентных блоков', 'контентных блоков');
-    public $allowedRoles = 'admin, manager';
+    public $allowedRoles = 'admin, moderator';
 
     public function getEditFormElements($model)
     {

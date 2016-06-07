@@ -14,6 +14,6 @@ data/*
 *.txt
 /protected/vendor/*
 composer.lock
-
+www/kcfinder/conf/config-local.php
 
 koala-config.json

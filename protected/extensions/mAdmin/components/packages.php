@@ -38,6 +38,11 @@ return array(
         'baseUrl' => $this->getAssetsFontsUrl(),
         'css' => array('font-awesome.css')
     ),
+    'bootbox' => array(
+        'baseUrl' => $this->getAssetsUrl(),
+        'js' => array('js/bootbox.js'),
+        'depends' => array('jquery', 'bootstrap')
+    ),
     'select2' => array(
         'baseUrl' => $this->getAssetsUrl(),
         'css' => array('css/select2.css'),
@@ -132,12 +137,15 @@ return array(
         'css' => array($this->minify ? 'css/bootstrap-timepicker.min.css' : 'css/bootstrap-timepicker.css'),
         'depends' => array('bootstrap')
     ),
-
     // 'highcharts' => array(
     //     'baseUrl' => $this->enableCdn ? '//code.highcharts.com' : $this->getAssetsUrl() . '/highcharts',
     //     'js' => array($this->minify ? 'highcharts.js' : 'highcharts.src.js')
     // ),
-
+    'nestable-list' => array(
+         'baseUrl' => $this->getAssetsUrl(),
+         'js' => array('js/jquery.nestable.js'),
+         'depends' => array('jquery')
+    ),
     'translate' => array(
         'baseUrl' => $this->getAssetsUrl(),
         'js' => array('js/translate.js'),

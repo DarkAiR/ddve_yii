@@ -43,7 +43,8 @@ a {
 p {
     margin: 0px !important;
     padding: 0px;
-    padding-bottom: @middlePadding;
+    padding-bottom: @smallPadding;
+    line-height: 1.5em;
 }
 p:nth-last-child(1) {
     padding-bottom: 0;
@@ -159,4 +160,10 @@ li {
     min-width: @bigPadding;
     max-width: @bigPadding;
     width: @bigPadding;
+}
+
+// Чтобы эти блоки не влияли на отображение
+.hidden-print,
+.visible-print {
+    height: inherit;
 }

@@ -1130,6 +1130,14 @@ class AdminActiveFormWidget extends CActiveForm
     }
 
     /**
+     * Generated yandex map row
+     */
+    public function yandexMapRow($model, $attribute, $widgetOptions = array(), $rowOptions = array())
+    {
+        return $this->widgetRowInternal('ext.mAdmin.widgets.AdminYandexMapWidget', $model, $attribute, $widgetOptions, $rowOptions);
+    }
+
+    /**
      * Generates a custom field row for a model attribute.
      * About $rowOptions argument parameters see {@link AdminActiveFormWidget} documentation.
      *
@@ -1187,6 +1195,7 @@ class AdminActiveFormWidget extends CActiveForm
         $this->initRowOptions($rowOptions);
         $widgetOptions['model'] = $model;
         $widgetOptions['attribute'] = $attribute;
+        $widgetOptions['form'] = $this;
 
         $fieldData = array(array($this->owner, 'widget'), array($className, $widgetOptions, true));
 

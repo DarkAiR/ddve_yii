@@ -1,10 +1,13 @@
 <?php
 
 Yii::setPathOfAlias('lib', realpath(dirname(__FILE__) . '/../../lib'));
+Yii::setPathOfAlias('modules', realpath(dirname(__FILE__) . '/../modules'));
 
-$params = @include 'params.php';
-if (!$params)
-    $params = require 'params-global.php';
+if (is_file('../protected/config/params.php')) {
+    $params = include '../protected/config/params.php';
+} else {
+    $params = include '../protected/config/params-global.php';
+}
 
 $res = array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',

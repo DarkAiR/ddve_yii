@@ -1,13 +1,10 @@
 <?php
 
-Yii::import('application.models.ContentBlocks');
+Yii::import('modules.contentBlock.models.ContentBlocks');
 
 class ContentBlocksWidget extends ExtendedWidget
 {
-    public $model;
-    public $attribute;
     public $showTitle = false;
-
     public $position = ContentBlocks::POS_NONE;
 
     public function run()
