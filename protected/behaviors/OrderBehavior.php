@@ -3,11 +3,12 @@
 class OrderBehavior extends CActiveRecordBehavior
 {
     public $orderField = 'orderNum';
+    private $moveToUp = true;
 
     public function orderLabels()
     {
         return array(
-            $this->orderField => 'Порядок сортировки',
+            $this->orderField => Yii::t('app', 'Порядок сортировки'),
         );
     }
 
@@ -18,7 +19,15 @@ class OrderBehavior extends CActiveRecordBehavior
         );
     }
 
-    public function orderBeforeSave()
+    public function orderSetAttribute($value)
+    {
+        // Выясняем, в какую сторону переместили запись (moveToUp - на возрастание)
+        $this->moveToUp = $value < $this->owner->{$this->orderField}
+            ? false
+            : true;
+    }
+
+    public function beforeSave($event)
     {
         if (empty($this->owner->{$this->orderField})) {
             // Автоматическое выставление orderNum
@@ -31,9 +40,30 @@ class OrderBehavior extends CActiveRecordBehavior
             $row = Yii::app()->db->createCommand($sql)->queryRow();
             if ($row['id'] != $this->owner->id  &&  $row['count'] > 0) {
                 // Пересортируем все записи до конца
-                $sql = 'UPDATE '.$this->owner->tableName().' SET '.$this->orderField.' = '.$this->orderField.'+1 WHERE '.$this->orderField.' >= '.$this->owner->{$this->orderField};
+                $sql = $this->moveToUp
+                    ? 'UPDATE '.$this->owner->tableName().' SET '.$this->orderField.' = '.$this->orderField.'-1 WHERE '.$this->orderField.' <= '.$this->owner->{$this->orderField}
+                    : 'UPDATE '.$this->owner->tableName().' SET '.$this->orderField.' = '.$this->orderField.'+1 WHERE '.$this->orderField.' >= '.$this->owner->{$this->orderField};
                 Yii::app()->db->createCommand($sql)->execute();
             }
+        }
+    }
+
+    public function afterSave($event)
+    {
+        $sql = 'SELECT id, '.$this->orderField.' FROM '.$this->owner->tableName();
+        $res = Yii::app()->db->createCommand($sql)->queryAll();
+        
+        // Переназначаем значение orderNum
+        $index = 1;
+        $valueStr = '';
+        foreach ($res as $v) {
+            if ($v[$this->orderField] != $index)
+                $valueStr .= ' when id='.$v['id'].' then '.$index;
+            $index++;
+        }
+        if (!empty($valueStr)) {
+            $sql = 'UPDATE '.$this->owner->tableName().' SET '.$this->orderField.' = case '.$valueStr.' else '.$this->orderField.' end';
+            Yii::app()->db->createCommand($sql)->execute();
         }
     }
 }

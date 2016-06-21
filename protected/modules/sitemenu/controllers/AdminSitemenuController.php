@@ -91,7 +91,7 @@ class AdminSitemenuController extends MAdminController
 
     public function beforeSave($model)
     {
-        $this->imageBehavior->imageBeforeSave($model, $model->imageBehavior->getStorePath());
+        $this->imageBehavior->imageBeforeSave($model, $model->getIconStorePath());
         parent::beforeSave($model);
     }
 

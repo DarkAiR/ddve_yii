@@ -1,0 +1,21 @@
+{% macro drawMenu(items, class) %}
+    <ul class='{{class}}'>
+        {% for item in items %}
+            {% set firstClass = loop.first ? 'first' : '' %}
+            {% set activeClass = item.select ? 'active' : '' %}
+            <li class='{{firstClass}}'>
+                <a class='{{ activeClass }}' href='{{ item.link }}'>
+                    {{ item.name|raw }}
+                </a>
+
+                {% if item.children|length > 0 %}
+                    {{ _self.drawMenu(item.children, 'submenu') }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% block menuContent %}
+    {{ _self.drawMenu(items, 'root') }}
+{% endblock %}

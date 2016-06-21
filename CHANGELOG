@@ -1,0 +1,7 @@
+[22.06.2016]
+- добавлено удаление моделей для миграций ExtendedDbMigration::deleteAllModels
+- из ImageControllerBehavior удален флаг resize
+- изменена логина ImageControllerBehavior. Если указать ширину и высоту, то будет работать crop, если только ширину или высоту, то resize по большей стороне
+- удален фильтр |data из twig
+- добавлен виджет галереи GalleryWidget
+- требуется добавить $('#cboxLoadingGraphic').html('')

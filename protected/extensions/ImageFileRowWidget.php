@@ -101,10 +101,16 @@ class ImageFileRowWidget extends CInputWidget
             );
         }
 
+        $rowOptions = [
+            'onlyImages' => true,
+            'allowExt' => ['jpeg', 'jpg', 'png', 'gif'],
+            'allowMime' => ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        ];
+
         echo '<div class="widget-box">';
         echo    '<div class="widget-body">';
         echo        '<div class="widget-main">';
-        echo $form->fileFieldRow($model, $this->uploadedFileFieldName, $htmlOptions);
+        echo $form->fileFieldRow($model, $this->uploadedFileFieldName, $htmlOptions, $rowOptions);
         echo            '<div class="form-group">';
         echo                '<label class="col-sm-3"></label>';
         echo                '<div class="controls col-sm-9">';

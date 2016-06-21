@@ -9,10 +9,10 @@ class ImageBehavior extends CActiveRecordBehavior
     public $imageMaxHeight = 0;
     public $imageExt = 'jpeg, jpg, png';
     public $imageField = '';
-
     public $imageLabel = 'Изображение';
     public $innerImageField = '_image';
     public $innerRemoveBtnField = '_removeImageFlag';
+    public $required = false;
 
 
     public function imageLabels()
@@ -20,8 +20,8 @@ class ImageBehavior extends CActiveRecordBehavior
         $imgF = $this->innerImageField;
 
         $arr = array(
-            $this->imageField => 'Изображение',
-            $this->innerRemoveBtnField => 'Удалить'
+            $this->imageField => Yii::t('app', 'Изображение'),
+            $this->innerRemoveBtnField => Yii::t('app', 'Удалить')
         );
 
         if (!empty($this->imageWidth) && !empty($this->imageHeight))
@@ -34,15 +34,42 @@ class ImageBehavior extends CActiveRecordBehavior
         return $arr;
     }
 
-    public function imageRules()
+    public function imageRules($on='', $except='')
     {
-        $arr = array($this->innerImageField, 'ext.validators.EImageValidator', 'types'=>$this->imageExt, 'allowEmpty'=>true);
+        $rules = array();
+
+        $arr = array(
+            $this->innerImageField,
+            'ext.validators.EImageValidator',
+            'types'         => $this->imageExt,
+            'allowEmpty'    => true,
+            'on'            => $on,
+            'except'        => $except
+        );
         if (!empty($this->imageWidth))      $arr['width'] = $this->imageWidth;
         if (!empty($this->imageHeight))     $arr['height'] = $this->imageHeight; 
         if (!empty($this->imageMaxWidth))   $arr['maxWidth'] = $this->imageMaxWidth;
         if (!empty($this->imageMaxHeight))  $arr['maxHeight'] = $this->imageMaxHeight; 
+        $rules[] = $arr;
 
-        return array($arr);
+        if ($this->required) {
+            $imageRequiredValidator = array(
+                $this->innerImageField,
+                'ext.validators.ImageRequiredValidator',
+                'imageField'    => $this->imageField,
+                'on'            => $on,
+                'except'        => $except
+            );
+            $rules[] = $imageRequiredValidator;
+
+            // Так делать нельзя, т.к. при повторном сохранении картинки innerImageField пустой
+            // $rules[] = array($this->innerImageField, 'required');
+        }
+
+        // Принимаем флаг удаления картинки
+        $rules[] = array($this->innerRemoveBtnField, 'safe');
+
+        return $rules;
     }
 
     public function getStorePath()
@@ -54,25 +81,26 @@ class ImageBehavior extends CActiveRecordBehavior
     {
         if (empty($this->owner->{$this->imageField}))
             return '';
-        return CHtml::normalizeUrl('/store/'.$this->storagePath.'/'.$this->owner->{$this->imageField});
+        return CHtml::normalizeUrl('/store/'.str_replace('.', '/', $this->storagePath).'/'.$this->owner->{$this->imageField});
     }
 
     public function getOriginalImageUrl()
     {
         if (empty($this->owner->{$this->imageField}))
             return '';
-        return CHtml::normalizeUrl('/store/'.$this->storagePath.'/original/'.$this->owner->{$this->imageField});
+        return CHtml::normalizeUrl('/store/'.str_replace('.', '/', $this->storagePath).'/original/'.$this->owner->{$this->imageField});
     }
 
-    public function imageAfterDelete()
+    public function afterDelete($event)
     {
         if ($this->owner->{$this->imageField}) {
             @unlink( $this->getStorePath().$this->owner->{$this->imageField} );
             @unlink( $this->getStorePath().'original/'.$this->owner->{$this->imageField} );
         }
+        $this->owner->{$this->imageField} = '';
     }
 
-    public function imageAfterFind()
+    public function afterFind($event)
     {
         $this->owner->{$this->innerImageField} = $this->getImageUrl();
     }

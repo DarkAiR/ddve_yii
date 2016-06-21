@@ -13,3 +13,6 @@
 [submodule "protected/extensions/consoleLog"]
 	path = protected/extensions/consoleLog
 	url = git@github.com:DarkAiR/ConsoleLog.git
+[submodule "protected/extensions/yii-simplepie"]
+	path = protected/extensions/yii-simplepie
+	url = git@github.com:zhexiao/yii-simplepie.git

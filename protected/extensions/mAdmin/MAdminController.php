@@ -451,7 +451,13 @@ class MAdminController extends CExtController
             'updateButtonOptions' => array('class'=>'update green'),
             'deleteButtonOptions' => array('class'=>'delete red'),
             'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",array("id"=>( isset($data->primaryKey) ? $data->primaryKey : (is_array($data)&&isset($data["id"])?$data["id"]:"") )))',
-            'deleteButtonUrl' => 'Yii::app()->controller->createUrl("delete",array("id"=>( isset($data->primaryKey) ? $data->primaryKey : (is_array($data)&&isset($data["id"])?$data["id"]:"") )))'
+            'deleteButtonUrl' => 'Yii::app()->controller->createUrl("delete",array("id"=>( isset($data->primaryKey) ? $data->primaryKey : (is_array($data)&&isset($data["id"])?$data["id"]:"") )))',
+            'htmlOptions' => array(
+                'width' => '64',
+            ),
+            'headerHtmlOptions' => array(
+                'width' => '64',
+            ),
         );
     }
 
@@ -537,6 +543,7 @@ class MAdminController extends CExtController
             'editable' => array(
                 'title' => $label,
                 'url' => $this->createUrl('update'),
+                'onSave' => 'function(ev) { ev.stopImmediatePropagation(); location.reload(); }',   // Обновляем страницу после сохранения значения
             )
         );
     }

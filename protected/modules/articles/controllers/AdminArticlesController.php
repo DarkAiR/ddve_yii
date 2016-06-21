@@ -8,26 +8,35 @@ class AdminArticlesController extends MAdminController
     public $modelHumanTitle = array('статью', 'статьи', 'статей');
     public $allowedRoles = 'admin, moderator';
 
+    public function behaviors()
+    {
+        return array(
+            'galleryBehavior' => array(
+                'class' => 'application.behaviors.GalleryControllerBehavior',
+                'imageWidth' => Article::IMAGE_W,
+                'imageHeight' => Article::IMAGE_H,
+            ),
+        );
+    }
+
     public function getEditFormElements($model)
     {
         return array_merge(
             array(
-                'visible' => array(
-                    'type' => 'checkBox',
-                ),
-                'link' => array(
-                    'type' => 'textField',
-                )
+                'visible'   => ['type' => 'checkBox'],
+                'link'      => ['type' => 'textField'],
             ),
-            $this->getLangField(
-                'title', array(
-                    'type' => 'textArea',
-                )
-            ),
-            $this->getLangField(
-                'text', array(
-                    'type' => 'ckEditor',
-                )
+            $this->getLangField('title',    ['type' => 'textArea']),
+            $this->getLangField('text',     ['type' => 'ckEditor']),
+            array(
+                'coords'    => ['type' => 'yandexMap'],
+                'images'    => [
+                    'type' => 'gallery',
+                    'htmlOptions' => [
+                        'innerImagesField' => '_images',
+                        'innerRemoveField' => '_removeGalleryImageFlags'
+                    ],
+                ],
             )
         );
     }
@@ -46,5 +55,11 @@ class AdminArticlesController extends MAdminController
             $buttons
         );
         return $attributes;
+    }
+
+    public function beforeSave($model)
+    {
+        $this->galleryBehavior->galleryBeforeSave($model, $model->getGalleryStorePath());
+        parent::beforeSave($model);
     }
 }

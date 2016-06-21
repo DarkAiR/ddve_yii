@@ -5,15 +5,14 @@ class DateHelper
     /**
      * @param $date - timestamp / string
      */
-    public static function formatDate($date)
+    public static function formatDate($date, $format='dd.LL.yyyy')
     {
         $d = (is_numeric($date))
             ? $date
             : strtotime($date);
-
         if (!$d)
             return '';
-        return date('d.m.Y', $d);
+        return Yii::app()->dateFormatter->format($format, $d);
     }
 
     /**
@@ -43,7 +42,6 @@ class DateHelper
         $d = (is_numeric($date))
             ? $date
             : strtotime($date);
-
         if (!$d)
             return '';
         return date('d.m.Y G:i', $d);

@@ -1,28 +1,37 @@
 .hmenu {
     display: inline-block;
 
-    ul {
+    ul > li:hover > .submenu {
+        display: block !important;
+    }
+
+    ul.root {
         padding: 0;
         margin: 0;
         display: inline-block;
-    }
-    li {
-        float: left;
-        list-style-type: none;
-
-        a {
-        }
         
-        &:nth-child(1) {
-            padding-left: 0px;
-        }
-        &:nth-last-child(1) {
-            padding-right: 0px;
-        }
+        & > li {
+            float: left;
+            list-style-type: none;
+            
+            &:nth-child(1) {
+                padding-left: 0px;
+            }
+            &:nth-last-child(1) {
+                padding-right: 0px;
+            }
 
-        .disable {
-            color: #e4e4e4;
+            & > a {
+            }
+
+            .disable {
+                color: #e4e4e4;
+            }
         }
+    }
+
+    ul.submenu {
+        display: none;
     }
 }
 
@@ -31,26 +40,31 @@
 .vmenu {
     display: inline-block;
 
-    ul {
+    ul.root {
         padding: 0;
         margin: 0;
         display: inline-block;
-    }
-    li {
-        list-style-type: none;
-        
-        a {
-        }
- 
-        &:nth-child(1) {
-            padding-top: 0px;
-        }
-        &:nth-last-child(1) {
-            padding-bottom: 0px;
-        }
 
-        .disable {
-            color: #e4e4e4;
+        & > li {
+            list-style-type: none;
+        
+            &:nth-child(1) {
+                padding-top: 0px;
+            }
+            &:nth-last-child(1) {
+                padding-bottom: 0px;
+            }
+
+            & > a {
+            }
+
+            .disable {
+                color: #e4e4e4;
+            }
         }
+    }
+
+    .submenu {
+        display: none;
     }
 }

@@ -523,8 +523,13 @@ class AdminActiveFormWidget extends CActiveForm
         $this->initRowOptions($rowOptions);
         $this->initHtmlOptions($htmlOptions);
         $fieldData = array(array($this, 'textArea'), array($model, $attribute, $htmlOptions));
-
         return $this->customFieldRowInternal($fieldData, $model, $attribute, $rowOptions);
+    }
+
+    public function galleryRow($model, $attribute, $widgetOptions = [], $rowOptions = [])
+    {
+        $widgetOptions['form'] = $this;
+        return $this->widgetRowInternal('ext.mAdmin.widgets.AdminGalleryWidget', $model, $attribute, $widgetOptions, $rowOptions);
     }
 
     /**
@@ -552,14 +557,25 @@ class AdminActiveFormWidget extends CActiveForm
         CHtml::resolveNameID($model,$attribute,$htmlOptions);
         // Переключаемся на красивую форму ввода
         $elName = 'input#'.$htmlOptions['id'];
+
+        $addedScript = [];
+        if (isset($rowOptions['allowExt']))
+            $addedScript[] = 'allowExt: ["'.implode('","', $rowOptions['allowExt']).'"]';
+        if (isset($rowOptions['allowMime']))
+            $addedScript[] = 'allowMime: ["'.implode('","', $rowOptions['allowMime']).'"]';
+        if (isset($rowOptions['onlyImages']))
+            $addedScript[] = 'no_icon: "ace-icon fa fa-picture-o"';
+        $addedScript = implode(','.PHP_EOL, $addedScript);
+
         $script = "
             $('{$elName}').ace_file_input({
                 style: 'well',
                 thumbnail: 'large',
+                droppable: false,
                 no_file: 'Файл не выбран ...',
                 btn_choose: 'Выбрать',
                 btn_change: 'Изменить',
-                droppable: true
+                {$addedScript}
             });
         ";
         Yii::app()->clientScript->registerScript($elName, $script);
@@ -1134,6 +1150,7 @@ class AdminActiveFormWidget extends CActiveForm
      */
     public function yandexMapRow($model, $attribute, $widgetOptions = array(), $rowOptions = array())
     {
+        $widgetOptions['form'] = $this;
         return $this->widgetRowInternal('ext.mAdmin.widgets.AdminYandexMapWidget', $model, $attribute, $widgetOptions, $rowOptions);
     }
 
@@ -1195,7 +1212,6 @@ class AdminActiveFormWidget extends CActiveForm
         $this->initRowOptions($rowOptions);
         $widgetOptions['model'] = $model;
         $widgetOptions['attribute'] = $attribute;
-        $widgetOptions['form'] = $this;
 
         $fieldData = array(array($this->owner, 'widget'), array($className, $widgetOptions, true));
 

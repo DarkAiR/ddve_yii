@@ -28,7 +28,7 @@ return array(
         'baseUrl' => $this->getAssetsUrl(),
         'js' => array('js/ace-extra.js', 'js/ace-elements.js', 'js/ace.js'),
         'css' => array('css/ace.css'),
-        'depends' => array('jquery', 'bootstrap', 'ace-fonts')
+        'depends' => array('jquery', 'bootstrap', 'ace-fonts', 'colorbox')      // Подключаем colorbox раньше ace
     ),
     'ace-fonts' => array(
         'baseUrl' => $this->getAssetsFontsUrl(),
@@ -150,5 +150,10 @@ return array(
         'baseUrl' => $this->getAssetsUrl(),
         'js' => array('js/translate.js'),
         'depends' => array('jquery', 'bootstrap')
+    ),
+    'colorbox' => array(
+        'baseUrl' => $this->getAssetsUrl(),
+        'js' => array('js/jquery.colorbox.js'),
+        'css' => array('css/colorbox.css'),
     ),
 );

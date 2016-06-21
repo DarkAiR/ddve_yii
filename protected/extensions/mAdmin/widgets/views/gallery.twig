@@ -1,0 +1,99 @@
+{% set activeId = static('CHtml', 'activeId', [model, innerImagesField]) %}
+{% set activeName = static('CHtml', 'activeName', [model, innerImagesField]) %}
+
+{% set activeRemoveId = static('CHtml', 'activeId', [model, innerRemoveField]) %}
+{% set activeRemoveName = static('CHtml', 'activeName', [model, innerRemoveField]) %}
+
+<script type="text/javascript">
+$(function() {
+    var idx = 1;
+    var $cont = $('#js-gallery-files-cont-{{_uniqId}}');
+    var $addBtn = $('#js-gallery-add-btn-{{_uniqId}}');
+
+    $addBtn.click(function() {
+        var activeName = '{{activeName}}['+idx+']';
+        var activeId = '{{activeId}}_'+idx;
+        $cont.find('.js-inner-cont').append('\
+            <div class="clearfix">\
+                <div class="js-delete-btn  btn btn-mini no-border btn-danger pull-left" style="margin-right:10px">\
+                    <i class="fa fa-trash"></i>\
+                </div>\
+                <div class="pull-left" style="width:-moz-calc(100% - 40px); width:-webkit-calc(100% - 40px); width:calc(100% - 40px);">\
+                    <input id="'+activeId+'" type="hidden" value="" name="'+activeName+'">\
+                    <input type="file" name="'+activeName+'" id="'+activeId+'"/>\
+                </div>\
+            </div>\
+        ');
+        $('input[type="file"][name="'+activeName+'"]').ace_file_input();
+        idx++;
+    });
+    $cont.delegate('.js-delete-btn', 'click', function() {
+        $(this).parent().remove();
+    });
+
+    // Init icons
+    $('.admin-gallery-widget.{{_uniqId}} .js-gallery-icon-trash').on(ace.click_event, function() {
+        var $btn = $(this);
+        bootbox.confirm("Вы уверены?", function(result) {
+            if (result) {
+                var imgName = $btn.data('img');
+                var activeRemoveName = '{{activeRemoveName}}[]';
+                $btn.closest('ul').after('<input id="{{activeRemoveId}}" type="hidden" value="'+imgName+'" name="'+activeRemoveName+'">')
+                $btn.closest('li').remove();
+            }
+        });
+        return false;
+    });
+
+    // Init colorbox
+    var colorboxParams = {
+        rel:            'colorbox',
+        className:      'ace',
+        reposition:     true,
+        scalePhotos:    true,
+        scrolling:      false,
+        previous:       '<i class="ace-icon fa fa-arrow-left"></i>',
+        next:           '<i class="ace-icon fa fa-arrow-right"></i>',
+        close:          '&times;',
+        current:        '{current} of {total}',
+        maxWidth:       '100%',
+        maxHeight:      '100%',
+        onComplete: function() {
+            $.colorbox.resize();
+        }
+    } 
+    $('.admin-gallery-widget.{{_uniqId}} [data-rel="colorbox"]').colorbox(colorboxParams);
+    $('#cboxLoadingGraphic').html('').append("<i class='ace-icon fa fa-spinner fa-spin'></i>");
+});
+</script>
+
+<div class='admin-gallery-widget {{_uniqId}}'>
+    <div class='row'>
+        <div id='js-gallery-files-cont-{{_uniqId}}' class='col-xs-8  table-bordered' style='min-height:44px'>
+            <div class='js-inner-cont'></div>
+        </div>
+        <div class='col-xs-4'>
+            <div id='js-gallery-add-btn-{{_uniqId}}' class='btn btn-mini no-border btn-primary'>
+                <i class='fa fa-plus'></i>
+            </div>
+        </div>
+    </div>
+    <div class='space-4'></div>
+    <div class='row'>
+        <div class='col-xs-12'>
+            <ul class="ace-thumbnails">
+                {% for img in model[attribute] %}
+                    {% set imgSrc = model.getGalleryImageUrl(img) %}
+                    <li>
+                        <a data-rel="colorbox" title="" href="{{ imgSrc }}" style='background-image:url({{imgSrc}}); background-size:cover; background-position: center center; width: 150px; height: 150px;'></a>
+                        <div class="tools tools-bottom">
+                            <a href="#" class='js-gallery-icon-trash' data-img="{{ img }}">
+                                <i class="ace-icon fa fa-times red"></i>
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

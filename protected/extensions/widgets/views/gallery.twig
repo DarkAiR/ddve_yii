@@ -1,0 +1,33 @@
+{{ import('css', 'gallery.css', 'ext.widgets.css') }}
+
+<script type="text/javascript">
+$(function() {
+    var colorboxParams = {
+        rel:            'colorbox',
+        reposition:     true,
+        scalePhotos:    true,
+        scrolling:      false,
+        previous:       '<i class="ace-icon fa fa-arrow-left"></i>',
+        next:           '<i class="ace-icon fa fa-arrow-right"></i>',
+        close:          '&times;',
+        current:        '{current} of {total}',
+        maxWidth:       '100%',
+        maxHeight:      '100%',
+        onComplete: function() {
+            $.colorbox.resize();
+        }
+    } 
+    $('.gallery-widget.{{_uniqId}} [data-rel="colorbox"]').colorbox(colorboxParams);
+    $('#cboxLoadingGraphic').html('').append("<i class='ace-icon fa fa-spinner fa-spin'></i>");
+});
+</script>
+
+<div class='gallery-widget {{_uniqId}}'>
+    <ul class='ace-thumbnails clearfix'>
+    {% for img in images %}
+        <li>
+            <a href='{{img}}' title='' data-rel='colorbox' class='gallery-image'  style='background-image: url({{img}})'></a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>

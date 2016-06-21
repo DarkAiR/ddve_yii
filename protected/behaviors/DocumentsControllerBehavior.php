@@ -49,7 +49,7 @@ class DocumentsControllerBehavior extends CBehavior
 
 
         if (!is_dir($storagePath))
-            mkdir($storagePath, 755, true);
+            mkdir($storagePath, 0755, true);
 
         // Remove old files
         foreach ($removeFiles as $fileName) {

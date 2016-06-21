@@ -7,7 +7,7 @@ class ArticlesController extends Controller
      */
     public function actionShow()
     {
-        $article = Article::model()->byLink(Yii::app()->request->url)->onSite()->find();
+        $article = Article::model()->byLink(Yii::app()->request->getUrlWithoutLanguage())->onSite()->find();
         if (!$article)
             throw new CHttpException(404);
 

@@ -20,12 +20,12 @@ class TimeBehavior extends CActiveRecordBehavior
         );
     }
 
-    public function timeAfterFind()
+    public function afterFind($event)
     {
         $this->_createTime = date('d-m-Y H:i', $this->owner->{$this->createTimeField});
     }
 
-    public function timeCreate()
+    public function beforeSave($event)
     {
         if (!$this->owner->{$this->createTimeField})
             $this->owner->{$this->createTimeField} = time();

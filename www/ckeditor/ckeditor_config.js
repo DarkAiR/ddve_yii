@@ -47,6 +47,7 @@ CKEDITOR.config.pasteFromWordRemoveFontStyles = true;
 
 // Block all custom styles in CKEditor
 CKEDITOR.stylesSet.add( 'default', [
+    //{ name : 'Картинка по центру', element : 'span', attributes : {'class':'text-center'} }
 ]);
 
 

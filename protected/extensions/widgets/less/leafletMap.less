@@ -1,0 +1,77 @@
+@import (reference) '../../../views/less/custom';
+
+.leaflet-map-widget {
+
+    .map-container {
+        width: 100%;
+
+
+        // Настройки высоты
+        height: 300px;
+        @media (min-width: @screen-sm-min) {
+            height: 400px;
+        }
+        &.leaflet_collapse {
+            height: 250px;
+            &.opened {
+                height: 400px;
+            }
+            @media (min-width: @screen-sm-min) {
+                height: 156px;
+                &.opened {
+                    height: 500px;
+                }
+            }
+        }
+        transition: .2s height linear;
+
+
+        // overwrite default leftlet styles
+        .marker-cluster-small,
+        .marker-cluster-medium,
+        .marker-cluster-large {
+            background: url('/leaflet-1.0.0-rc.1/images/marker-icon.png') center top no-repeat;
+        }
+        .marker-cluster-small div,
+        .marker-cluster-medium div,
+        .marker-cluster-large div {
+        }
+
+        .marker-cluster {
+            height: 40px !important;
+            margin-top: -40px !important;
+            div {
+                position: relative;
+                margin-left: 5px;
+                margin-top: -1px;
+                span {
+                    position: absolute;
+                    border-radius: 50%;
+                    background: #ff7a00;
+                    width: 15px;
+                    height: 15px;
+                    line-height: 15px;
+                    text-align: center;
+                    color: #fff;
+                    top: -2px;
+                    left: -3px;
+                    font-size: 10px;
+                }
+            }
+        }
+    }
+
+    .expand-btn,
+    .collapse-btn {
+        @h: 60px;
+        .font-size(16, @h);
+        height: @h;
+
+        color: @colorTextWhite;
+        background: @lightGrey;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+        cursor: pointer;
+    }
+}

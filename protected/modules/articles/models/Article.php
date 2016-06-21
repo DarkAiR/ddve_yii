@@ -5,6 +5,13 @@
  */
 class Article extends CActiveRecord
 {
+    // Размер изображений в геларее
+    const IMAGE_W = 640;
+    const IMAGE_H = 640;
+
+    public $_images = [];                       // UploadedFile[]
+    public $_removeGalleryImageFlags = [];      // bool
+
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -18,6 +25,17 @@ class Article extends CActiveRecord
     public function behaviors()
     {
         return array(
+            'coordsBehavior' => array(
+                'class'                 => 'application.behaviors.CoordsBehavior',
+                'defaultLat'            => Yii::app()->params['defaultLatitude'],
+                'defaultLng'            => Yii::app()->params['defaultLongitude'],
+                'defaultZoom'           => Yii::app()->params['defaultZoom']
+            ),
+            'galleryBehavior' => array(
+                'class'                 => 'application.behaviors.GalleryBehavior',
+                'storagePath'           => 'articles',
+                'imagesField'           => 'images',
+            ),
             'languageBehavior' => array(
                 'class'                 => 'application.behaviors.MultilingualBehavior',
                 'langClassName'         => 'ArticleLang',
@@ -34,6 +52,8 @@ class Article extends CActiveRecord
     public function attributeLabels()
     {
         return array_merge(
+            $this->coordsBehavior->coordsLabels(),
+            $this->galleryBehavior->galleryLabels(),
             $this->languageBehavior->languageLabels(array(
                 'title'     => 'Заголовок',
                 'text'      => 'Текст'
@@ -47,11 +67,15 @@ class Article extends CActiveRecord
 
     public function rules()
     {
-        return array(
-            array('title, text, link', 'safe'),
-            array('visible', 'boolean'),
+        return array_merge(
+            $this->coordsBehavior->coordsRules(),
+            $this->galleryBehavior->galleryRules(),
+            array(
+                array('title, text, link', 'safe'),
+                array('visible', 'boolean'),
 
-            array('title, link, visible', 'safe', 'on'=>'search'),
+                array('title, link, visible', 'safe', 'on'=>'search'),
+            )
         );
     }
 
@@ -61,6 +85,9 @@ class Article extends CActiveRecord
         return array(
             'onSite' => array(
                 'condition' => $alias.'.visible = 1',
+            ),
+            'onlyLinks' => array(
+                'select' => array('link')
             ),
         );
     }
@@ -101,6 +128,36 @@ class Article extends CActiveRecord
                 )
             )
         ));
+    }
+
+    public function getGalleryStorePath()
+    {
+        return $this->galleryBehavior->getStorePath();
+    }
+
+    public function getGalleryImageUrl($img)
+    {
+        return $this->galleryBehavior->getImageUrl($img);
+    }
+
+    public function getAbsoluteImagesUrl()
+    {
+        return $this->galleryBehavior->getAbsoluteImagesUrl();
+    }
+
+    public function getLat()
+    {
+        return $this->coordsBehavior->getLat();
+    }
+
+    public function getLng()
+    {
+        return $this->coordsBehavior->getLng();
+    }
+
+    public function getZoom()
+    {
+        return $this->coordsBehavior->getZoom();
     }
 
     protected function beforeFind()

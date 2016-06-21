@@ -38,6 +38,9 @@ $res = array(
             ),
             'name' => ''
         ),
+        'simplepie' => array(
+            'class' => 'ext.yii-simplepie.simplepie-library.bootstrap'
+        ),
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
@@ -55,6 +58,7 @@ $res = array(
             'showScriptName' => false,
             'rules' => array(),
             'useStrictParsing' => true,         // Запрещаем обращаться к контроллерам напрямую, только через route
+            'useArticlesUrl' => true,
         ),
         'db' => array(
             'connectionString' => 'mysql:host=' . $params['dbHost'] . ';dbname=' . $params['dbName'],
@@ -104,10 +108,10 @@ $res = array(
             'filters' => array(
                 'unset'                     => 'TwigFunctions::filterUnset',
                 'translit'                  => 'TwigFunctions::filterTranslit',
+                'text'                      => 'TwigFunctions::filterText',
                 'externalLink'              => 'TwigFunctions::filterExternalLink',
                 'fixSkype'                  => 'TwigFunctions::filterFixSkype',
 
-                'date'                      => 'TwigFunctions::filterDate',                     // date from timestamp
                 'formatDate'                => 'TwigFunctions::filterFormatDate',
                 'formatTime'                => 'TwigFunctions::filterFormatTime',
                 'formatDateTime'            => 'TwigFunctions::filterFormatDateTime',
@@ -178,31 +182,23 @@ $res['language'] = $langArr[0];
 
 // NOTE: в правилах сперва должен идти роут без action, чтобы преобразования <module>/<contoller>/index давали простые урлы
 
-// Статьи
-$articleRules = array(
-);
+$res['components']['urlManager']['rules'] = array(
+    $langPrefix.'/'                                 => 'site/index',
+    '/'                                             => 'site/index',
 
-$res['components']['urlManager']['rules'] = array_merge(
-    array(
-        $langPrefix.'/'                                 => 'site/index',
-        '/'                                             => 'site/index',
+    $langPrefix.'/login/'                           => 'site/login',
+    'login/'                                        => 'site/login',
+    $langPrefix.'/logout/'                          => 'site/logout',
+    'logout/'                                       => 'site/logout',
 
-        $langPrefix.'/login/'                           => 'site/login',
-        'login/'                                        => 'site/login',
-        $langPrefix.'/logout/'                          => 'site/logout',
-        'logout/'                                       => 'site/logout',
-    ),
-    $articleRules,
-    array(
-        // Admin
-        'admin/<action:\w+>/'                           => 'admin/admin/<action>',      // Обработка ошибок
-        'admin/'                                        => 'admin',
-        'admin/<module:\w+>/<controller:\w+>/'          => '<module>/admin<controller>',
-        'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',
+    // Admin
+    'admin/<action:\w+>/'                           => 'admin/admin/<action>',      // Обработка ошибок
+    'admin/'                                        => 'admin',
+    'admin/<module:\w+>/<controller:\w+>/'          => '<module>/admin<controller>',
+    'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',
 
-        $langPrefix.'/<action:\w+>/'                    => 'site/<action>',
-        '/<action:\w+>/'                                => 'site/<action>',
-    )
+    $langPrefix.'/<action:\w+>/'                    => 'site/<action>',
+    '/<action:\w+>/'                                => 'site/<action>',
 );
 
 // Роуты для правильного преобразования ссылок в меню

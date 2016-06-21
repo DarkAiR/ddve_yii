@@ -3,17 +3,61 @@
 {% block css %}
     {{ parent() }}
     {{ import('css', 'article.css', 'modules.articles.css') }}
+    {{ import('css', 'colorbox.css') }}
 {% endblock %}
 
 {% block js %}
     {{ parent() }}
+    {{ import('js', 'jquery.colorbox.js') }}
+
+    <script type="text/javascript">
+    $(function() {
+        $('.article-page img').wrap("<a href='#' title='' data-rel='colorbox'></a>");
+        $('.article-page a[data-rel="colorbox"] > img').each(function() {
+            var src = $(this).attr('src');
+            $(this).closest('a').attr('href', src);
+        });
+
+        var colorboxParams = {
+            rel:            'colorbox',
+            className:      'ace',
+            reposition:     true,
+            scalePhotos:    true,
+            scrolling:      false,
+            previous:       '<i class="ace-icon fa fa-arrow-left"></i>',
+            next:           '<i class="ace-icon fa fa-arrow-right"></i>',
+            close:          '&times;',
+            current:        '{current} of {total}',
+            maxWidth:       '100%',
+            maxHeight:      '100%',
+            onComplete: function() {
+                $.colorbox.resize();
+            }
+        } 
+        $('.article-page [data-rel="colorbox"]').colorbox(colorboxParams);
+        $('#cboxLoadingGraphic').html('').append("<i class='ace-icon fa fa-spinner fa-spin'></i>");
+    });
+    </script>
 {% endblock %}
+
 
 {% block content %}
 <div class='article-page'>
     <h1>{{ article.title|raw }}</h1>
+    <div class='images' >
+        {{ widget('ext.widgets.GalleryWidget', {'images':article.getAbsoluteImagesUrl()}) }}
+    </div>
     <div class='text'>
         {{ article.text|raw }}
+    </div>
+    <div class='map'>
+        {% if article.coords %}
+            {{ widget('ext.widgets.YandexMapWidget', {
+                'lat': article.getLat(),
+                'lng': article.getLng(),
+                'zoom': article.getZoom()
+            }) }}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

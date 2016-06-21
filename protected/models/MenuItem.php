@@ -155,15 +155,14 @@ class MenuItem extends CActiveRecord
         return $this;
     }
 
+    public function getIconStorePath()
+    {
+        return $this->imageBehavior->getStorePath();
+    }
+
     public function getIconUrl()
     {
         return $this->imageBehavior->getImageUrl();
-    }
-
-    protected function afterDelete()
-    {
-        $this->imageBehavior->imageAfterDelete();
-        return parent::afterDelete();
     }
 
     protected function beforeFind()
@@ -171,17 +170,5 @@ class MenuItem extends CActiveRecord
         // Поддержка многих языков после загрузки модели
         $this->languageBehavior->multilang();
         return parent::beforeFind();
-    }
-
-    protected function afterFind()
-    {
-        $this->imageBehavior->imageAfterFind();
-        return parent::afterFind();
-    }
-
-    public function beforeSave()
-    {
-        $this->orderBehavior->orderBeforeSave();
-        return parent::beforeSave();
     }
 }

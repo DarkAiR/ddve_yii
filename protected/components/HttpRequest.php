@@ -85,4 +85,18 @@ class HttpRequest extends CHttpRequest
         }
         return $valid;
     }
+
+    /**
+     * Remove language from url
+     */
+    public function getUrlWithoutLanguage()
+    {
+        $url = Yii::app()->request->getPathInfo();
+        $domains = explode('/', ltrim($url, '/'));
+        if (in_array($domains[0], array_keys(Yii::app()->params['languages']))) {
+            array_shift($domains);
+            $url = implode('/', $domains);
+        }
+        return $url;
+    }
 }

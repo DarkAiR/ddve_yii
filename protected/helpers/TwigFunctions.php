@@ -147,13 +147,6 @@ class TwigFunctions
         return $array;
     }
 
-    public static function filterDate($ts, $format)
-    {
-        if (!is_string($format) || !is_int($ts))
-            return '';
-        return date($format, $ts);
-    }
-
     public static function filterFormatDateTime($string)
     {
         return DateHelper::formatDateTime($string);
@@ -167,9 +160,9 @@ class TwigFunctions
     /**
      * $date - дата в формате строки
      */
-    public static function filterFormatDate($date)
+    public static function filterFormatDate($date, $format='dd.LL.yyyy')
     {
-        return DateHelper::formatDate($date);
+        return DateHelper::formatDate($date, $format);
     }
 
     /**
@@ -195,6 +188,11 @@ class TwigFunctions
             "ї"=>"i", "Ї"=>"Yi", "є"=>"ie", "Є"=>"Ye"
         ));
         return $st;
+    }
+
+    public static function filterText($str)
+    {
+        return StringUtils::txt($str);
     }
 
     public static function filterExternalLink($url)

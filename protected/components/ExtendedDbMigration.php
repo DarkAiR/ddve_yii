@@ -62,7 +62,21 @@ class ExtendedDbMigration extends CDbMigration
         foreach ($menuItems as $item) {
             $item->delete();
         }
-
         Menu::model()->deleteByPk($menuId);
+    }
+
+    protected function deleteAllModels($className)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->offset = 0;
+        $criteria->limit = 20;
+
+        do {
+            $models = $className::model()->findAll($criteria);
+            if (!count($models))
+                break;
+            foreach ($models as $model)
+                $model->delete();
+        } while(true);
     }
 }

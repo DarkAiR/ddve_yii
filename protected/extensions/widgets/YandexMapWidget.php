@@ -5,6 +5,7 @@ class YandexMapWidget extends ExtendedWidget
     public $lng = 0;
     public $lat = 0;
     public $zoom = 0;
+    public $balloonContent = '';
 
     public function init()
     {
@@ -27,11 +28,14 @@ class YandexMapWidget extends ExtendedWidget
         if (!$this->zoom)
             $zoom = 16;
 
+        $balloonContent = $showPlacemark ? $this->balloonContent : '';
+
         $this->render('yandexMap', array(
             'centerLat' => $centerLat,
             'centerLng' => $centerLng,
             'zoom' => $zoom,
-            'showPlacemark' => $showPlacemark
+            'showPlacemark' => $showPlacemark,
+            'balloonContent' => str_replace('"', '\"', $balloonContent)
         ));
     }
 }

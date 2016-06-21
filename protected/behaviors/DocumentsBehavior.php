@@ -31,7 +31,7 @@ class DocumentsBehavior extends CActiveRecordBehavior
         return Yii::getPathOfAlias('webroot.store.'.$this->storagePath).'/';
     }
 
-    public function docAfterDelete()
+    public function afterDelete($event)
     {
         if (!is_array($this->owner->{$this->docField}))
             return;
@@ -44,7 +44,7 @@ class DocumentsBehavior extends CActiveRecordBehavior
         }
     }
 
-    public function docAfterFind()
+    public function afterFind($event)
     {
         if (empty($this->owner->{$this->docField}))
             $this->owner->{$this->docField} = json_encode(array());
@@ -53,7 +53,7 @@ class DocumentsBehavior extends CActiveRecordBehavior
         $this->owner->{$this->innerField} = $this->owner->{$this->docField};
     }
 
-    public function docBeforeSave()
+    public function beforeSave($event)
     {
         $this->owner->{$this->docField} = json_encode($this->owner->{$this->docField});
     }

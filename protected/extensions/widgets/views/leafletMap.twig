@@ -1,0 +1,32 @@
+{{ import('css', 'leafletMap.css', 'ext.widgets.css') }}
+{{ import('js', 'leafletMap.js', 'ext.widgets.js') }}
+
+<script type="text/javascript">
+    $(function() {
+        var markers = [
+        {% for m in markers %}
+            {'lat':{{m.lat}}, 'lng':{{m.lng}}, 'title':'{{m.title}}', 'link':'{{m.link}}'}{% if not loop.last %},{% endif %}
+
+        {% endfor %}
+        ];
+
+        var leafletMap = new LeafletMap();
+        leafletMap.init({
+            uniqId: '{{_uniqId}}',
+            centerLat: {{centerLat}},
+            centerLng: {{centerLng}},
+            zoom: {{zoom}},
+            markers: markers,
+            useCollapse: {{useCollapse ? 1 : 0}}
+        });
+    });
+</script>
+
+<div class="leaflet-map-widget">
+    {% set collapseClass = useCollapse ? 'leaflet_collapse' : '' %}
+    <div class='map-container {{collapseClass}}' id='js-leaflet-map-{{_uniqId}}'></div>
+    {% if useCollapse %}
+        <div class='expand-btn' id='js-expand-btn-{{_uniqId}}'>{{ _t('app', 'Развернуть карту') }}</div>
+        <div class='collapse-btn hide' id='js-collapse-btn-{{_uniqId}}'>{{ _t('app', 'Свернуть карту') }}</div>
+    {% endif %}
+</div>

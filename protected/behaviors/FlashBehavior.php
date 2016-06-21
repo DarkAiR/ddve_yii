@@ -45,14 +45,14 @@ class FlashBehavior extends CActiveRecordBehavior
         return CHtml::normalizeUrl('/store/'.$this->storagePath.'/'.$this->owner->{$this->flashField});
     }
 
-    public function flashAfterDelete()
+    public function afterDelete($event)
     {
         if ($this->owner->{$this->flashField}) {
             @unlink( $this->getStorePath().$this->owner->{$this->flashField} );
         }
     }
 
-    public function flashAfterFind()
+    public function afterFind($event)
     {
         $this->owner->{$this->innerField} = $this->getFlashUrl();
     }

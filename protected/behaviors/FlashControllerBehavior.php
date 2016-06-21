@@ -28,7 +28,7 @@ class FlashControllerBehavior extends CBehavior
             
             // saving file from CUploadFile instance $model->{$this->innerField}
             if (!is_dir($storagePath))
-                mkdir($storagePath, 755, true);
+                mkdir($storagePath, 0755, true);
 
             $flashName = basename($model->{$this->innerField}->name);
             $ext = strrchr($flashName, '.');

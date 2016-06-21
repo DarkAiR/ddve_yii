@@ -1,0 +1,6 @@
+.gallery-widget .gallery-image {
+  width: 120px;
+  height: 120px;
+  background-position: center center;
+  background-size: cover;
+}

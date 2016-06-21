@@ -1,6 +1,19 @@
 <?php
 class UrlManager extends CUrlManager
 {
+    public $useArticlesUrl = false;
+
+    public function init()
+    {
+        Yii::import('modules.articles.models.Article');
+
+        if ($this->useArticlesUrl) {
+            $rules = $this->createArticlesUrl();
+            $this->rules = array_merge($rules, $this->rules);
+        }
+        parent::init();
+    }
+
     public function createUrl($route, $params=array(), $ampersand='&')
     {
         // Формируем стандартный URL без языка
@@ -26,5 +39,35 @@ class UrlManager extends CUrlManager
         }
 
         return $url;
+    }
+
+    private function createArticlesUrl()
+    {
+        // нельзя Article::model(), т.к. это убивает переключение языков
+        $article = new Article();
+
+        $command = Yii::app()->db->createCommand();
+        $criteria = $article->onlyLinks()->getDbCriteria();
+        $count = $article->count();
+        $offs = 0;
+
+        $langArr = array_keys(Yii::app()->params['languages']);
+        $langPrefix = '<language:('. implode('|', $langArr) .')>';
+        
+        $rules = array();
+        do {
+            $articles = $command->reset()
+                ->select($criteria->select)
+                ->from($article->tableName())
+                ->limit(20, $offs)
+                ->queryAll();
+            foreach ($articles as $article) {
+                $link = trim($article['link'], '/');        // Используем link, т.к. даже если имя поменяется, здесь все упадет
+                $rules[$langPrefix.'/'.$link.'/'] = 'articles/articles/show';
+                $rules[$link.'/'] = 'articles/articles/show';
+            }
+            $offs += 20;
+        } while($offs < $count);
+        return $rules;
     }
 }

@@ -7,15 +7,11 @@ class ImageControllerBehavior extends CBehavior
     public $innerRemoveBtnField = '_removeImageFlag';
     public $imageWidth = null;
     public $imageHeight = null;
-    public $resize = true;
 
     public function imageBeforeSave($model, $storagePath)
     {
         // path to original
         $storageOrig = $storagePath.'original/';
-
-        // disable resize if 
-        $isResize = (empty($this->imageWidth) && empty($this->imageHeight)) ? false : $this->resize;
 
         if ($model->{$this->innerRemoveBtnField})
         {
@@ -39,9 +35,9 @@ class ImageControllerBehavior extends CBehavior
             
             // saving file from CUploadFile instance $model->{$this->innerImageField}
             if (!is_dir($storagePath))
-                mkdir($storagePath, 755, true);
+                mkdir($storagePath, 0755, true);
             if (!is_dir($storageOrig))
-                mkdir($storageOrig, 755, true);
+                mkdir($storageOrig, 0755, true);
 
             $imageName = basename($model->{$this->innerImageField}->name);
             $ext = strrchr($imageName, '.');
@@ -50,19 +46,28 @@ class ImageControllerBehavior extends CBehavior
             $model->{$this->innerImageField}->saveAs( $storageOrig.$imageName );
             
             $image = Yii::app()->image->load($storageOrig.$imageName);
-            if ($isResize) {
-                if (empty($this->imageWidth)) {
-                    // resize by height
-                    $image->resize(null, $this->imageHeight);
-                } else
-                if (empty($this->imageHeight)) {
-                    // resize by width
-                    $image->resize($this->imageWidth, null);
+
+            if (!empty($this->imageWidth) && !empty($this->imageHeight)) {
+                // Crop
+                if ($image->width < $image->height) {
+                    $resizeW = $this->imageWidth;
+                    $resizeH = $image->height * $this->imageWidth / $image->width;
                 } else {
-                    // normal resize
-                    $image->resize($this->imageWidth, $this->imageHeight);
+                    $resizeH = $this->imageHeight;
+                    $resizeW = $image->width * $this->imageHeight / $image->height;
                 }
+                $image->resize($resizeW, $resizeH)
+                      ->crop($this->imageWidth, $this->imageHeight);
+            } else
+            if (!empty($this->imageHeight)) {
+                // Resize by height
+                $image->resize(null, $this->imageHeight);
+            } else
+            if (!empty($this->imageWidth)) {
+                // Resize by width
+                $image->resize($this->imageWidth, null);
             }
+
             // rewrite under other name
             $image->save($storagePath.$imageName);
 

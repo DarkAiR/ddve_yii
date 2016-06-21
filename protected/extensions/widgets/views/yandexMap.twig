@@ -33,7 +33,8 @@
 
         createPlacemark: function(lat, lng)
         {
-            return new YMaps.Placemark([lat, lng], {});
+            {# Обязательно в двойных кавычках, они будут экранированы #}
+            return new YMaps.Placemark([lat, lng], {'balloonContent':"{{ balloonContent|text|raw }}"});     
         },
 
         addPlacemark: function(lat, lng)
@@ -58,8 +59,8 @@
     };
     $(function() {
         yandexMap.init({
-            'centerLng': {{centerLng}},
             'centerLat': {{centerLat}},
+            'centerLng': {{centerLng}},
             'zoom': {{zoom}},
             'showPlacemark': {{showPlacemark}}
         });

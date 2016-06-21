@@ -74,11 +74,6 @@ class StringUtils
         return $str;
     }
 
-    public static function stripTags($str)
-    {
-        return strip_tags($str);
-    }
-
     /**
      * Конвертирует текст из html в txt, пригодный для отправки в текстовых письмах
      */ 

@@ -1,6 +1,8 @@
 <?php
 
-class m160602_111014_article extends CDbMigration
+Yii::import('modules.articles.models.Article');
+
+class m160602_111014_article extends ExtendedDbMigration
 {
     public function safeUp()
     {
@@ -33,6 +35,7 @@ class m160602_111014_article extends CDbMigration
 
     public function safeDown()
     {
+        $this->deleteAllModels('Article');
         $this->dropTable('articles_lang');
         $this->dropTable('articles');
     }
